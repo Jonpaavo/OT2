@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
-
+import {Routes, Route} from 'react-router-dom';
+import {AppiBaari} from './sivut/Appbar';
+import {Etusivu} from './sivut/Etusivu';
+import { Kirjat } from './sivut/Kirjat';
+import { Kokoelmat } from './sivut/Kokoelmat';
+import { Tietoa } from './sivut/Tietoa';
+import {Valikko} from './sivut/Valikko';
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+    <>
+
+      <AppiBaari />
+      <Valikko />
+
+      <Routes>
+          
+          <Route path='/' element={<Etusivu />} />
+          <Route path='kirjat' element={<Kirjat />} />
+          <Route path='tietoa' element={<Tietoa />} />
+          <Route path='kokoelmat' element={<Kokoelmat />} />
+          
+          
+
+          
+      </Routes>
+    
+    </>
+    
+    
   );
 }
 
-export default App;
+export {App}

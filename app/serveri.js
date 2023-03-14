@@ -50,6 +50,8 @@ app.get('/kirjasarja', function (req,res) {
     });
 });
 
+
+
 app.get('/kirja', function (req,res) {
     
     let id = req.query.id || "";
@@ -68,9 +70,11 @@ app.get('/kirja', function (req,res) {
 
     let paainokset = req.query.painokset || "";
 
+    let idkirjasarja = req.query.idkirjasarja || "";
+
     let query = "SELECT id, nimi, jarjestysnumero, kuvausteksti, kirjailija, piirtajat, ensipainovuosi, painokset from kirja WHERE 1=1";
 
-    let query2 = "SELECT * from kirja";
+    let query2 = "SELECT id, nimi, jarjestysnumero, kuvausteksti, kirjailija, piirtajat, ensipainovuosi, painokset from kirja WHERE idkirjasarja = ?";
 
     if (enimi != "") 
         query = query + " AND nimi like '" + enimi + "%'";
@@ -94,6 +98,25 @@ app.get('/kirja', function (req,res) {
         query = query + " AND painokset like '" + paainokset + "%'";
 
     connection.query(query, function(error, result){
+
+        if ( error ) {
+
+            res.statusCode = 400;
+
+            res.json({ tila: "Virhetila", viesti : "Virhe koodissa."});
+
+            console.log(query);
+
+        } else {
+
+            res.statusCode = 200;
+
+            res.json(result);
+            
+        }
+    });
+
+    connection.query(query2, function(error, result){
 
         if ( error ) {
 

@@ -28,6 +28,7 @@ const Kokeilu = () => {
     const [naytaEtusivu,setNaytaEtusivu] = useState(false);
     const [naytaTiedot,setNaytaTiedot] = useState(false);
     const [naytaKokoelmat,setNaytaKokoelmat] = useState(false);
+    const [naytaKirjaKokoelma,setNaytaKirjaKokoelma] = useState(false);
 
     //Kirjautumis jutut
     const [kirjaudu,setKirjaudu] = useState(false);
@@ -140,7 +141,7 @@ const Kokeilu = () => {
         return (
 
             <tr key={index}>
-                <td><Link href="#" color="inherit" onClick={() => {setNaytaKokoelmat(false)}}>{item.kirjasarja}</Link></td>
+                <td><Link href="#" color="inherit" onClick={() => {setNaytaKokoelmat(false) ; setNaytaKirjaKokoelma(prev => !prev)}}>{item.kirjasarja}</Link></td>
             </tr>
         );
 
@@ -296,6 +297,12 @@ const Kokeilu = () => {
                             <TableHead>Nimi</TableHead>
                             <TableBody>{kokoelmaData}</TableBody>
                         </Table>
+
+                    </Container>}
+
+                    { naytaKirjaKokoelma && <Container sx={{bgcolor: "Brown", height: "100vh"}}>
+
+                        <Typography variant="h6" align="center">Yhden kirjan kokoelma</Typography>
 
                     </Container>}
 
