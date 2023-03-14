@@ -27,6 +27,29 @@ var connection = mysql.createConnection({
     dateStrings : true,
 });
 
+app.get('/kirjasarja', function (req,res) {
+
+    let query = "SELECT kirjasarja from kirjasarja";
+
+    connection.query(query, function(error, result){
+
+        if (error) {
+
+            res.statusCode = 400;
+
+            res.json({ tila: "Virhetila", viesti: "Virhe koodissa."});
+
+            console.log(query);
+
+        } else {
+
+            res.statusCode = 200;
+
+            res.json(result);
+        }
+    });
+});
+
 app.get('/kirja', function (req,res) {
     
     let id = req.query.id || "";
