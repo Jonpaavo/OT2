@@ -1,10 +1,10 @@
 import {Routes, Route} from 'react-router-dom';
-import {AppiBaari} from './sivut/Appbar';
-import {Etusivu} from './sivut/Etusivu';
-import { Kirjat } from './sivut/Kirjat';
-import { Kokoelmat } from './sivut/Kokoelmat';
-import { Tietoa } from './sivut/Tietoa';
-import {Valikko} from './sivut/Valikko';
+import {AppiBaari} from './komponentit/Appbar';
+import {Etusivu} from './komponentit/Etusivu';
+import { Kirjat } from './komponentit/Kirjat';
+import { Kokoelmat } from './komponentit/Kokoelmat';
+import { Tietoa } from './komponentit/Tietoa';
+import {Valikko} from './komponentit/Valikko';
 function App() {
   return (
 
