@@ -1,30 +1,32 @@
-import { AppBar, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, Toolbar } from "@mui/material";
-import { useState } from "react";
+import { AppBar, Box, Button, Toolbar } from "@mui/material";
+import { useEffect, useState } from "react";
 
-function AppiBaari() {
+const AppiBaari = () =>  {
 
-    //Kirjautumis jutut
-    const [kirjaudu,setKirjaudu] = useState(false);
+    const [kirjautumisTokeni,setKirjautumisTokeni] = useState(false);
 
-    //Rekisteröitymis jutut
-    const [rekisteroidy,setRekisteroidy] = useState(false);
+    const [kirjauduTeksti,setKirjauduTeksti] = useState("Kirjaudu sisään");
+
+    const [naytaRekisteroityminen,setNaytaRekisteroityminen] = useState(true);
+
+    useEffect (() => {
+
+        if (kirjautumisTokeni == true) {
+            setKirjauduTeksti("Kirjaudu ulos");
+        }
+
+    },[kirjautumisTokeni])
+
+    useEffect( () => {
 
 
-    const handleKirjautuminen = () => {
-        setKirjaudu(true);
-    };
+        if (kirjautumisTokeni == true) {
 
-    const handleUlosKirjautuminen = () => {
-        setKirjaudu(false);
-    }
+            setNaytaRekisteroityminen(false);
+        }
 
-    const handleRekisteroityminen = () => {
-        setRekisteroidy(true);
-    };
+    },[kirjautumisTokeni])
 
-    const handleUlosRekisteroityminen = () => {
-        setRekisteroidy(false);
-    }
 
     return (
 
@@ -33,73 +35,12 @@ function AppiBaari() {
                     <Box display='flex' flexGrow={1}>
                         <Button variant="h6" href="/" >Kirja-arkisto</Button>
                     </Box>
-                    <Button variant="h6" href="#" onClick={() => {handleRekisteroityminen()}}>Rekisteröidy</Button>
-                    <Button variant="h6" href="#" onClick={() => {handleKirjautuminen()}}>Kirjaudu sisään</Button>
 
-                    <Dialog open={kirjaudu} onClose={handleUlosKirjautuminen}>
-                        <DialogTitle>Kirjaudu sisään</DialogTitle>
-                        <DialogContent>
-                            <DialogContentText>
-                                Ole hyvä ja kirjaudu sisään
-                            </DialogContentText>
-                            <TextField
-                             autoFocus
-                             margin="dense"
-                             id="name"
-                             label="Käyttäjänimi"
-                             type="username"
-                             fullWidth
-                             variant="standard">
-                            </TextField>
-                            <TextField
-                            autoFocus
-                            margin="dense"
-                            id="password"
-                            label="Salasana"
-                            type="password"
-                            fullWidth
-                            variant="standard">
-                            </TextField>
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={handleUlosKirjautuminen}>Poistu</Button>
-                            <Button onClick={handleUlosKirjautuminen}>Kirjaudu</Button>
-                        </DialogActions>
-
-                    </Dialog>
-
-                    <Dialog open={rekisteroidy} onClose={handleUlosRekisteroityminen}>
-                        <DialogTitle>Rekisteröidy</DialogTitle>
-                        <DialogContent>
-                            <DialogContentText>
-                                Ole hyvä ja Rekisteröidy
-                            </DialogContentText>
-                            <TextField
-                             autoFocus
-                             margin="dense"
-                             id="name"
-                             label="Käyttäjänimi"
-                             type="username"
-                             fullWidth
-                             variant="standard">
-                            </TextField>
-                            <TextField
-                            autoFocus
-                            margin="dense"
-                            id="password"
-                            label="Salasana"
-                            type="password"
-                            fullWidth
-                            variant="standard">
-                            </TextField>
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={handleUlosRekisteroityminen}>Poistu</Button>
-                            <Button onClick={handleUlosRekisteroityminen}>Rekisteröidy</Button>
-                        </DialogActions>
-
-                    </Dialog>
+                    { naytaRekisteroityminen &&
+                        <Button variant="h6" href="rekisteroityminen">Rekisteröidy</Button>
+                    }
                     
+                    <Button variant="h6" href="kirjautuminen">{kirjauduTeksti}</Button>
                 </Toolbar>
             </AppBar>
     )

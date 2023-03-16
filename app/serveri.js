@@ -29,7 +29,7 @@ var connection = mysql.createConnection({
 
 app.get('/kirjasarja', function (req,res) {
 
-    let query = "SELECT kirjasarja from kirjasarja";
+    let query = "SELECT * from kirjasarja";
 
     connection.query(query, function(error, result){
 
@@ -50,52 +50,54 @@ app.get('/kirjasarja', function (req,res) {
     });
 });
 
+app.post('/kayttaja', (req,res) => {
+
+    console.log("/asiakas. BODY:" ,req.body);
+
+    let kayttajaNimi = req.body.nimi;
+    let kayttajaSalasana = req.body.salasana;
+
+    let query = "INSERT INTO kayttaja (nimi, salasana) values (?, ?)";
+
+    console.log("Post query:" + query);
+
+    connection.query(query, [kayttajaNimi,kayttajaSalasana], function(error,result) {
+
+        if (error) {
+
+            console.log("VIRHE", error);
+            res.statusCode = 400;
+            res.json({tila : "Virhetila", viesti : "Virhe koodissa."});
+        }
+
+        else {
+
+            console.log("Tulos:" , result);
+            res.statusCode = 201;
+            res.json({id: result.insertid, kayttajaNimi : kayttajaNimi, kayttajaSalasana : kayttajaSalasana})
+        }
+    })
 
 
-app.get('/kirja', function (req,res) {
-    
-    let id = req.query.id || "";
+});
+
+app.get('/kayttaja', function (req,res) {
 
     let enimi = req.query.nimi || "";
 
-    let jaarjestysnumero = req.query.jarjestysnumero || "";
+    let esalasana = req.query.salasana || "";
 
-    let kuuvausteksti = req.query.kuvausteksti || "";
+    let query = "SELECT nimi, salasana from kayttaja WHERE 1=1";
 
-    let kiirjailija = req.query.kirjailija || "";
-
-    let piiirtajat = req.query.piirtajat || "";
-
-    let eensipainovuosi = req.query.ensipainovuosi || "";
-
-    let paainokset = req.query.painokset || "";
-
-    let idkirjasarja = req.query.idkirjasarja || "";
-
-    let query = "SELECT id, nimi, jarjestysnumero, kuvausteksti, kirjailija, piirtajat, ensipainovuosi, painokset from kirja WHERE 1=1";
-
-    let query2 = "SELECT id, nimi, jarjestysnumero, kuvausteksti, kirjailija, piirtajat, ensipainovuosi, painokset from kirja WHERE idkirjasarja = ?";
 
     if (enimi != "") 
-        query = query + " AND nimi like '" + enimi + "%'";
-        
-    if (jaarjestysnumero != "") 
-        query = query + " AND jarjestysnumero like '" + jaarjestysnumero + "%'";
-        
-    if (kuuvausteksti != "") 
-        query = query + " AND kuvausteksti like '" + kuuvausteksti + "%'";
-        
-    if (kiirjailija != "") 
-        query = query + " AND kirjailija like '" + kiirjailija + "%'";
-        
-    if (piiirtajat != "")
-        query = query + " AND piirtajat like '" + piiirtajat + "%'";
+        query=query + " AND nimi like '" + enimi + "'";
 
-    if (eensipainovuosi != "")
-        query = query + " AND ensipainovuosi like '" + eensipainovuosi + "%'";
+    if (esalasana != "")
+        query=query + "AND salasana like '" + esalasana + "'";
 
-    if (paainokset != "")
-        query = query + " AND painokset like '" + paainokset + "%'";
+    console.log("GET QUERY:" + query);
+    
 
     connection.query(query, function(error, result){
 
@@ -115,8 +117,21 @@ app.get('/kirja', function (req,res) {
             
         }
     });
+});
 
-    connection.query(query2, function(error, result){
+
+
+app.get('/kirja', function (req,res) {
+    
+    let idkirjasarja = req.query.idkirjasarja || "";
+
+    let query = "SELECT * from kirja WHERE 1=1";
+
+    if (idkirjasarja != "")
+        query=query + " AND idkirjasarja = '" + idkirjasarja + "'";
+
+
+    connection.query(query, function(error, result){
 
         if ( error ) {
 
@@ -134,7 +149,6 @@ app.get('/kirja', function (req,res) {
             
         }
     });
-
     
 });
 

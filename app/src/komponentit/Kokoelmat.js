@@ -1,13 +1,21 @@
-import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Box, Link, List, ListItem, ListItemButton, ListItemText, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
+import { Kokoelma } from "./kokoelma";
 
-const Kokoelmat = () => {
+
+
+
+const Kokoelmat = (props) => {
 
     //Kirjasarjan hakujutut
     const [haeKirjaSarja,setHaeKirjaSarja] = useState("");
     const [kirjaSarjaTable,setKirjaSarjaTable] = useState([]);
-    const [kirjaSarjaLaskuri,setKirjaSarjaLaskuri] = useState(0);
+    const [naky,setNaky] = useState(false);
+    
+    
+    
 
     useEffect( () => {
 
@@ -20,34 +28,36 @@ const Kokoelmat = () => {
             setKirjaSarjaTable(c);
 
             
+
         }
 
         
-        haeKirjaSarja();
+        
         
 
-    });
+        if (props.laskuri > 0) {
+            haeKirjaSarja();
+            console.log(props.laskuri);
+        }
+        
+        
+        
+        
+        
+
+    },[props.laskuri]);
 
     
 
-    const kokoelmaData = kirjaSarjaTable.map( (item,index) => {
-
-        return (
-
-            <tr key={index}>
-                <td>{item.kirjasarja}</td>
-            </tr>
-        );
-
-    });
-
-
-
+    
 
 
     return (
 
         <>
+            
+            
+
             <Container sx={{bgcolor: "green", height: "100vh"}}>
 
                 <Typography variant="h6" align="center">Tämä on Kokoelmat</Typography>
@@ -63,14 +73,18 @@ const Kokoelmat = () => {
                                 <TableCell>Julkaisu vuosi</TableCell>
                             </TableRow>
                         </TableHead>
-                        <TableBody>{kokoelmaData}</TableBody>
+                        <TableBody>
+                            {kirjaSarjaTable.map((row) => (
+                                <TableRow key={row.idkirjasarja} sx={{ '&:last-child td, &:last-child th': {border: 0}}}>
+                                    <TableCell component="th" scope="row">
+                                        <NavLink to ='/kokoelma' onClick={() => props.setId(row.idkirjasarja)}>{row.kirjasarja}</NavLink>
+                                    </TableCell>
+                                </TableRow>
 
+                            ))}
+                        </TableBody>
                     </Table>
-
-
                 </TableContainer>
-                
-
             </Container>
         
         
