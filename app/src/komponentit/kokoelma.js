@@ -1,6 +1,7 @@
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 
 const Kokoelma = (props) => {
 
@@ -60,7 +61,7 @@ const Kokoelma = (props) => {
                         <TableBody>
                             {kirjatTable.map((row) =>(
                                 <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': {border: 0}}}>
-                                    <TableCell component="th" scope="row">{row.nimi}</TableCell>
+                                    <TableCell component="th" scope="row"><NavLink to='/kirja' onClick={() => props.setKirjaId(row.id)}>{row.nimi}</NavLink></TableCell>
                                     <TableCell>{row.jarjestysnumero}</TableCell>
                                     <TableCell>{row.kuvausteksti}</TableCell>
                                     <TableCell>{row.kirjailija}</TableCell>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import {Routes, Route} from 'react-router-dom';
 import {AppiBaari} from './komponentit/Appbar';
 import {Etusivu} from './komponentit/Etusivu';
+import { Kirja } from './komponentit/kirja';
 import { Kirjat } from './komponentit/Kirjat';
 import { Kirjautuminen } from './komponentit/Kirjautuminen';
 import { Kokoelma } from './komponentit/kokoelma';
@@ -19,6 +20,8 @@ function App() {
 
   const [kirjaSarjaId,setKirjaSarjaId] = useState("0");
 
+  const [kirjaId,setKirjaId] = useState("");
+
   return (
 
     <>
@@ -34,10 +37,8 @@ function App() {
           <Route path='kokoelmat' element={<Kokoelmat  laskuri={laskuri} setId={setKirjaSarjaId} />} />
           <Route path='kirjautuminen' element={<Kirjautuminen />} />
           <Route path='rekisteroityminen' element={<Rekisteroityminen />} />
-          <Route path='kokoelma' element={<Kokoelma id={kirjaSarjaId}/>} />
-          
-          
-
+          <Route path='kokoelma' element={<Kokoelma id={kirjaSarjaId} setKirjaId={setKirjaId}/>} />
+          <Route path='kirja' element={<Kirja  id={kirjaId}/>} />
           
       </Routes>
     

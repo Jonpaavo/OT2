@@ -125,10 +125,15 @@ app.get('/kirja', function (req,res) {
     
     let idkirjasarja = req.query.idkirjasarja || "";
 
+    let id = req.query.id || "";
+
     let query = "SELECT * from kirja WHERE 1=1";
 
     if (idkirjasarja != "")
         query=query + " AND idkirjasarja = '" + idkirjasarja + "'";
+
+    if (id != "")
+        query=query + " AND id='" + id + "'";    
 
 
     connection.query(query, function(error, result){
