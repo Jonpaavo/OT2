@@ -109,6 +109,32 @@ app.post('/omatsarjat', (req,res) => {
 
 })
 
+app.post('/kirjasarja', (req,res) => {
+
+    let kirjasarja = req.body.kirjasarja;
+    let kuvaus = req.body.kuvaus;
+    let kustantaja = req.body.kustantaja;
+    let luokittelu = req.body.luokittelu;
+    let query = "INSERT INTO kirjasarja (kirjasarja, kuvaus, kustantaja, luokittelu) values (?, ?, ?, ?)";
+
+    connection.query(query, [kirjasarja, kuvaus, kustantaja, luokittelu], function(error,result) {
+
+        if (error) {
+
+            console.log("VIRHE", error);
+            res.statusCode = 400;
+            res.json({tila : "Virhetila", viesti : "Virhe koodissa."});
+        }
+
+        else {
+            console.log("Tulos:" , result);
+            res.statusCode = 201;
+            res.json({id: result.insertid, kirjasarja : kirjasarja, kuvaus : kuvaus, kustantaja : kustantaja, luokittelu : luokittelu});
+        }
+
+    });
+})
+
 app.post('/kayttaja', (req,res) => {
 
     console.log("/asiakas. BODY:" ,req.body);
@@ -281,6 +307,39 @@ app.post('/omakirja', (req,res) => {
             console.log("Tulos:" , result);
             res.statusCode = 201;
             res.json({id: result.insertid, nimi : nimi, jarjestysnumero : jarjestysnumero, kuvausTeksti : kuvausTeksti, kirjailija : kirjailija, piirtajat : piirtajat, ensipainovuosi : ensipainovuosi, painokset : painokset, idomatsarjat : idomatsarjat    })
+        }
+    })
+
+})
+
+app.post('/kirja', (req,res) => {
+
+    let nimi = req.body.nimi;
+    let jarjestysnumero = req.body.jarjestysnumero;
+    let kuvausTeksti = req.body.kuvausteksti;
+    let kirjailija = req.body.kirjailija;
+    let piirtajat = req.body.piirtajat;
+    let ensipainovuosi = req.body.ensipainovuosi;
+    let painokset = req.body.ensipainovuosi;
+    let idKirjaSarja = req.body.idkirjasarja;
+
+    let query = "INSERT INTO kirja (nimi, jarjestysnumero, kuvausteksti, kirjailija, piirtajat, ensipainovuosi, painokset, idkirjasarja) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+
+    connection.query(query, [nimi,jarjestysnumero,kuvausTeksti,kirjailija,piirtajat,ensipainovuosi,painokset,idKirjaSarja], function(error,result) {
+
+        if (error) {
+
+            console.log("VIRHE", error);
+            res.statusCode = 400;
+            res.json({tila : "Virhetila", viesti : "Virhe koodissa."});
+        }
+
+        else {
+
+            console.log("Tulos:" , result);
+            res.statusCode = 201;
+            res.json({id: result.insertid, nimi : nimi, jarjestysnumero : jarjestysnumero, kuvausTeksti : kuvausTeksti, kirjailija : kirjailija, piirtajat : piirtajat, ensipainovuosi : ensipainovuosi, painokset : painokset, idKirjaSarja : idKirjaSarja})
         }
     })
 

@@ -1,4 +1,4 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -6,17 +6,21 @@ import { NavLink } from "react-router-dom";
 const Kokoelma = (props) => {
 
     const [kirjatTable,setKirjatTable] = useState(() => {
-
-        
         const saved = localStorage.getItem("kirja");
         const initialValue = JSON.parse(saved);
         return initialValue || "";
     });
-
     const [query,setQuery] = useState("?idkirjasarja=" + props.id);
 
-        
-
+    const [kirjanNimi,setKirjanNimi] = useState("");
+    const [jarjestysnumero,setjarjestysnumero] = useState("");
+    const [kuvausTeksti,setKuvausTeksti] = useState("");
+    const [kirjailija,setKirjailija] = useState("");
+    const [piirtajat,setPiirtajat] = useState("");
+    const [ensipainovuosi,setEnsipainovuosi] = useState("");
+    const [painokset,setPainokset] = useState("");
+    const [lisaaQuery,setLisaaQuery] = useState([]);
+    const [idKirjaSarja,setIdKirjaSarja] = useState(props.id);
 
     useEffect( () => {
 
@@ -41,13 +45,96 @@ const Kokoelma = (props) => {
 
     },[kirjatTable])
 
+    useEffect( () => {
+
+        const lisaaKirja = async () => {
+
+            fetch("http://localhost:3004/kirja", {
+
+                method : 'POST',
+                headers : {
+                    'content-type' : 'application/json',
+                },
+                body : JSON.stringify({
+                    nimi : kirjanNimi,
+                    jarjestysnumero : jarjestysnumero,
+                    kuvausteksti : kuvausTeksti,
+                    kirjailija : kirjailija,
+                    piirtajat : piirtajat,
+                    ensipainovuosi : ensipainovuosi,
+                    painokset : painokset,
+                    idkirjasarja : idKirjaSarja,
+                })
+            });
+        }
+
+
+        if (lisaaQuery != "") {
+            lisaaKirja();
+        }
+        
+        setKirjanNimi("");
+        setjarjestysnumero("");
+        setKuvausTeksti("");
+        setKirjailija("");
+        setPiirtajat("");
+        setEnsipainovuosi("");
+        setPainokset("");
+
+    },[lisaaQuery])
+
+    const handlePost = () => {
+
+        let m = [];
+
+        if (kirjanNimi != "")
+            m.push(kirjanNimi)
+        
+        if (jarjestysnumero != "")
+            m.push(jarjestysnumero)
+
+        if (kuvausTeksti != "")
+            m.push(kuvausTeksti)
+
+        if (kirjailija != "")
+            m.push(kirjailija)
+
+        if (piirtajat != "")
+            m.push(piirtajat);
+        
+        if (ensipainovuosi != "")
+            m.push(ensipainovuosi)
+
+        if (painokset != "")
+            m.push(painokset)
+
+        setLisaaQuery(m);
+
+        console.log(m);
+
+    }
+
+    
+
     return (
 
         <>
             <Container sx={{bgcolor: "green", height: "100vh"}}>
 
-                <Typography variant="h6" align="center">Tämä on yhden kirjasarjan Kokoelma</Typography>
-                <Typography variant="h6" align="center">Valitun kirjasarjan id on: {props.id}</Typography>
+                { props.admin == true &&
+                    <div>                 
+                    <TextField required id="outlined-nimi" label="Nimi" onChange={(e) => setKirjanNimi(e.target.value)}></TextField>
+                    <TextField required id="outlined-jarjestysnumero" label="Järjestysnumero" onChange={(e) => setjarjestysnumero(e.target.value)}></TextField>
+                    <TextField required id="outlined-kuvausteksti" label="Kuvausteksti" onChange={(e) => setKuvausTeksti(e.target.value)}></TextField>
+                    <TextField required id="outlined-kirjailija" label="Kirjailija" onChange={(e) => setKirjailija(e.target.value)}></TextField>
+                    <TextField required id="outlined-piirtajat" label="Piirtäjät" onChange={(e) => setPiirtajat(e.target.value)}></TextField>
+                    <TextField required id="outlined-ensipainovuosi" label="Ensipainovuosi" onChange={(e) => setEnsipainovuosi(e.target.value)}></TextField>
+                    <TextField required id="outlined-painokset" label="Painokset" onChange={(e) => setPainokset(e.target.value)}></TextField>
+                    <Button variant="outlined" onClick={() => {handlePost()}}>Lisää kirja</Button>
+                    </div>
+                }
+                
+                
 
                 <TableContainer>
                     <Table sx={{minWidth: 650}} aria-label="simple table">

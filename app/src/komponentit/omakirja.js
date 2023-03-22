@@ -3,14 +3,14 @@ import { useEffect, useState } from "react";
 
 const OmaKirja = (props) => {
 
-
     const [kirjanNimi,setKirjanNimi] = useState("");
     const [kirjailijat,setKirjailijat] = useState("");
     const [piirtajat,setPiirtajat] = useState("");
     const [ensipainovuosi,setEnsipainovuosi] = useState("");
     const [kuvausTeksti,setKuvausTeksti] = useState("");
     const [painokset,setPainokset] = useState("");
-    const [query,setQuery] = useState("?id=" + props.idOmatSarjat);
+    const [query,setQuery] = useState("?id=" + props.idOmaKirja);
+    const [id,setId] = useState("");
 
 
     useEffect( () => {
@@ -25,6 +25,7 @@ const OmaKirja = (props) => {
 
             c.map((item,index) => {
 
+                setId(item.id);
                 setKirjanNimi(item.nimi);
                 setKirjailijat(item.kirjailija);
                 setPiirtajat(item.piirtajat);
@@ -38,17 +39,14 @@ const OmaKirja = (props) => {
 
         haeTiedot();
 
-    },[props.omaKirjaId])
-
-
-    
+    },[props.idOmaKirja])
 
     return (
 
         <>
             <Container sx={{bgcolor: "brown", height: "100vh"}}>
                 <Typography variant="h6" align="center">Tämä on yhden kirjan sivu</Typography>
-                <Typography variant="h6" align="center">Tämä on klikatun kirjan id: {props.omaKirjaId}</Typography>
+                <Typography variant="h6" align="center">Tämä on klikatun kirjan id: {id}</Typography>
                 <Typography variant="h6" align="center">Tässä on kirjan nimi: {kirjanNimi}</Typography>
                 <Typography variant="h6" align="center">Tässä on kirjan kirjailijat: {kirjailijat}</Typography>
                 <Typography variant="h6" align="center">Tässä on kirjan piirtäjät: {piirtajat}</Typography>

@@ -26,7 +26,6 @@ const OmaKokoelma =(props) => {
                     'Content-Type' : 'application/json',
                 },
                 body : JSON.stringify({
-
                     kirjasarja : kirjaSarja,
                     kustantaja : kustantaja,
                     kuvaus : kuvaus,

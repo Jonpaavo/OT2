@@ -39,6 +39,10 @@ const Kirjautuminen = (props) => {
                 props.setKayttajaId(id);
                 setTiedot("");
             }
+
+            if (tarkistaAdmin == true) {
+                props.setAdmin(true);
+            }
         }
 
         if (laskuri > 0 && query != "" ) {

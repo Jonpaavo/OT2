@@ -32,17 +32,12 @@ function App() {
   });
 
   const [kirjautumisToken,setKirjautumisToken] = useState(() => {
-
-
     const saved = localStorage.getItem("kirjautumisToken");
     const initialValue = saved !== undefined ? JSON.parse(saved) : false;
     return initialValue || "";
-    
-    
   });
 
   const [kayttajaId,setKayttajaId] = useState(() => {
-
     const saved = localStorage.getItem("kayttajaId");
     const initialValue = JSON.parse(saved);
     return initialValue || "";
@@ -50,6 +45,18 @@ function App() {
 
   const [idOmatSarjat,setIdOmatSarjat] = useState(() => {
     const saved = localStorage.getItem("idOmatSarjat");
+    const initialValue = JSON.parse(saved);
+    return initialValue || "";
+  });
+
+  const [idOmaKirja,setIdOmaKirja] = useState(() => {
+    const saved = localStorage.getItem("idOmaKirja");
+    const initialValue = JSON.parse(saved);
+    return initialValue || "";
+  });
+
+  const [admin,setAdmin] = useState(() => {
+    const saved = localStorage.getItem("admin");
     const initialValue = JSON.parse(saved);
     return initialValue || "";
   });
@@ -75,11 +82,19 @@ function App() {
     window.localStorage.setItem("kirjaId", JSON.stringify(kirjaId));
   },[kirjaId])
 
+  useEffect( () => {
+    window.localStorage.setItem("idOmaKirja", JSON.stringify(idOmaKirja));
+  },[idOmaKirja])
+
+  useEffect(() => {
+    window.localStorage.setItem("admin", JSON.stringify(admin));
+  },[admin])
+
   return (
 
     <>
 
-      <AppiBaari kirjautumisToken={kirjautumisToken} setKirjautumisToken={setKirjautumisToken} />
+      <AppiBaari kirjautumisToken={kirjautumisToken} setKirjautumisToken={setKirjautumisToken} setAdmin={setAdmin} />
       <Valikko setLaskuri={setLaskuri} kirjautumisToken={kirjautumisToken} laskuri={laskuri} />
 
       <Routes>
@@ -87,14 +102,14 @@ function App() {
           <Route path='/' element={<Etusivu />} />
           <Route path='kirjat' element={<Kirjat />} />
           <Route path='tietoa' element={<Tietoa laskuri={laskuri} />} />
-          <Route path='kokoelmat' element={<Kokoelmat  laskuri={laskuri} setId={setKirjaSarjaId} />} />
-          <Route path='kirjautuminen' element={<Kirjautuminen setKirjautumisToken={setKirjautumisToken} kirjautumisToken={kirjautumisToken} setKayttajaId={setKayttajaId} />} />
+          <Route path='kokoelmat' element={<Kokoelmat  laskuri={laskuri} setId={setKirjaSarjaId} admin={admin} />} />
+          <Route path='kirjautuminen' element={<Kirjautuminen setKirjautumisToken={setKirjautumisToken} kirjautumisToken={kirjautumisToken} setKayttajaId={setKayttajaId} setAdmin={setAdmin} />} />
           <Route path='rekisteroityminen' element={<Rekisteroityminen />} />
-          <Route path='kokoelma' element={<Kokoelma id={kirjaSarjaId} setKirjaId={setKirjaId}/>} />
+          <Route path='kokoelma' element={<Kokoelma id={kirjaSarjaId} setKirjaId={setKirjaId} admin={admin}/>} />
           <Route path='kirja' element={<Kirja  id={kirjaId}/>} />
           <Route path='omakokoelma' element={<OmaKokoelma kayttajaId={kayttajaId} laskuri={laskuri} setIdOmatSarjat={setIdOmatSarjat} />} />
-          <Route path='omankokoelmankirjat' element={<Omankokoelmankirjat idOmatSarjat={idOmatSarjat} setIdOmatSarjat={setIdOmatSarjat}/>} />
-          <Route path='omakirja' element={<OmaKirja  />} />
+          <Route path='omankokoelmankirjat' element={<Omankokoelmankirjat idOmatSarjat={idOmatSarjat} setIdOmatSarjat={setIdOmatSarjat} setIdOmaKirja={setIdOmaKirja}/>} />
+          <Route path='omakirja' element={<OmaKirja idOmaKirja={idOmaKirja} />} />
 
           
       </Routes>

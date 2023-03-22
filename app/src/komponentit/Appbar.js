@@ -19,6 +19,10 @@ const AppiBaari = (props) =>  {
 
         props.setKirjautumisToken(false);
     }
+
+    const handleAdmin = () => {
+        props.setAdmin(false);
+    }
     return (
 
         <AppBar position="relative" sx={{zIndex: (theme) => theme.zIndex.drawer + 1}}>
@@ -36,7 +40,7 @@ const AppiBaari = (props) =>  {
                     }
 
                     { props.kirjautumisToken == true  &&
-                        <Button variant="h6" href="kirjautuminen" onClick={() => {handleKirjautumisToken()}}>Kirjaudu ulos</Button>
+                        <Button variant="h6" href="kirjautuminen" onClick={() => {handleKirjautumisToken() ; handleAdmin()}}>Kirjaudu ulos</Button>
 
                     }
                 </Toolbar>
