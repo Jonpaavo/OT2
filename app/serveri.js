@@ -50,6 +50,65 @@ app.get('/kirjasarja', function (req,res) {
     });
 });
 
+app.get('/omatsarjat', function (req,res) {
+
+    let query = "SELECT * from omatsarjat WHERE 1=1";
+
+    let kayttajaid = req.query.kayttajaid;
+
+    if (kayttajaid != "" )
+        query = query+ " AND kayttajaid like '" + kayttajaid + "'";
+
+    connection.query(query, function(error, result){
+
+        if (error) {
+
+            res.statusCode = 400;
+
+            res.json({ tila: "Virhetila", viesti: "Virhe koodissa."});
+
+            console.log(query);
+
+        } else {
+
+            res.statusCode = 200;
+
+            res.json(result);
+        }
+    });
+});
+
+app.post('/omatsarjat', (req,res) => {
+
+    let kirjasarja = req.body.kirjasarja;
+    let kuvaus = req.body.kuvaus;
+    let kustantaja = req.body.kustantaja;
+    let luokittelu = req.body.luokittelu;
+    let kayttajaid = req.body.kayttajaid;
+
+    let query = "INSERT INTO omatsarjat (kirjasarja, kuvaus, kustantaja, luokittelu, kayttajaid) values (?, ?, ?, ?, ?)";
+
+    connection.query(query, [kirjasarja, kuvaus, kustantaja, luokittelu, kayttajaid], function(error,result) {
+
+        if (error) {
+
+            console.log("VIRHE", error);
+            res.statusCode = 400;
+            res.json({tila : "Virhetila", viesti : "Virhe koodissa."});
+        }
+
+        else {
+            console.log("Tulos:" , result);
+            res.statusCode = 201;
+            res.json({id: result.insertid, kirjasarja : kirjasarja, kuvaus : kuvaus, kustantaja : kustantaja, luokittelu : luokittelu, kayttajaid : kayttajaid});
+        }
+
+    });
+
+
+
+})
+
 app.post('/kayttaja', (req,res) => {
 
     console.log("/asiakas. BODY:" ,req.body);
@@ -83,18 +142,19 @@ app.post('/kayttaja', (req,res) => {
 
 app.get('/kayttaja', function (req,res) {
 
-    let enimi = req.query.nimi || "";
+    let nimi = req.query.nimi;
 
-    let esalasana = req.query.salasana || "";
+    let salasana = req.query.salasana;
 
-    let query = "SELECT nimi, salasana from kayttaja WHERE 1=1";
+    let id = req.query.id;
 
+    let query = "SELECT * from kayttaja WHERE 1=1";
 
-    if (enimi != "") 
-        query=query + " AND nimi like '" + enimi + "'";
+    if (nimi != "") 
+        query=query + " AND nimi like '" + nimi + "'";
 
-    if (esalasana != "")
-        query=query + "AND salasana like '" + esalasana + "'";
+    if (salasana != "")
+        query=query + " AND salasana like '" + salasana + "'";
 
     console.log("GET QUERY:" + query);
     
@@ -156,6 +216,75 @@ app.get('/kirja', function (req,res) {
     });
     
 });
+
+app.get('/omakirja', function (req,res) {
+    
+    let idomatsarjat = req.query.idomatsarjat || "";
+
+    let id = req.query.id || "";
+
+    let query = "SELECT * from omakirja WHERE 1=1";
+
+    if (idomatsarjat != "")
+        query=query + " AND idomatsarjat = '" + idomatsarjat + "'";
+
+    if (id != "")
+        query=query + " AND id='" + id + "'";
+
+
+    connection.query(query, function(error, result){
+
+        if ( error ) {
+
+            res.statusCode = 400;
+
+            res.json({ tila: "Virhetila", viesti : "Virhe koodissa."});
+
+            console.log(query);
+
+        } else {
+
+            res.statusCode = 200;
+
+            res.json(result);
+            
+        }
+    });
+    
+});
+
+app.post('/omakirja', (req,res) => {
+
+    let nimi = req.body.nimi;
+    let jarjestysnumero = req.body.jarjestysnumero;
+    let kuvausTeksti = req.body.kuvausteksti;
+    let kirjailija = req.body.kirjailija;
+    let piirtajat = req.body.piirtajat;
+    let ensipainovuosi = req.body.ensipainovuosi;
+    let painokset = req.body.ensipainovuosi;
+    let idomatsarjat = req.body.idomatsarjat;
+
+    let query = "INSERT INTO omakirja (nimi, jarjestysnumero, kuvausteksti, kirjailija, piirtajat, ensipainovuosi, painokset, idomatsarjat) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+
+    connection.query(query, [nimi,jarjestysnumero,kuvausTeksti,kirjailija,piirtajat,ensipainovuosi,painokset,idomatsarjat], function(error,result) {
+
+        if (error) {
+
+            console.log("VIRHE", error);
+            res.statusCode = 400;
+            res.json({tila : "Virhetila", viesti : "Virhe koodissa."});
+        }
+
+        else {
+
+            console.log("Tulos:" , result);
+            res.statusCode = 201;
+            res.json({id: result.insertid, nimi : nimi, jarjestysnumero : jarjestysnumero, kuvausTeksti : kuvausTeksti, kirjailija : kirjailija, piirtajat : piirtajat, ensipainovuosi : ensipainovuosi, painokset : painokset, idomatsarjat : idomatsarjat    })
+        }
+    })
+
+})
 
 
 app.listen(portti, osoite, () => {

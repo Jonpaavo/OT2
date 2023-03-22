@@ -52,6 +52,13 @@ const Valikko = (props) => {
                             </ListItemText>
                         </ListItemButton>
                     </ListItem>
+                    { props.kirjautumisToken && <ListItem>
+                        <ListItemButton>
+                            <ListItemText>
+                                <Link to ={'/omakokoelma'} onClick={() => props.setLaskuri(props.laskuri + 1 )}>Oma kokoelma</Link>
+                            </ListItemText>
+                        </ListItemButton>
+                    </ListItem>}
                 </List>
 
             </Drawer>

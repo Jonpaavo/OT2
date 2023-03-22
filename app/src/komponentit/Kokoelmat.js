@@ -1,21 +1,17 @@
-import { Box, Link, List, ListItem, ListItemButton, ListItemText, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { Kokoelma } from "./kokoelma";
-
-
-
 
 const Kokoelmat = (props) => {
 
     //Kirjasarjan hakujutut
-    const [haeKirjaSarja,setHaeKirjaSarja] = useState("");
-    const [kirjaSarjaTable,setKirjaSarjaTable] = useState([]);
-    const [naky,setNaky] = useState(false);
-    
-    
-    
+    const [kirjaSarjaTable,setKirjaSarjaTable] = useState(() => {
+
+        const saved = localStorage.getItem("kokoelmat");
+        const initialValue = JSON.parse(saved);
+        return initialValue || "";
+    });
 
     useEffect( () => {
 
@@ -26,43 +22,28 @@ const Kokoelmat = (props) => {
             let c = await response.json();
 
             setKirjaSarjaTable(c);
+        }
 
+        
+        haeKirjaSarja();
             
-
-        }
-
-        
-        
-        
-
-        if (props.laskuri > 0) {
-            haeKirjaSarja();
-            console.log(props.laskuri);
-        }
-        
-        
-        
-        
-        
-
-    },[props.laskuri]);
+    },[]);
 
     
+    useEffect ( () => {
 
-    
+        window.localStorage.setItem('kokoelmat', JSON.stringify(kirjaSarjaTable));
+
+    },[kirjaSarjaTable])
 
 
     return (
 
         <>
-            
-            
 
             <Container sx={{bgcolor: "green", height: "100vh"}}>
 
                 <Typography variant="h6" align="center">Tämä on Kokoelmat</Typography>
-
-                
 
                 <TableContainer component={Paper} sx={{width: "100vh", align: "center"}}>
 
@@ -87,10 +68,7 @@ const Kokoelmat = (props) => {
                 </TableContainer>
             </Container>
         
-        
         </>
-
-
     )
 }
 

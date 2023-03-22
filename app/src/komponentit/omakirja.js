@@ -1,7 +1,7 @@
 import { Container, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
-const Kirja = (props) => {
+const OmaKirja = (props) => {
 
 
     const [kirjanNimi,setKirjanNimi] = useState("");
@@ -10,14 +10,14 @@ const Kirja = (props) => {
     const [ensipainovuosi,setEnsipainovuosi] = useState("");
     const [kuvausTeksti,setKuvausTeksti] = useState("");
     const [painokset,setPainokset] = useState("");
-    const [query,setQuery] = useState("?id=" + props.id);
+    const [query,setQuery] = useState("?id=" + props.idOmatSarjat);
 
 
     useEffect( () => {
 
         const haeTiedot = async () => {
 
-            let response = await fetch("http://localhost:3004/kirja" + query);
+            let response = await fetch("http://localhost:3004/omakirja" + query);
 
             let c = await response.json();
 
@@ -38,7 +38,7 @@ const Kirja = (props) => {
 
         haeTiedot();
 
-    },[props.id])
+    },[props.omaKirjaId])
 
 
     
@@ -48,7 +48,7 @@ const Kirja = (props) => {
         <>
             <Container sx={{bgcolor: "brown", height: "100vh"}}>
                 <Typography variant="h6" align="center">Tämä on yhden kirjan sivu</Typography>
-                <Typography variant="h6" align="center">Tämä on klikatun kirjan id: {props.id}</Typography>
+                <Typography variant="h6" align="center">Tämä on klikatun kirjan id: {props.omaKirjaId}</Typography>
                 <Typography variant="h6" align="center">Tässä on kirjan nimi: {kirjanNimi}</Typography>
                 <Typography variant="h6" align="center">Tässä on kirjan kirjailijat: {kirjailijat}</Typography>
                 <Typography variant="h6" align="center">Tässä on kirjan piirtäjät: {piirtajat}</Typography>
@@ -65,4 +65,4 @@ const Kirja = (props) => {
     )
 }
 
-export {Kirja}
+export {OmaKirja}

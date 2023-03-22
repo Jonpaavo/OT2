@@ -5,9 +5,17 @@ import { NavLink } from "react-router-dom";
 
 const Kokoelma = (props) => {
 
-    const [kirjatTable,setKirjatTable] = useState([]);
+    const [kirjatTable,setKirjatTable] = useState(() => {
+
+        
+        const saved = localStorage.getItem("kirja");
+        const initialValue = JSON.parse(saved);
+        return initialValue || "";
+    });
 
     const [query,setQuery] = useState("?idkirjasarja=" + props.id);
+
+        
 
 
     useEffect( () => {
@@ -21,22 +29,18 @@ const Kokoelma = (props) => {
             setKirjatTable(c);
 
             console.log(props.id);
-
-            
-
         }
-
 
         haeKirjat();
 
-        
+    },[])
 
+    useEffect ( () => {
 
-    },[props.id])
+        window.localStorage.setItem('kirja', JSON.stringify(kirjatTable));
 
-    
+    },[kirjatTable])
 
-    
     return (
 
         <>
@@ -77,11 +81,7 @@ const Kokoelma = (props) => {
 
                 
             </Container>
-        
-        
         </>
-
-
     )
 }
 

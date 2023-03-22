@@ -1,70 +1,70 @@
-import { Box, Button, Container, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography } from "@mui/material"
+import { Box, Button, Container, TextField, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
 
-const Kirjautuminen = () => {
+const Kirjautuminen = (props) => {
 
+    const [inputNimi,setInputNimi] = useState("");
+    const [inputSalasana,setInputSalasana] = useState("");
     const [tarkistaNimi,setTarkistaNimi] = useState("");
     const [tarkistaSalasana,setTarkistaSalasana] = useState("");
+    const [tarkistaAdmin,setTarkistaAdmin] = useState("");
+    const [id,setId] = useState("");
     const [query,setQuery] = useState("");
     const [tiedot,setTiedot] = useState([]);
     const [laskuri,setLaskuri] = useState(0);
-    const [tarkistusLista,setTarkistusLista] = useState([]);
-
-
-
+    
 
     useEffect( () => {
 
         const tarkistaKirjautuminen = async () => {
 
-            console.log("TARKISTA KIRJAUTUMINEN")
+            console.log("TARKISTA KIRJAUTUMINEN. QUERY ON: " + query)
 
             let response = await fetch("http://localhost:3004/kayttaja/" + query);
 
             let c = await response.json();
 
-            setTiedot(c);
+            console.log(tiedot);
+
+            
+            c.map((item,index) => {
+                setId(item.id);
+                setTarkistaNimi(item.nimi);
+                setTarkistaSalasana(item.salasana);
+                setTarkistaAdmin(item.admin);
+            });
+
+            if (inputNimi != "" && inputNimi === tarkistaNimi && inputSalasana !="" && inputSalasana === tarkistaSalasana) {
+                props.setKirjautumisToken(true);
+                props.setKayttajaId(id);
+                setTiedot("");
+            }
         }
 
-        if (laskuri > 0) {
+        if (laskuri > 0 && query != "" ) {
             tarkistaKirjautuminen();
         }
-
-        
-
-
+         
     },[laskuri]);
 
-
-
-    const handleFetch = () => {
-
-        console.log("HANDLEFETCH")
+    const handleKirjautuminen = () => {
 
         let m = "";
 
-        if (tarkistaNimi != "" && tarkistaSalasana !="") {
-            m="?nimi=" + tarkistaNimi + "&salasana=" + tarkistaSalasana
-        }
-        setQuery(m)
+        if (inputNimi != "")
+            m = m +"?nimi=" + inputNimi
+        
+        if (inputSalasana != "")
+            m = m + "&salasana=" + inputSalasana
+        
+        console.log(m);
 
-        console.log("QUERY:" + query);
+        setQuery(m);
 
         setLaskuri(laskuri + 1);
     }
 
-    const data = tiedot.map((item,index) => {
-        
-        return (
-            <tr key={index}>
-                <td>{item.nimi}</td>
-                <td>{item.salasana}</td>
-            </tr>
-        )
-
-    });
-  
-
+    
 
 
     return(
@@ -76,25 +76,15 @@ const Kirjautuminen = () => {
                 <Box component="form" sx={{}} noValidate autoComplete="off">
 
                     <div>
-                        <TextField required id="outlined-username" label="Käyttäjänimi" onChange={(e) => setTarkistaNimi(e.target.value)} />
-                        <TextField required id="outlined-password" label="Salasana" type="password" onChange={(e) => setTarkistaSalasana(e.target.value)} />
-                        <Button variant="outlined" onClick={() => {handleFetch()}}>Kirjaudu sisään</Button>
+                        <TextField required id="outlined-username" label="Käyttäjänimi" onChange={(e) => setInputNimi(e.target.value)} />
+                        <TextField required id="outlined-password" label="Salasana" type="password" onChange={(e) => setInputSalasana(e.target.value)} />
+                        <Button variant="outlined" onClick={() => {handleKirjautuminen()}}>Kirjaudu sisään</Button>
 
                     </div>
 
 
                 </Box>
 
-                <Table sx={{minWidth: 650}} aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Nimi</TableCell>
-                                <TableCell>Salasana</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>{data}</TableBody>
-
-                    </Table>
             </Container>
         
         
