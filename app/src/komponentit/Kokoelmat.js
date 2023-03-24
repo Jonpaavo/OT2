@@ -23,14 +23,16 @@ const Kokoelmat = (props) => {
 
             let c = await response.json();
 
-            setKirjaSarjaTable(c);
+            if (c != "") {
+                setKirjaSarjaTable(c);
+            }
+            
         }
 
         
         haeKirjaSarja();
-        
-        
-            
+    
+
     },[]);
 
 
