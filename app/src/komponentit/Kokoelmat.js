@@ -23,15 +23,15 @@ const Kokoelmat = (props) => {
 
             let c = await response.json();
 
-            props.setKirjaSarjaTable(c);
+            setKirjaSarjaTable(c);
         }
 
-        if (kirjaSarjaTable != "") {
-            haeKirjaSarja();
-        }
+        
+        haeKirjaSarja();
+        
         
             
-    },[kirjaSarjaTable]);
+    },[]);
 
 
     useEffect( () => {

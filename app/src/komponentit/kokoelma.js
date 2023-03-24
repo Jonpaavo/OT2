@@ -5,11 +5,6 @@ import { NavLink } from "react-router-dom";
 
 const Kokoelma = (props) => {
 
-    const [kirjatTable,setKirjatTable] = useState(() => {
-        const saved = localStorage.getItem("kirja");
-        const initialValue = JSON.parse(saved);
-        return initialValue || "";
-    });
     const [query,setQuery] = useState("?idkirjasarja=" + props.id);
 
     const [kirjanNimi,setKirjanNimi] = useState("");
@@ -21,6 +16,7 @@ const Kokoelma = (props) => {
     const [painokset,setPainokset] = useState("");
     const [lisaaQuery,setLisaaQuery] = useState([]);
     const [idKirjaSarja,setIdKirjaSarja] = useState(props.id);
+    const [kirjatTable,setKirjatTable] = useState([props.kirjatTable]);
 
     useEffect( () => {
 
@@ -39,12 +35,7 @@ const Kokoelma = (props) => {
 
     },[])
 
-    useEffect ( () => {
-
-        window.localStorage.setItem('kirja', JSON.stringify(kirjatTable));
-
-    },[kirjatTable])
-
+    
     useEffect( () => {
 
         const lisaaKirja = async () => {
