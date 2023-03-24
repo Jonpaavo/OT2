@@ -21,7 +21,7 @@ app.use(cors);
 
 var connection = mysql.createConnection({
     host : 'localhost',
-    user : 'root',      
+    user : 'root',
     password : 'root',
     database : 'kirjaarkisto',
     dateStrings : true,

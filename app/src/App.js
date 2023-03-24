@@ -20,75 +20,88 @@ function App() {
   const [laskuri,setLaskuri] = useState(0);
 
   const [kirjaSarjaId,setKirjaSarjaId] = useState(() => {
-    const saved = localStorage.getItem("kirjaSarjaId");
+    const saved = sessionStorage.getItem("kirjaSarjaId");
     const initialValue = JSON.parse(saved);
     return initialValue || "";
   } );
 
   const [kirjaId,setKirjaId] = useState(() => {
-    const saved = localStorage.getItem("kirjaId");
+    const saved = sessionStorage.getItem("kirjaId");
     const initialValue = JSON.parse(saved);
     return initialValue || "";
   });
 
   const [kirjautumisToken,setKirjautumisToken] = useState(() => {
-    const saved = localStorage.getItem("kirjautumisToken");
+    const saved = sessionStorage.getItem("kirjautumisToken");
     const initialValue = saved !== undefined ? JSON.parse(saved) : false;
     return initialValue || "";
   });
 
   const [kayttajaId,setKayttajaId] = useState(() => {
-    const saved = localStorage.getItem("kayttajaId");
+    const saved = sessionStorage.getItem("kayttajaId");
     const initialValue = JSON.parse(saved);
     return initialValue || "";
   });
 
   const [idOmatSarjat,setIdOmatSarjat] = useState(() => {
-    const saved = localStorage.getItem("idOmatSarjat");
+    const saved = sessionStorage.getItem("idOmatSarjat");
     const initialValue = JSON.parse(saved);
     return initialValue || "";
   });
 
   const [idOmaKirja,setIdOmaKirja] = useState(() => {
-    const saved = localStorage.getItem("idOmaKirja");
+    const saved = sessionStorage.getItem("idOmaKirja");
     const initialValue = JSON.parse(saved);
     return initialValue || "";
   });
 
   const [admin,setAdmin] = useState(() => {
-    const saved = localStorage.getItem("admin");
+    const saved = sessionStorage.getItem("admin");
     const initialValue = JSON.parse(saved);
     return initialValue || "";
   });
 
+  const [kirjaSarjaTable,setKirjaSarjaTable] = useState(() => {
+
+    const saved = sessionStorage.getItem("kokoelmat");
+    const initialValue = JSON.parse(saved);
+    return initialValue || "";
+});
+
 
   useEffect( () => {
-    window.localStorage.setItem("kirjaSarjaId", JSON.stringify(kirjaSarjaId));
+    window.sessionStorage.setItem("kirjaSarjaId", JSON.stringify(kirjaSarjaId));
   },[kirjaSarjaId])
 
   useEffect(() => {
-    window.localStorage.setItem("kirjautumisToken", JSON.stringify(kirjautumisToken));
+    window.sessionStorage.setItem("kirjautumisToken", JSON.stringify(kirjautumisToken));
   },[kirjautumisToken])
 
   useEffect( () => {
-    window.localStorage.setItem("kayttajaId", JSON.stringify(kayttajaId));
+    window.sessionStorage.setItem("kayttajaId", JSON.stringify(kayttajaId));
   },[kayttajaId])
 
   useEffect(() => {
-    window.localStorage.setItem("idOmatSarjat", JSON.stringify(idOmatSarjat));
+    window.sessionStorage.setItem("idOmatSarjat", JSON.stringify(idOmatSarjat));
   },[idOmatSarjat])
 
   useEffect(() => {
-    window.localStorage.setItem("kirjaId", JSON.stringify(kirjaId));
+    window.sessionStorage.setItem("kirjaId", JSON.stringify(kirjaId));
   },[kirjaId])
 
   useEffect( () => {
-    window.localStorage.setItem("idOmaKirja", JSON.stringify(idOmaKirja));
+    window.sessionStorage.setItem("idOmaKirja", JSON.stringify(idOmaKirja));
   },[idOmaKirja])
 
   useEffect(() => {
-    window.localStorage.setItem("admin", JSON.stringify(admin));
+    window.sessionStorage.setItem("admin", JSON.stringify(admin));
   },[admin])
+
+  useEffect ( () => {
+
+    window.sessionStorage.setItem('kokoelmat', JSON.stringify(kirjaSarjaTable));
+
+},[kirjaSarjaTable])
 
   return (
 
@@ -102,7 +115,7 @@ function App() {
           <Route path='/' element={<Etusivu />} />
           <Route path='kirjat' element={<Kirjat />} />
           <Route path='tietoa' element={<Tietoa laskuri={laskuri} />} />
-          <Route path='kokoelmat' element={<Kokoelmat  laskuri={laskuri} setId={setKirjaSarjaId} admin={admin} />} />
+          <Route path='kokoelmat' element={<Kokoelmat  laskuri={laskuri} setId={setKirjaSarjaId} admin={admin} kirjaSarjaTable={kirjaSarjaTable} setKirjaSarjaTable={setKirjaSarjaTable} />} />
           <Route path='kirjautuminen' element={<Kirjautuminen setKirjautumisToken={setKirjautumisToken} kirjautumisToken={kirjautumisToken} setKayttajaId={setKayttajaId} setAdmin={setAdmin} />} />
           <Route path='rekisteroityminen' element={<Rekisteroityminen />} />
           <Route path='kokoelma' element={<Kokoelma id={kirjaSarjaId} setKirjaId={setKirjaId} admin={admin}/>} />

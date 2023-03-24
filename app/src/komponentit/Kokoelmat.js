@@ -6,18 +6,14 @@ import { NavLink } from "react-router-dom";
 const Kokoelmat = (props) => {
 
     //Kirjasarjan hakujutut
-    const [kirjaSarjaTable,setKirjaSarjaTable] = useState(() => {
-
-        const saved = localStorage.getItem("kokoelmat");
-        const initialValue = JSON.parse(saved);
-        return initialValue || "";
-    });
+    
 
     const [kirjaSarja,setKirjaSarja] = useState("");
     const [kustantaja,setKustantaja] = useState("");
     const [kuvaus,setKuvaus] = useState("");
     const [luokittelu,setLuokittelu] = useState("");
     const [lisaaQuery,setLisaaQuery] = useState([]);
+    const [kirjaSarjaTable,setKirjaSarjaTable] = useState([props.kirjaSarjaTable]);
 
     useEffect( () => {
 
@@ -27,20 +23,16 @@ const Kokoelmat = (props) => {
 
             let c = await response.json();
 
-            setKirjaSarjaTable(c);
+            props.setKirjaSarjaTable(c);
         }
 
+        if (kirjaSarjaTable != "") {
+            haeKirjaSarja();
+        }
         
-        haeKirjaSarja();
             
-    },[]);
+    },[kirjaSarjaTable]);
 
-    
-    useEffect ( () => {
-
-        window.localStorage.setItem('kokoelmat', JSON.stringify(kirjaSarjaTable));
-
-    },[kirjaSarjaTable])
 
     useEffect( () => {
 
