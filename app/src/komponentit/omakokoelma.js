@@ -1,7 +1,8 @@
 import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material"
 import { Container } from "@mui/system"
 import { useEffect, useState } from "react"
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
+import { Muokkaaja } from "./Muokkaaja";
 
 
 const OmaKokoelma =(props) => {
@@ -14,6 +15,8 @@ const OmaKokoelma =(props) => {
     const [lisaaQuery,setLisaaQuery] = useState([]);
     const [kirjaSarjaTable,setKirjaSarjaTable] = useState([]);
     const [query,setQuery] = useState("?kayttajaid=" + kayttajaId);
+    const [muokkausKohde, setMuokkausKohde] = useState(props.muokkausKohde);
+   
 
     useEffect( () => {
 
@@ -83,6 +86,7 @@ const OmaKokoelma =(props) => {
             let c = await response.json();
 
             setKirjaSarjaTable(c);
+            
 
         }
         
@@ -90,6 +94,8 @@ const OmaKokoelma =(props) => {
         haeKirjaSarja();
 
     },[])
+
+    
 
     return (
       
@@ -109,7 +115,9 @@ const OmaKokoelma =(props) => {
                         <TableHead>
                             <TableRow>
                                 <TableCell>Nimi</TableCell>
-                                <TableCell>Julkaisu vuosi</TableCell>
+                                <TableCell>Julkaisu_vuosi</TableCell>
+                                <TableCell> </TableCell>
+                                
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -118,6 +126,12 @@ const OmaKokoelma =(props) => {
                                 <TableRow key={row.idomatsarjat} sx={{ '&:last-child td, &:last-child th': {border: 0}}}>
                                     <TableCell component="th" scope="row">
                                         <NavLink to='/omankokoelmankirjat' onClick={() => {props.setIdOmatSarjat(row.idomatsarjat)}}>{row.kirjasarja}</NavLink>
+                                        
+                                    </TableCell>
+                                    <TableCell></TableCell>
+                                    <TableCell>
+                                    <Button to='/Muokkaus'component={Link} onClick={() => {}}>Muokkaa</Button>
+                                    <Button>Poista</Button>
                                     </TableCell>
                                 </TableRow>
 

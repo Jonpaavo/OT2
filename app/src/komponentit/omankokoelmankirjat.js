@@ -1,11 +1,13 @@
 import { Button,Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
+import { Muokkaaja } from "./Muokkaaja";
 
 const Omankokoelmankirjat = (props) => {
 
     const [kirjatTable,setKirjatTable] = useState([]);
+
 
     const [query,setQuery] = useState("?idomatsarjat=" + props.idOmatSarjat);
 
@@ -18,6 +20,7 @@ const Omankokoelmankirjat = (props) => {
     const [painokset,setPainokset] = useState("");
     const [lisaaQuery,setLisaaQuery] = useState([]);
     const [idOmatSarjat,setIdOmatSarjat] = useState(props.idOmatSarjat);
+    const [muokkausKohde, setMuokkausKohde] = useState(props.muokkausKohde);
 
     useEffect( () => {
 
@@ -107,7 +110,7 @@ const Omankokoelmankirjat = (props) => {
     }
 
     return (
-
+        
         <>
             <Container sx={{bgcolor: "green", height: "100vh"}}>
 
@@ -135,9 +138,11 @@ const Omankokoelmankirjat = (props) => {
                                 <TableCell>Piirtäjä</TableCell>
                                 <TableCell>Ensipainovuosi</TableCell>
                                 <TableCell>Painokset</TableCell>
+                                <TableCell> ö</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
+
                             {kirjatTable.map((row) =>(
                                 <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': {border: 0}}}>
                                     <TableCell component="th" scope="row"><NavLink to='/omakirja' onClick={() => {props.setIdOmaKirja(row.id)}} >{row.nimi}</NavLink></TableCell>
@@ -147,6 +152,13 @@ const Omankokoelmankirjat = (props) => {
                                     <TableCell>{row.piirtajat}</TableCell>
                                     <TableCell>{row.ensipainovuosi}</TableCell>
                                     <TableCell>{row.painokset}</TableCell>
+                                    <TableCell> 
+                                        <Button to='/Muokkaus'component={Link} onClick={() => {}}>Muokkaa</Button>
+                                        
+                                        <Button>Poista</Button>
+                                    </TableCell>
+
+        
                                 </TableRow>
 
                             ))}
@@ -157,7 +169,7 @@ const Omankokoelmankirjat = (props) => {
                 
             </Container>
         </>
-    )
+   )
 }
 
 export {Omankokoelmankirjat}

@@ -59,6 +59,13 @@ const Valikko = (props) => {
                             </ListItemText>
                         </ListItemButton>
                     </ListItem>}
+                    <ListItem>
+                        <ListItemButton>
+                            <ListItemText>
+                                <Link to ={'/Muokkaus'} >Muokkaus</Link>
+                            </ListItemText>
+                        </ListItemButton>
+                    </ListItem>
                 </List>
 
             </Drawer>
