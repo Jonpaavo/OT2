@@ -2,7 +2,6 @@ import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, 
 import { Container } from "@mui/system"
 import { useEffect, useState } from "react"
 import { NavLink, Link } from "react-router-dom";
-import { Muokkaaja } from "./Muokkaaja";
 
 
 const OmaKokoelma =(props) => {
@@ -155,6 +154,10 @@ const OmaKokoelma =(props) => {
 
     }
 
+    const handleSubmit = () => {
+        setLaskuri(laskuri+1)
+    }
+
     
 
     return (
@@ -164,15 +167,15 @@ const OmaKokoelma =(props) => {
                 <Typography variant="h6" align="center">Tämä on oma kokoelma</Typography>
                 {!muokkaaKokoelmat ? 
 
-                    <div sx={{bgcolor: "grey", height: "100vh"}}>
+                    <form onSubmit={handleSubmit}>
                         <Typography variant="h6" align="center">Muokkaus</Typography>
                         <TextField required id="outlined-kirjasarja" label="Kirjasarja"  defaultValue={muokkaaKirjaSarja} onChange={(e) => setMuokkaaKirjaSarja(e.target.value)} />
                             <TextField required id="outlined-kustantaja" label="Kustantaja" defaultValue={muokkaaKustantaja} onChange={(e) => setMuokkaaKustantaja(e.target.value)} />
                             <TextField required id="outlined-kuvaus" label="Kuvaus" defaultValue={muokkaaKuvaus} onChange={(e) => setMuokkaaKuvaus(e.target.value)} />
                             <TextField required id="outlined-luokittelu" label="Luokittelu" defaultValue={muokkaaLuokittelu} onChange={(e) => setMuokkaaLuokittelu(e.target.value)} />
-                            <Button variant="outlined" onClick={() => {setLaskuri(laskuri+1)}}>Muokkaa kokoelma</Button>
+                            <Button variant="outlined" type="submit" >Muokkaa kokoelma</Button>
                             <Button variant="outlined" onClick={() => {peruMuokkaus()}}>Peru muokkaus</Button>
-                    </div>
+                    </form>
                     :
                     <div>
                         <div>

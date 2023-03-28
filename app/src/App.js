@@ -7,7 +7,6 @@ import { Kirjat } from './komponentit/Kirjat';
 import { Kirjautuminen } from './komponentit/Kirjautuminen';
 import { Kokoelma } from './komponentit/kokoelma';
 import { Kokoelmat } from './komponentit/Kokoelmat';
-import { Muokkaaja } from './komponentit/Muokkaaja';
 import { OmaKirja }  from './komponentit/omakirja';
 import { OmaKokoelma } from './komponentit/omakokoelma';
 import { Omankokoelmankirjat } from './komponentit/omankokoelmankirjat';
@@ -138,10 +137,9 @@ useEffect ( () => {
           <Route path='rekisteroityminen' element={<Rekisteroityminen />} />
           <Route path='kokoelma' element={<Kokoelma id={kirjaSarjaId} setKirjaId={setKirjaId} admin={admin} kirjatTable={kirjatTable} setKirjatTable={setKirjatTable}/>} />
           <Route path='kirja' element={<Kirja  id={kirjaId} admin={admin}/>} />
-          <Route path='omakokoelma' element={<OmaKokoelma kayttajaId={kayttajaId} laskuri={laskuri} setIdOmatSarjat={setIdOmatSarjat} />} />
+          <Route path='omakokoelma' element={<OmaKokoelma kayttajaId={kayttajaId} laskuri={laskuri} setId={setIdOmatSarjat} />} />
           <Route path='omankokoelmankirjat' element={<Omankokoelmankirjat idOmatSarjat={idOmatSarjat} setIdOmatSarjat={setIdOmatSarjat} setIdOmaKirja={setIdOmaKirja}/>} />
           <Route path='omakirja' element={<OmaKirja idOmaKirja={idOmaKirja} />} />
-          <Route path='muokkaus' element={<Muokkaaja setMuokkausKohde={setMuokkausKohde} />} />
 
           
       </Routes>

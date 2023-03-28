@@ -100,6 +100,8 @@ const Omankokoelmankirjat = (props) => {
             m.push(kirjailija)
 
         setLisaaQuery(m);
+
+        console.log("Terve")
     }
 
 
