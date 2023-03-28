@@ -6,18 +6,23 @@ import { NavLink } from "react-router-dom";
 const Omankokoelmankirjat = (props) => {
 
     const [kirjatTable,setKirjatTable] = useState([]);
-
     const [query,setQuery] = useState("?idomatsarjat=" + props.idOmatSarjat);
-
     const [kirjanNimi,setKirjanNimi] = useState("");
     const [jarjestysnumero,setjarjestysnumero] = useState("");
-    const [kuvausTeksti,setKuvausTeksti] = useState("");
     const [kirjailija,setKirjailija] = useState("");
-    const [piirtajat,setPiirtajat] = useState("");
-    const [ensipainovuosi,setEnsipainovuosi] = useState("");
-    const [painokset,setPainokset] = useState("");
-    const [lisaaQuery,setLisaaQuery] = useState([]);
     const [idOmatSarjat,setIdOmatSarjat] = useState(props.idOmatSarjat);
+    const [kuntoluokka,setKuntoluokka] = useState("");
+    const [etuKansiKuva,setEtuKansiKuva] = useState(null);
+    const [takaKansiKuva,setTakaKansiKuva] = useState(null);
+    const [hankintaHinta,setHankintaHinta] = useState("");
+    const [hankintaAika,setHankintaAika] = useState("");
+    const [esittelyTeksti,setEsittelyTeksti] = useState("");
+    const [painovuosi,setPainovuosi] = useState("");
+    const [painos,setPainos] = useState("");
+    const [lisaaQuery,setLisaaQuery] = useState([]);
+    
+    
+    
 
     useEffect( () => {
 
@@ -41,22 +46,24 @@ const Omankokoelmankirjat = (props) => {
 
         const lisaaKirja = async () => {
 
-            fetch("http://localhost:3004/omakirja", {
+            let kirja = new FormData();
 
+            kirja.append("nimi",kirjanNimi);
+            kirja.append("jarjestysnumero",jarjestysnumero);
+            kirja.append("kirjailija",kirjailija);
+            kirja.append("idomatsarjat",idOmatSarjat);
+            kirja.append("kuntoluokka",kuntoluokka);
+            kirja.append("takakansikuva",takaKansiKuva);
+            kirja.append("etukansikuva",etuKansiKuva);
+            kirja.append("hankintahinta",hankintaHinta);
+            kirja.append("hankintaaika",hankintaAika);
+            kirja.append("esittelyteksti",esittelyTeksti);
+            kirja.append("painovuosi",painovuosi);
+            kirja.append("painos",painos);
+
+            fetch("http://localhost:3004/omakirja", {
                 method : 'POST',
-                headers : {
-                    'content-type' : 'application/json',
-                },
-                body : JSON.stringify({
-                    nimi : kirjanNimi,
-                    jarjestysnumero : jarjestysnumero,
-                    kuvausteksti : kuvausTeksti,
-                    kirjailija : kirjailija,
-                    piirtajat : piirtajat,
-                    ensipainovuosi : ensipainovuosi,
-                    painokset : painokset,
-                    idomatsarjat : idOmatSarjat
-                })
+                body : kirja,
             });
         }
 
@@ -64,14 +71,18 @@ const Omankokoelmankirjat = (props) => {
         if (lisaaQuery != "") {
             lisaaKirja();
         }
-        
+
         setKirjanNimi("");
         setjarjestysnumero("");
-        setKuvausTeksti("");
         setKirjailija("");
-        setPiirtajat("");
-        setEnsipainovuosi("");
-        setPainokset("");
+        setKuntoluokka("");
+        setTakaKansiKuva(null);
+        setEtuKansiKuva(null);
+        setHankintaHinta("");
+        setHankintaAika("");
+        setEsittelyTeksti("");
+        setPainovuosi("");
+        setPainos("");
 
     },[lisaaQuery])
 
@@ -85,26 +96,13 @@ const Omankokoelmankirjat = (props) => {
         if (jarjestysnumero != "")
             m.push(jarjestysnumero)
 
-        if (kuvausTeksti != "")
-            m.push(kuvausTeksti)
-
         if (kirjailija != "")
             m.push(kirjailija)
 
-        if (piirtajat != "")
-            m.push(piirtajat);
-        
-        if (ensipainovuosi != "")
-            m.push(ensipainovuosi)
-
-        if (painokset != "")
-            m.push(painokset)
-
         setLisaaQuery(m);
-
-        console.log(m);
-
     }
+
+
 
     return (
 
@@ -114,14 +112,21 @@ const Omankokoelmankirjat = (props) => {
                 <Typography variant="h6" align="center">Tämä on oman kirjahyllyn kokoelman kirjat</Typography>
                 <Typography variant="h6" align="center">Valitun kirjasarjan id on: {props.idOmatSarjat}</Typography>
 
-                <TextField required id="outlined-nimi" label="Nimi" onChange={(e) => {setKirjanNimi(e.target.value)}}></TextField>
-                <TextField required id="outlined-jarjestysnumero" label="Järjestysnumero" onChange={(e) => setjarjestysnumero(e.target.value)}></TextField>
-                <TextField required id="outlined-kuvausteksti" label="Kuvausteksti" onChange={(e) => setKuvausTeksti(e.target.value)}></TextField>
-                <TextField required id="outlined-kirjailija" label="Kirjailija" onChange={(e) => setKirjailija(e.target.value)}></TextField>
-                <TextField required id="outlined-piirtajat" label="Piirtäjät" onChange={(e) => setPiirtajat(e.target.value)}></TextField>
-                <TextField required id="outlined-ensipainovuosi" label="Ensipainovuosi" onChange={(e) => setEnsipainovuosi(e.target.value)}></TextField>
-                <TextField required id="outlined-painokset" label="Painokset" onChange={(e) => setPainokset(e.target.value)}></TextField>
-                <Button variant="outlined" onClick={() => {handlePost()}}>Lisää kirja</Button>
+                <form onSubmit={handlePost}>
+                    <TextField required id="outlined-nimi" label="Nimi" onChange={(e) => {setKirjanNimi(e.target.value)}}></TextField>
+                    <TextField required id="outlined-jarjestysnumero" label="Järjestysnumero" onChange={(e) => setjarjestysnumero(e.target.value)}></TextField>
+                    <TextField required id="outlined-kirjailija" label="Kirjailija" onChange={(e) => setKirjailija(e.target.value)}></TextField>
+                    <TextField required id="outlined-kuntoluokka" label="Kuntoluokka" onChange={(e) => {setKuntoluokka(e.target.value)}}></TextField>
+                    <input type="file" name="takakansikuva" onChange={(e) => setTakaKansiKuva(e.target.files[0])}></input>
+                    <input type="file" name="etukansikuva" onChange={(e) => setEtuKansiKuva(e.target.files[0])}></input>
+                    <TextField required id="outlined-hankintahinta" label="Hankintahinta" onChange={(e) => {setHankintaHinta(e.target.value)}}></TextField>
+                    <TextField required id="outlined-hankintaaika" label="Hankinta-aika" onChange={(e) => {setHankintaAika(e.target.value)}}></TextField>
+                    <TextField required id="outlined-esittelyteksti" label="Esittelyteksti" onChange={(e) => {setEsittelyTeksti(e.target.value)}}></TextField>
+                    <TextField required id="outlined-painovuosi" label="painovuosi" onChange={(e) => setPainovuosi(e.target.value)}></TextField>
+                    <TextField required id="outlined-painos" label="Painos" onChange={(e) => setPainos(e.target.value)}></TextField>
+                    <Button variant="outlined" type="submit">Lisää kirja</Button>
+                </form>
+                
                 
 
                 <TableContainer>
@@ -130,11 +135,13 @@ const Omankokoelmankirjat = (props) => {
                             <TableRow>
                                 <TableCell>Nimi</TableCell>
                                 <TableCell>Järjestysnumero</TableCell>
-                                <TableCell>Kuvausteksti</TableCell>
                                 <TableCell>Kirjailija</TableCell>
-                                <TableCell>Piirtäjä</TableCell>
-                                <TableCell>Ensipainovuosi</TableCell>
-                                <TableCell>Painokset</TableCell>
+                                <TableCell>Kuntoluokka</TableCell>
+                                <TableCell>Hankintahinta</TableCell>
+                                <TableCell>Hankinta-aika</TableCell>
+                                <TableCell>Esittelyteksti</TableCell>
+                                <TableCell>Painovuosi</TableCell>
+                                <TableCell>Painos</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -142,11 +149,13 @@ const Omankokoelmankirjat = (props) => {
                                 <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': {border: 0}}}>
                                     <TableCell component="th" scope="row"><NavLink to='/omakirja' onClick={() => {props.setIdOmaKirja(row.id)}} >{row.nimi}</NavLink></TableCell>
                                     <TableCell>{row.jarjestysnumero}</TableCell>
-                                    <TableCell>{row.kuvausteksti}</TableCell>
                                     <TableCell>{row.kirjailija}</TableCell>
-                                    <TableCell>{row.piirtajat}</TableCell>
-                                    <TableCell>{row.ensipainovuosi}</TableCell>
-                                    <TableCell>{row.painokset}</TableCell>
+                                    <TableCell>{row.kuntoluokka}</TableCell>
+                                    <TableCell>{row.hankintahinta}</TableCell>
+                                    <TableCell>{row.hankintaaika}</TableCell>
+                                    <TableCell>{row.esittelyteksti}</TableCell>
+                                    <TableCell>{row.painovuosi}</TableCell>
+                                    <TableCell>{row.painos}</TableCell>
                                 </TableRow>
 
                             ))}

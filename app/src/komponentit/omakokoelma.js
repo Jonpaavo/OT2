@@ -114,8 +114,8 @@ const OmaKokoelma =(props) => {
                         </TableHead>
                         <TableBody>
 
-                            { kirjaSarjaTable.map((row) => (
-                                <TableRow key={row.idomatsarjat} sx={{ '&:last-child td, &:last-child th': {border: 0}}}>
+                            { kirjaSarjaTable.map && kirjaSarjaTable.map((row,index) => (
+                                <TableRow key={index} sx={{ '&:last-child td, &:last-child th': {border: 0}}}>
                                     <TableCell component="th" scope="row">
                                         <NavLink to='/omankokoelmankirjat' onClick={() => {props.setIdOmatSarjat(row.idomatsarjat)}}>{row.kirjasarja}</NavLink>
                                     </TableCell>

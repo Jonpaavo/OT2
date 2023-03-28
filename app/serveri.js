@@ -2,10 +2,23 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
+const multer = require('multer');
+const path = require('path');
 
 let portti = 3004;
 let osoite = "127.0.0.1";
 // http osoite: http://localhost:3004/kirja/
+
+const storage = multer.diskStorage({
+    destination:'./public/kuvat/',
+    filename:(req,file,cb) => {
+        return cb(null, `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`)
+    }
+})
+
+const upload = multer( {
+    storage : storage
+});
 
 
 app.use(bodyParser.json());
@@ -25,6 +38,69 @@ var connection = mysql.createConnection({
     password : 'root',
     database : 'kirjaarkisto',
     dateStrings : true,
+});
+
+app.post('/kuva', upload.fields([{name: 'takakansi', maxCount : 1}, {name: 'etukansi', maxCount : 1}]), (req, res) => {
+    const name = req.files.filename;
+    const query = 'INSERT INTO kuva (kuvanimi)  VALUES (?)';
+    const query2 = 'INSERT INTO kuva SET?';
+
+    let kuva = {
+        "kuvanimi" : req.files.takakansi[0].filename,
+        "tiedostonimi" : req.files.etukansi[0].filename
+    }
+    
+  
+    connection.query(query2, kuva, (error, result) => {
+        
+        if (error) {
+
+            console.log("VIRHE", error);
+            res.statusCode = 400;
+            res.json({tila : "Virhetila", viesti : "Virhe koodissa."});
+        }
+
+        else {
+            console.log("Tulos:" , result);
+            res.statusCode = 201;
+            res.json({id: result.insertid, name : name});
+        }
+    });
+});
+
+app.put('/kirja/:id',upload.single('takakansi'), (req,res) => {
+
+    console.log(req.body);
+    let takakansikuva = req.file.filename;
+    //let etukansikuva = req.files.filename;
+    let id = req.params.id;
+
+    let query = "UPDATE kirja SET takakansikuva=? WHERE id=?";
+
+    console.log("Muokkaa query:" + query);
+
+    connection.query(query, [takakansikuva, id], function(error, result) {
+
+        
+
+        if (error) {
+
+            console.log("VIRHE!", error);
+            res.statusCode = 400;
+            res.json({tila : "Virhetila", viesti : "Virhe koodissa."});
+    
+        }
+
+        else {
+
+            console.log("R:",result);
+            res.statusCode = 204;
+
+            res.json({id: result.insertid, takakansikuva : takakansikuva});
+            
+        }
+        
+    })
 });
 
 app.get('/kirjasarja', function (req,res) {
@@ -279,7 +355,7 @@ app.get('/omakirja', function (req,res) {
     
 });
 
-app.post('/omakirja', (req,res) => {
+app.post('/omakirja',upload.fields([{name: 'takakansikuva', maxCount : 1}, {name: 'etukansikuva', maxCount : 1}]), (req,res) => {
 
     let nimi = req.body.nimi;
     let jarjestysnumero = req.body.jarjestysnumero;
@@ -290,10 +366,25 @@ app.post('/omakirja', (req,res) => {
     let painokset = req.body.ensipainovuosi;
     let idomatsarjat = req.body.idomatsarjat;
 
+    let kirja = {
+        "nimi" : req.body.nimi,
+        "jarjestysnumero" : req.body.jarjestysnumero,
+        "kirjailija" : req.body.kirjailija,
+        "idomatsarjat" : req.body.idomatsarjat,
+        "kuntoluokka" : req.body.kuntoluokka,
+        "takakansikuva" : req.files.takakansikuva[0].filename,
+        "etukansikuva" : req.files.etukansikuva[0].filename,
+        "hankintahinta" : req.body.hankintahinta,
+        "hankintaaika" : req.body.hankintaaika,
+        "esittelyteksti" : req.body.esittelyteksti,
+        "painovuosi" : req.body.painovuosi,
+        "painos" : req.body.painos
+    }
+
     let query = "INSERT INTO omakirja (nimi, jarjestysnumero, kuvausteksti, kirjailija, piirtajat, ensipainovuosi, painokset, idomatsarjat) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    let query2 = "INSERT INTO omakirja SET?"
 
-
-    connection.query(query, [nimi,jarjestysnumero,kuvausTeksti,kirjailija,piirtajat,ensipainovuosi,painokset,idomatsarjat], function(error,result) {
+    connection.query(query2, kirja, function(error,result) {
 
         if (error) {
 
@@ -306,14 +397,16 @@ app.post('/omakirja', (req,res) => {
 
             console.log("Tulos:" , result);
             res.statusCode = 201;
-            res.json({id: result.insertid, nimi : nimi, jarjestysnumero : jarjestysnumero, kuvausTeksti : kuvausTeksti, kirjailija : kirjailija, piirtajat : piirtajat, ensipainovuosi : ensipainovuosi, painokset : painokset, idomatsarjat : idomatsarjat    })
+            res.json();
         }
     })
 
 })
 
-app.post('/kirja', (req,res) => {
+app.post('/kirja',upload.fields([{name: 'takakansikuva', maxCount : 1}, {name: 'etukansikuva', maxCount : 1}]), (req,res) => {
 
+
+    console.log(req.files);
     let nimi = req.body.nimi;
     let jarjestysnumero = req.body.jarjestysnumero;
     let kuvausTeksti = req.body.kuvausteksti;
@@ -322,11 +415,26 @@ app.post('/kirja', (req,res) => {
     let ensipainovuosi = req.body.ensipainovuosi;
     let painokset = req.body.ensipainovuosi;
     let idKirjaSarja = req.body.idkirjasarja;
+    
 
-    let query = "INSERT INTO kirja (nimi, jarjestysnumero, kuvausteksti, kirjailija, piirtajat, ensipainovuosi, painokset, idkirjasarja) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    let kirja = {
+        "nimi" : req.body.nimi,
+        "jarjestysnumero" : req.body.jarjestysnumero,
+        "kuvausteksti" : req.body.kuvausteksti,
+        "kirjailija" : req.body.kirjailija,
+        "piirtajat" : req.body.piirtajat,
+        "ensipainovuosi" : req.body.ensipainovuosi,
+        "painokset" : req.body.painokset,
+        "idkirjasarja" : req.body.idkirjasarja,
+        "takakansikuva" : req.files.takakansikuva[0].filename,
+        "etukansikuva" : req.files.etukansikuva[0].filename
+    }
+   
 
+    let query = "INSERT INTO kirja (nimi, jarjestysnumero, kuvausteksti, kirjailija, piirtajat, ensipainovuosi, painokset, idkirjasarja,takakansikuva,etukansikuva) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    let query2 = "INSERT INTO kirja SET?"
 
-    connection.query(query, [nimi,jarjestysnumero,kuvausTeksti,kirjailija,piirtajat,ensipainovuosi,painokset,idKirjaSarja], function(error,result) {
+    connection.query(query2, kirja, function(error,result) {
 
         if (error) {
 
@@ -339,7 +447,7 @@ app.post('/kirja', (req,res) => {
 
             console.log("Tulos:" , result);
             res.statusCode = 201;
-            res.json({id: result.insertid, nimi : nimi, jarjestysnumero : jarjestysnumero, kuvausTeksti : kuvausTeksti, kirjailija : kirjailija, piirtajat : piirtajat, ensipainovuosi : ensipainovuosi, painokset : painokset, idKirjaSarja : idKirjaSarja})
+            res.json(result);
         }
     })
 

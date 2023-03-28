@@ -1,7 +1,7 @@
 import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Form, NavLink } from "react-router-dom";
 
 const Kokoelma = (props) => {
 
@@ -14,9 +14,12 @@ const Kokoelma = (props) => {
     const [piirtajat,setPiirtajat] = useState("");
     const [ensipainovuosi,setEnsipainovuosi] = useState("");
     const [painokset,setPainokset] = useState("");
+    const [etuKansiKuva,setEtuKansiKuva] = useState(null);
+    const [takaKansiKuva,setTakaKansiKuva] = useState(null);
     const [lisaaQuery,setLisaaQuery] = useState([]);
     const [idKirjaSarja,setIdKirjaSarja] = useState(props.id);
     const [kirjatTable,setKirjatTable] = useState([props.kirjatTable]);
+    let  kirja = new FormData();
 
     useEffect( () => {
 
@@ -40,22 +43,21 @@ const Kokoelma = (props) => {
 
         const lisaaKirja = async () => {
 
-            fetch("http://localhost:3004/kirja", {
+            let formData = new FormData();
+            formData.append("nimi", kirjanNimi);
+            formData.append("jarjestysnumero", jarjestysnumero);
+            formData.append("kuvausteksti", kuvausTeksti);
+            formData.append("kirjailija",kirjailija);
+            formData.append("piirtajat", piirtajat);
+            formData.append("ensipainovuosi", ensipainovuosi);
+            formData.append("painokset", painokset);
+            formData.append("idkirjasarja", idKirjaSarja);
+            formData.append("takakansikuva", takaKansiKuva);
+            formData.append("etukansikuva", etuKansiKuva);
 
-                method : 'POST',
-                headers : {
-                    'content-type' : 'application/json',
-                },
-                body : JSON.stringify({
-                    nimi : kirjanNimi,
-                    jarjestysnumero : jarjestysnumero,
-                    kuvausteksti : kuvausTeksti,
-                    kirjailija : kirjailija,
-                    piirtajat : piirtajat,
-                    ensipainovuosi : ensipainovuosi,
-                    painokset : painokset,
-                    idkirjasarja : idKirjaSarja,
-                })
+            fetch("http://localhost:3004/kirja/", {
+                method : 'post',
+                body : formData,
             });
         }
 
@@ -71,6 +73,8 @@ const Kokoelma = (props) => {
         setPiirtajat("");
         setEnsipainovuosi("");
         setPainokset("");
+        setTakaKansiKuva(null);
+        setEtuKansiKuva(null);
 
     },[lisaaQuery])
 
@@ -79,33 +83,43 @@ const Kokoelma = (props) => {
         let m = [];
 
         if (kirjanNimi != "")
-            m.push(kirjanNimi)
+            kirja.append("nimi",kirjanNimi)
         
         if (jarjestysnumero != "")
-            m.push(jarjestysnumero)
+            kirja.append("jarjestysnumero",jarjestysnumero)
 
         if (kuvausTeksti != "")
-            m.push(kuvausTeksti)
+            kirja.append("kuvausteksti",kuvausTeksti)
 
         if (kirjailija != "")
-            m.push(kirjailija)
+            kirja.append("kirjailija",kirjailija)
 
         if (piirtajat != "")
-            m.push(piirtajat);
+            kirja.append("piirtajat",piirtajat)
         
         if (ensipainovuosi != "")
-            m.push(ensipainovuosi)
+            kirja.append("ensipainovuosi",ensipainovuosi)
 
         if (painokset != "")
-            m.push(painokset)
+            kirja.append("painokset",painokset)
 
-        setLisaaQuery(m);
+        if (idKirjaSarja != "")
+            kirja.append("idkirjasarja",idKirjaSarja)
+        
+        
+        kirja.append("takakansikuva",takaKansiKuva)
+        
+        
+        kirja.append("etukansikuva",etuKansiKuva)
 
-        console.log(m);
+        console.log("Takakansikuva: " + kirja.get("takakansikuva"));
+        console.log("EtukansiKuva: " + kirja.get("etukansikuva"));
+
+        setLisaaQuery(kirja);
+
+        
 
     }
-
-    
 
     return (
 
@@ -113,15 +127,23 @@ const Kokoelma = (props) => {
             <Container sx={{bgcolor: "green", height: "100vh"}}>
 
                 { props.admin == true &&
-                    <div>                 
-                    <TextField required id="outlined-nimi" label="Nimi" onChange={(e) => setKirjanNimi(e.target.value)}></TextField>
-                    <TextField required id="outlined-jarjestysnumero" label="Järjestysnumero" onChange={(e) => setjarjestysnumero(e.target.value)}></TextField>
-                    <TextField required id="outlined-kuvausteksti" label="Kuvausteksti" onChange={(e) => setKuvausTeksti(e.target.value)}></TextField>
-                    <TextField required id="outlined-kirjailija" label="Kirjailija" onChange={(e) => setKirjailija(e.target.value)}></TextField>
-                    <TextField required id="outlined-piirtajat" label="Piirtäjät" onChange={(e) => setPiirtajat(e.target.value)}></TextField>
-                    <TextField required id="outlined-ensipainovuosi" label="Ensipainovuosi" onChange={(e) => setEnsipainovuosi(e.target.value)}></TextField>
-                    <TextField required id="outlined-painokset" label="Painokset" onChange={(e) => setPainokset(e.target.value)}></TextField>
-                    <Button variant="outlined" onClick={() => {handlePost()}}>Lisää kirja</Button>
+                    <div> 
+                        <form onSubmit={handlePost}>
+                            <TextField required id="outlined-nimi" label="Nimi" onChange={(e) => setKirjanNimi(e.target.value)}></TextField>
+                            <TextField required id="outlined-jarjestysnumero" label="Järjestysnumero" onChange={(e) => setjarjestysnumero(e.target.value)}></TextField>
+                            <TextField required id="outlined-kuvausteksti" label="Kuvausteksti" onChange={(e) => setKuvausTeksti(e.target.value)}></TextField>
+                            <TextField required id="outlined-kirjailija" label="Kirjailija" onChange={(e) => setKirjailija(e.target.value)}></TextField>
+                            <TextField required id="outlined-piirtajat" label="Piirtäjät" onChange={(e) => setPiirtajat(e.target.value)}></TextField>
+                            <TextField required id="outlined-ensipainovuosi" label="Ensipainovuosi" onChange={(e) => setEnsipainovuosi(e.target.value)}></TextField>
+                            <TextField required id="outlined-painokset" label="Painokset" onChange={(e) => setPainokset(e.target.value)}></TextField>
+                            <input type="file" name="takakansikuva" onChange={(e) => {setTakaKansiKuva(e.target.files[0]) ; console.log(e.target.files[0])}}></input>
+                            <input type="file" name="etukansikuva" onChange={(e) => setEtuKansiKuva(e.target.files[0])}></input>
+                            <Button variant="outlined" type="submit">Lisää kirja</Button>
+                        </form>               
+                    
+
+                    
+                    
                     </div>
                 }
                 
@@ -141,8 +163,8 @@ const Kokoelma = (props) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {kirjatTable.map((row) =>(
-                                <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': {border: 0}}}>
+                            {kirjatTable.map && kirjatTable.map((row,index) =>(
+                                <TableRow key={index} sx={{ '&:last-child td, &:last-child th': {border: 0}}}>
                                     <TableCell component="th" scope="row"><NavLink to='/kirja' onClick={() => props.setKirjaId(row.id)}>{row.nimi}</NavLink></TableCell>
                                     <TableCell>{row.jarjestysnumero}</TableCell>
                                     <TableCell>{row.kuvausteksti}</TableCell>
@@ -151,7 +173,6 @@ const Kokoelma = (props) => {
                                     <TableCell>{row.ensipainovuosi}</TableCell>
                                     <TableCell>{row.painokset}</TableCell>
                                 </TableRow>
-
                             ))}
                         </TableBody>
                     </Table>

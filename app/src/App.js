@@ -62,7 +62,6 @@ function App() {
   });
 
   const [kirjaSarjaTable,setKirjaSarjaTable] = useState(() => {
-
     const saved = sessionStorage.getItem("kokoelmat");
     const initialValue = JSON.parse(saved);
     return initialValue || "";
@@ -127,7 +126,7 @@ useEffect ( () => {
           <Route path='kirjautuminen' element={<Kirjautuminen setKirjautumisToken={setKirjautumisToken} kirjautumisToken={kirjautumisToken} setKayttajaId={setKayttajaId} setAdmin={setAdmin} />} />
           <Route path='rekisteroityminen' element={<Rekisteroityminen />} />
           <Route path='kokoelma' element={<Kokoelma id={kirjaSarjaId} setKirjaId={setKirjaId} admin={admin} kirjatTable={kirjatTable} setKirjatTable={setKirjatTable}/>} />
-          <Route path='kirja' element={<Kirja  id={kirjaId}/>} />
+          <Route path='kirja' element={<Kirja  id={kirjaId} admin={admin}/>} />
           <Route path='omakokoelma' element={<OmaKokoelma kayttajaId={kayttajaId} laskuri={laskuri} setIdOmatSarjat={setIdOmatSarjat} />} />
           <Route path='omankokoelmankirjat' element={<Omankokoelmankirjat idOmatSarjat={idOmatSarjat} setIdOmatSarjat={setIdOmatSarjat} setIdOmaKirja={setIdOmaKirja}/>} />
           <Route path='omakirja' element={<OmaKirja idOmaKirja={idOmaKirja} />} />
