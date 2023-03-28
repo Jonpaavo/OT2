@@ -17,6 +17,8 @@ const Kokoelma = (props) => {
     const [lisaaQuery,setLisaaQuery] = useState([]);
     const [idKirjaSarja,setIdKirjaSarja] = useState(props.id);
     const [kirjatTable,setKirjatTable] = useState([props.kirjatTable]);
+    const [muokkaaKirja, setMuokkaaKirja] = useState(false);
+    const [muokkaaKirjanNimi, setMuokkaaKirjanNimi] = useState("");
 
     useEffect( () => {
 
@@ -110,52 +112,76 @@ const Kokoelma = (props) => {
     return (
 
         <>
-            <Container sx={{bgcolor: "green", height: "100vh"}}>
+            <Container sx={{bgcolor: "lightgoldenrodyellow", height: "100vh"}}>
 
-                { props.admin == true &&
+                {!muokkaaKirja ? <div>
                     <div>                 
-                    <TextField required id="outlined-nimi" label="Nimi" onChange={(e) => setKirjanNimi(e.target.value)}></TextField>
-                    <TextField required id="outlined-jarjestysnumero" label="Järjestysnumero" onChange={(e) => setjarjestysnumero(e.target.value)}></TextField>
-                    <TextField required id="outlined-kuvausteksti" label="Kuvausteksti" onChange={(e) => setKuvausTeksti(e.target.value)}></TextField>
-                    <TextField required id="outlined-kirjailija" label="Kirjailija" onChange={(e) => setKirjailija(e.target.value)}></TextField>
-                    <TextField required id="outlined-piirtajat" label="Piirtäjät" onChange={(e) => setPiirtajat(e.target.value)}></TextField>
-                    <TextField required id="outlined-ensipainovuosi" label="Ensipainovuosi" onChange={(e) => setEnsipainovuosi(e.target.value)}></TextField>
-                    <TextField required id="outlined-painokset" label="Painokset" onChange={(e) => setPainokset(e.target.value)}></TextField>
-                    <Button variant="outlined" onClick={() => {handlePost()}}>Lisää kirja</Button>
+                        <TextField required id="outlined-nimi" label="Nimi" onChange={(e) => setMuokkaaKirjanNimi(e.target.value)}></TextField>
+                        <TextField required id="outlined-jarjestysnumero" label="Järjestysnumero" onChange={(e) => setjarjestysnumero(e.target.value)}></TextField>
+                        <TextField required id="outlined-kuvausteksti" label="Kuvausteksti" onChange={(e) => setKuvausTeksti(e.target.value)}></TextField>
+                        <TextField required id="outlined-kirjailija" label="Kirjailija" onChange={(e) => setKirjailija(e.target.value)}></TextField>
+                        <TextField required id="outlined-piirtajat" label="Piirtäjät" onChange={(e) => setPiirtajat(e.target.value)}></TextField>
+                        <TextField required id="outlined-ensipainovuosi" label="Ensipainovuosi" onChange={(e) => setEnsipainovuosi(e.target.value)}></TextField>
+                        <TextField required id="outlined-painokset" label="Painokset" onChange={(e) => setPainokset(e.target.value)}></TextField>
+                        <Button variant="outlined" onClick={() => {handlePost()}}>Lisää kirja</Button>
                     </div>
+                </div>:
+                <div>
+                    { props.admin == true &&
+                    <div>                 
+                        <TextField required id="outlined-nimi" label="Nimi" onChange={(e) => setKirjanNimi(e.target.value)}></TextField>
+                        <TextField required id="outlined-jarjestysnumero" label="Järjestysnumero" onChange={(e) => setjarjestysnumero(e.target.value)}></TextField>
+                        <TextField required id="outlined-kuvausteksti" label="Kuvausteksti" onChange={(e) => setKuvausTeksti(e.target.value)}></TextField>
+                        <TextField required id="outlined-kirjailija" label="Kirjailija" onChange={(e) => setKirjailija(e.target.value)}></TextField>
+                        <TextField required id="outlined-piirtajat" label="Piirtäjät" onChange={(e) => setPiirtajat(e.target.value)}></TextField>
+                        <TextField required id="outlined-ensipainovuosi" label="Ensipainovuosi" onChange={(e) => setEnsipainovuosi(e.target.value)}></TextField>
+                        <TextField required id="outlined-painokset" label="Painokset" onChange={(e) => setPainokset(e.target.value)}></TextField>
+                        <Button variant="outlined" onClick={() => {handlePost()}}>Lisää kirja</Button>
+                    </div>
+                    }
+                        <TableContainer>
+                        <Table sx={{minWidth: 650}} aria-label="simple table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Nimi</TableCell>
+                                    <TableCell>Järjestysnumero</TableCell>
+                                    <TableCell>Kuvausteksti</TableCell>
+                                    <TableCell>Kirjailija</TableCell>
+                                    <TableCell>Piirtäjä</TableCell>
+                                    <TableCell>Ensipainovuosi</TableCell>
+                                    <TableCell>Painokset</TableCell>
+                                    <TableCell>{/* Namiskukkelit */}</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {kirjatTable.map((row) =>(
+                                    <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': {border: 0}}}>
+                                        <TableCell component="th" scope="row"><NavLink to='/kirja' onClick={() => props.setKirjaId(row.id)}>{row.nimi}</NavLink></TableCell>
+                                        <TableCell>{row.jarjestysnumero}</TableCell>
+                                        <TableCell>{row.kuvausteksti}</TableCell>
+                                        <TableCell>{row.kirjailija}</TableCell>
+                                        <TableCell>{row.piirtajat}</TableCell>
+                                        <TableCell>{row.ensipainovuosi}</TableCell>
+                                        <TableCell>{row.painokset}</TableCell>
+                                        { props.admin == true &&
+                                        <TableCell>
+                                            <Button>Muokkaa</Button>
+                                            <Button>Poista</Button>
+                                        </TableCell>
+                                        }
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+
+                </div>
                 }
                 
                 
+                
 
-                <TableContainer>
-                    <Table sx={{minWidth: 650}} aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Nimi</TableCell>
-                                <TableCell>Järjestysnumero</TableCell>
-                                <TableCell>Kuvausteksti</TableCell>
-                                <TableCell>Kirjailija</TableCell>
-                                <TableCell>Piirtäjä</TableCell>
-                                <TableCell>Ensipainovuosi</TableCell>
-                                <TableCell>Painokset</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {kirjatTable.map((row) =>(
-                                <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': {border: 0}}}>
-                                    <TableCell component="th" scope="row"><NavLink to='/kirja' onClick={() => props.setKirjaId(row.id)}>{row.nimi}</NavLink></TableCell>
-                                    <TableCell>{row.jarjestysnumero}</TableCell>
-                                    <TableCell>{row.kuvausteksti}</TableCell>
-                                    <TableCell>{row.kirjailija}</TableCell>
-                                    <TableCell>{row.piirtajat}</TableCell>
-                                    <TableCell>{row.ensipainovuosi}</TableCell>
-                                    <TableCell>{row.painokset}</TableCell>
-                                </TableRow>
-
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                
 
                 
             </Container>
