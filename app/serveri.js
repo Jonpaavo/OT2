@@ -103,9 +103,19 @@ app.put('/kirja/:id',upload.single('takakansi'), (req,res) => {
     })
 });
 
-app.get('/kirjasarja', function (req,res) {
 
+connection.connect((err)=>{
+    if(err) {
+        console.log("[Testosonnit] Yhteys vituillaan :(",err)
+    } else {
+        console.log("[Testosonnit] Yhteys pelittää...")
+}
+});
+
+app.get('/kirjasarja', function (req,res) {
+    let query2 = "SELECT * FROM kirjasarja WHERE idkirjasarja = ?"
     let query = "SELECT * from kirjasarja";
+    let id = req.body.idkirjasarja;
 
     connection.query(query, function(error, result){
 
@@ -451,6 +461,68 @@ app.post('/kirja',upload.fields([{name: 'takakansikuva', maxCount : 1}, {name: '
         }
     })
 
+})
+
+app.delete('/deleteKokoelma/:id', (req, res) => {
+    const id = req.params.id
+    connection.query("DELETE FROM kirjasarja WHERE idkirjasarja = ?", id, (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    })
+})
+
+app.put('/kirjasarja/:id', (req, res) => {
+    let kirjasarja = req.body.kirjasarja;
+    let kustantaja = req.body.kustantaja;
+    let kuvaus = req.body.kuvaus;
+    let luokittelu = req.body.luokittelu;
+    let id = req.params.id;
+    console.log("Päästiin servulle puttaamaan")
+
+    let query = "UPDATE kirjasarja SET kirjasarja = ?, kustantaja = ?, kuvaus = ?, luokittelu = ? WHERE idkirjasarja = ?"
+
+    connection.query(query,[kirjasarja,kustantaja,kuvaus, luokittelu, id], function(err, result) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+            console.log(kirjasarja,kustantaja,kuvaus,luokittelu,id);
+        }
+    })
+})
+
+app.delete('/deleteOmatKokoelma/:id', (req, res) => {
+    const id = req.params.id
+    connection.query("DELETE FROM omatsarjat WHERE idomatsarjat = ?", id, (err, result) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+        }
+    })
+})
+
+app.put('/omatsarjat/:id', (req, res) => {
+    let kirjasarja = req.body.kirjasarja;
+    let kustantaja = req.body.kustantaja;
+    let kuvaus = req.body.kuvaus;
+    let luokittelu = req.body.luokittelu;
+    let id = req.params.id;
+    console.log("Päästiin servulle puttaamaan")
+
+    let query = "UPDATE omatsarjat SET kirjasarja = ?, kustantaja = ?, kuvaus = ?, luokittelu = ? WHERE idomatsarjat = ?"
+
+    connection.query(query,[kirjasarja,kustantaja,kuvaus, luokittelu, id], function(err, result) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+            console.log(kirjasarja,kustantaja,kuvaus,luokittelu,id);
+        }
+    })
 })
 
 

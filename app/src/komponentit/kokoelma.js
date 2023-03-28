@@ -124,7 +124,7 @@ const Kokoelma = (props) => {
     return (
 
         <>
-            <Container sx={{bgcolor: "green", height: "100vh"}}>
+            <Container sx={{bgcolor: "lightgoldenrodyellow", height: "100vh"}}>
 
                 { props.admin == true &&
                     <div> 
@@ -147,38 +147,42 @@ const Kokoelma = (props) => {
                     </div>
                 }
                 
-                
-
-                <TableContainer>
-                    <Table sx={{minWidth: 650}} aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Nimi</TableCell>
-                                <TableCell>Järjestysnumero</TableCell>
-                                <TableCell>Kuvausteksti</TableCell>
-                                <TableCell>Kirjailija</TableCell>
-                                <TableCell>Piirtäjä</TableCell>
-                                <TableCell>Ensipainovuosi</TableCell>
-                                <TableCell>Painokset</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {kirjatTable.map && kirjatTable.map((row,index) =>(
-                                <TableRow key={index} sx={{ '&:last-child td, &:last-child th': {border: 0}}}>
-                                    <TableCell component="th" scope="row"><NavLink to='/kirja' onClick={() => props.setKirjaId(row.id)}>{row.nimi}</NavLink></TableCell>
-                                    <TableCell>{row.jarjestysnumero}</TableCell>
-                                    <TableCell>{row.kuvausteksti}</TableCell>
-                                    <TableCell>{row.kirjailija}</TableCell>
-                                    <TableCell>{row.piirtajat}</TableCell>
-                                    <TableCell>{row.ensipainovuosi}</TableCell>
-                                    <TableCell>{row.painokset}</TableCell>
+                    
+                        <TableContainer>
+                        <Table sx={{minWidth: 650}} aria-label="simple table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Nimi</TableCell>
+                                    <TableCell>Järjestysnumero</TableCell>
+                                    <TableCell>Kuvausteksti</TableCell>
+                                    <TableCell>Kirjailija</TableCell>
+                                    <TableCell>Piirtäjä</TableCell>
+                                    <TableCell>Ensipainovuosi</TableCell>
+                                    <TableCell>Painokset</TableCell>
+                                    <TableCell>{/* Namiskukkelit */}</TableCell>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-
-                
+                            </TableHead>
+                            <TableBody>
+                                {kirjatTable.map((row) =>(
+                                    <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': {border: 0}}}>
+                                        <TableCell component="th" scope="row"><NavLink to='/kirja' onClick={() => props.setKirjaId(row.id)}>{row.nimi}</NavLink></TableCell>
+                                        <TableCell>{row.jarjestysnumero}</TableCell>
+                                        <TableCell>{row.kuvausteksti}</TableCell>
+                                        <TableCell>{row.kirjailija}</TableCell>
+                                        <TableCell>{row.piirtajat}</TableCell>
+                                        <TableCell>{row.ensipainovuosi}</TableCell>
+                                        <TableCell>{row.painokset}</TableCell>
+                                        { props.admin == true &&
+                                        <TableCell>
+                                            <Button>Muokkaa</Button>
+                                            <Button>Poista</Button>
+                                        </TableCell>
+                                        }
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
             </Container>
         </>
     )

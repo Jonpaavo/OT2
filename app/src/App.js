@@ -7,6 +7,7 @@ import { Kirjat } from './komponentit/Kirjat';
 import { Kirjautuminen } from './komponentit/Kirjautuminen';
 import { Kokoelma } from './komponentit/kokoelma';
 import { Kokoelmat } from './komponentit/Kokoelmat';
+import { Muokkaaja } from './komponentit/Muokkaaja';
 import { OmaKirja }  from './komponentit/omakirja';
 import { OmaKokoelma } from './komponentit/omakokoelma';
 import { Omankokoelmankirjat } from './komponentit/omankokoelmankirjat';
@@ -73,6 +74,12 @@ const [kirjatTable,setKirjatTable] = useState(() => {
   return initialValue || "";
 });
 
+const [muokkausKohde,setMuokkausKohde] = useState(() => {
+  const saved = sessionStorage.getItem("muokkauskohde");
+  const initialValue = JSON.parse(saved);
+  return initialValue || "";
+});
+
 
   useEffect( () => {
     window.sessionStorage.setItem("kirjaSarjaId", JSON.stringify(kirjaSarjaId));
@@ -110,6 +117,10 @@ useEffect ( () => {
   window.sessionStorage.setItem('kirja', JSON.stringify(kirjatTable));
 },[kirjatTable])
 
+useEffect ( () => {
+  window.sessionStorage.setItem('muokkauskohde', JSON.stringify(muokkausKohde));
+},[muokkausKohde])
+
   return (
 
     <>
@@ -130,6 +141,7 @@ useEffect ( () => {
           <Route path='omakokoelma' element={<OmaKokoelma kayttajaId={kayttajaId} laskuri={laskuri} setIdOmatSarjat={setIdOmatSarjat} />} />
           <Route path='omankokoelmankirjat' element={<Omankokoelmankirjat idOmatSarjat={idOmatSarjat} setIdOmatSarjat={setIdOmatSarjat} setIdOmaKirja={setIdOmaKirja}/>} />
           <Route path='omakirja' element={<OmaKirja idOmaKirja={idOmaKirja} />} />
+          <Route path='muokkaus' element={<Muokkaaja setMuokkausKohde={setMuokkausKohde} />} />
 
           
       </Routes>
