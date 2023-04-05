@@ -36,11 +36,11 @@ const AppiBaari = (props) =>  {
                     }
                     
                     {props.kirjautumisToken == false  &&
-                        <Button variant="h6" href="kirjautuminen">Kirjaudu sisään</Button>
+                        <Button data-testid="appbar_kirjaudu" variant="h6" href="kirjautuminen">Kirjaudu sisään</Button>
                     }
 
                     { props.kirjautumisToken == true  &&
-                        <Button variant="h6" href="kirjautuminen" onClick={() => {handleKirjautumisToken() ; handleAdmin()}}>Kirjaudu ulos</Button>
+                        <Button data-testid="appbar_kirjaudu_ulos" variant="h6" href="kirjautuminen" onClick={() => {handleKirjautumisToken() ; handleAdmin()}}>Kirjaudu ulos</Button>
 
                     }
                 </Toolbar>

@@ -1,5 +1,6 @@
 import { Box, Button, Container, TextField, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom";
 
 const Kirjautuminen = (props) => {
 
@@ -12,6 +13,8 @@ const Kirjautuminen = (props) => {
     const [query,setQuery] = useState("");
     const [tiedot,setTiedot] = useState([]);
     const [laskuri,setLaskuri] = useState(0);
+
+    const [kirjauduElement, setKirjauduElement] = useState("ei kirjauduttu");
     
 
     useEffect( () => {
@@ -38,6 +41,8 @@ const Kirjautuminen = (props) => {
                 props.setKirjautumisToken(true);
                 props.setKayttajaId(id);
                 setTiedot("");
+
+                setKirjauduElement("kirjauduttu");
             }
 
             if (tarkistaAdmin == true) {
@@ -80,10 +85,13 @@ const Kirjautuminen = (props) => {
                 <Box component="form" sx={{}} noValidate autoComplete="off">
 
                     <div>
-                        <TextField required id="outlined-username" label="Käyttäjänimi" onChange={(e) => setInputNimi(e.target.value)} />
-                        <TextField required id="outlined-password" label="Salasana" type="password" onChange={(e) => setInputSalasana(e.target.value)} />
-                        <Button variant="outlined" onClick={() => {handleKirjautuminen()}}>Kirjaudu sisään</Button>
+                        <TextField data-testid="kirjaudu_input" required id="outlined-username" label="Käyttäjänimi" onChange={(e) => setInputNimi(e.target.value)} />
+                        <TextField data-testid="salasana_input" required id="outlined-password" label="Salasana" type="password" onChange={(e) => setInputSalasana(e.target.value)} />
+                        <Button data-testid="kirjaudu_button" variant="outlined" onClick={() => {handleKirjautuminen()}}>Kirjaudu sisään</Button>
 
+
+                        {/* Tämä on testiä varten, muutetaan/poistetaan ? */}
+                        <Typography>{kirjauduElement}</Typography>
                     </div>
 
 
