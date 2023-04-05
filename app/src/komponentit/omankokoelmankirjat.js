@@ -20,7 +20,20 @@ const Omankokoelmankirjat = (props) => {
     const [painovuosi,setPainovuosi] = useState("");
     const [painos,setPainos] = useState("");
     const [lisaaQuery,setLisaaQuery] = useState([]);
-    
+    const [muokkaaKirja,setMuokkaaKirja] = useState(false);
+    const [kirjaId,setKirjaId] = useState("");
+    const [muokkaaNimi,setMuokkaaNimi] = useState("");
+    const [muokkaaJarjestysNumero,setMuokkaaJarjestysNumero] = useState("");
+    const [muokkaaKirjailija,setMuokkaaKirjailija] = useState("");
+    const [muokkaaKuntoLuokka,setMuokkaaKuntoLuokka] = useState("");
+    const [muokkaaHankintaHinta,setMuokkaaHankintaHinta] = useState("");
+    const [muokkaaHankintaAika,setMuokkaaHankintaAika] = useState("");
+    const [muokkaaEsittelyTeksti,setMuokkaaEsittelyTeksti] = useState("");
+    const [muokkaaPainoVuosi,setMuokkaaPainoVuosi] = useState("");
+    const [muokkaaPainos,setMuokkaaPainos] = useState("");
+    const [muokkaaLaskuri,setMuokkaaLaskuri] = useState(0);
+    const [poistaIidee,setPoistaIidee] = useState("");
+    const [poistaLaskuri,setPoistaLaskuri] = useState(0);
     
     
 
@@ -84,7 +97,66 @@ const Omankokoelmankirjat = (props) => {
         setPainovuosi("");
         setPainos("");
 
-    },[lisaaQuery])
+    },[lisaaQuery]);
+
+    useEffect( () => {
+
+        const Muokkaa = async () => {
+            
+
+            fetch("http://localhost:3004/omakirja/"+kirjaId, {
+
+                method : 'PUT',
+                headers : {
+                    'Content-Type' : 'application/json',
+                },
+                body : JSON.stringify({
+                    nimi : muokkaaNimi,
+                    jarjestysnumero : muokkaaJarjestysNumero,
+                    kirjailija : muokkaaKirjailija,
+                    kuntoluokka : muokkaaKuntoLuokka,
+                    hankintahinta : muokkaaHankintaHinta,
+                    hankintaaika : muokkaaHankintaAika,
+                    esittelyteksti : muokkaaEsittelyTeksti,
+                    painovuosi : muokkaaPainoVuosi,
+                    painos : muokkaaPainos,
+                })
+            });
+        }
+
+        if (muokkaaLaskuri > 0) {
+
+            Muokkaa();     
+        }
+
+        setMuokkaaNimi("");
+        setMuokkaaJarjestysNumero("");
+        setMuokkaaKirjailija("");
+        setMuokkaaKuntoLuokka("");
+        setMuokkaaHankintaHinta("");
+        setMuokkaaHankintaAika("");
+        setMuokkaaEsittelyTeksti("");
+        setMuokkaaPainoVuosi("");
+        setMuokkaaPainos("");
+
+    },[muokkaaLaskuri])
+
+    useEffect( () => {
+
+        const poistaKirja = async () => {
+
+            fetch("http://localhost:3004/omakirja/" + poistaIidee, {
+                method : 'DELETE'
+            });
+        }
+
+        if (poistaLaskuri > 0) {
+            poistaKirja();
+        }
+
+        
+        
+    },[poistaLaskuri]);
 
     const handlePost = () => {
 
@@ -104,6 +176,15 @@ const Omankokoelmankirjat = (props) => {
         console.log("Terve")
     }
 
+    const handleMuokkaus = () => {
+        setMuokkaaLaskuri(muokkaaLaskuri + 1);
+        
+    }
+
+    const toggleMuokkaus = (id) => {
+        setMuokkaaKirja(!muokkaaKirja);
+        setKirjaId(id);
+    }
 
 
     return (
@@ -114,20 +195,44 @@ const Omankokoelmankirjat = (props) => {
                 <Typography variant="h6" align="center">Tämä on oman kirjahyllyn kokoelman kirjat</Typography>
                 <Typography variant="h6" align="center">Valitun kirjasarjan id on: {props.idOmatSarjat}</Typography>
 
-                <form onSubmit={handlePost}>
-                    <TextField required id="outlined-nimi" label="Nimi" onChange={(e) => {setKirjanNimi(e.target.value)}}></TextField>
-                    <TextField required id="outlined-jarjestysnumero" label="Järjestysnumero" onChange={(e) => setjarjestysnumero(e.target.value)}></TextField>
-                    <TextField required id="outlined-kirjailija" label="Kirjailija" onChange={(e) => setKirjailija(e.target.value)}></TextField>
-                    <TextField required id="outlined-kuntoluokka" label="Kuntoluokka" onChange={(e) => {setKuntoluokka(e.target.value)}}></TextField>
-                    <input type="file" name="takakansikuva" onChange={(e) => setTakaKansiKuva(e.target.files[0])}></input>
-                    <input type="file" name="etukansikuva" onChange={(e) => setEtuKansiKuva(e.target.files[0])}></input>
-                    <TextField required id="outlined-hankintahinta" label="Hankintahinta" onChange={(e) => {setHankintaHinta(e.target.value)}}></TextField>
-                    <TextField required id="outlined-hankintaaika" label="Hankinta-aika" onChange={(e) => {setHankintaAika(e.target.value)}}></TextField>
-                    <TextField required id="outlined-esittelyteksti" label="Esittelyteksti" onChange={(e) => {setEsittelyTeksti(e.target.value)}}></TextField>
-                    <TextField required id="outlined-painovuosi" label="painovuosi" onChange={(e) => setPainovuosi(e.target.value)}></TextField>
-                    <TextField required id="outlined-painos" label="Painos" onChange={(e) => setPainos(e.target.value)}></TextField>
-                    <Button variant="outlined" type="submit">Lisää kirja</Button>
-                </form>
+
+                { !muokkaaKirja ? <div>
+
+                    <form onSubmit={handlePost}>
+                        <TextField required id="outlined-nimi" label="Nimi" onChange={(e) => {setKirjanNimi(e.target.value)}}></TextField>
+                        <TextField required id="outlined-jarjestysnumero" label="Järjestysnumero" onChange={(e) => setjarjestysnumero(e.target.value)}></TextField>
+                        <TextField required id="outlined-kirjailija" label="Kirjailija" onChange={(e) => setKirjailija(e.target.value)}></TextField>
+                        <TextField required id="outlined-kuntoluokka" label="Kuntoluokka" onChange={(e) => {setKuntoluokka(e.target.value)}}></TextField>
+                        <input type="file" name="takakansikuva" onChange={(e) => setTakaKansiKuva(e.target.files[0])}></input>
+                        <input type="file" name="etukansikuva" onChange={(e) => setEtuKansiKuva(e.target.files[0])}></input>
+                        <TextField required id="outlined-hankintahinta" label="Hankintahinta" onChange={(e) => {setHankintaHinta(e.target.value)}}></TextField>
+                        <TextField required id="outlined-hankintaaika" label="Hankinta-aika" onChange={(e) => {setHankintaAika(e.target.value)}}></TextField>
+                        <TextField required id="outlined-esittelyteksti" label="Esittelyteksti" onChange={(e) => {setEsittelyTeksti(e.target.value)}}></TextField>
+                        <TextField required id="outlined-painovuosi" label="painovuosi" onChange={(e) => setPainovuosi(e.target.value)}></TextField>
+                        <TextField required id="outlined-painos" label="Painos" onChange={(e) => setPainos(e.target.value)}></TextField>
+                        <Button variant="outlined" type="submit">Lisää kirja</Button>
+                    </form>
+
+
+                </div> : 
+                
+                <div>
+                    <form onSubmit={handleMuokkaus}>
+                        <TextField required id="outlined-nimi" label="Nimi" onChange={(e) => {setMuokkaaNimi(e.target.value)}}></TextField>
+                        <TextField required id="outlined-jarjestysnumero" label="Järjestysnumero" onChange={(e) => setMuokkaaJarjestysNumero(e.target.value)}></TextField>
+                        <TextField required id="outlined-kirjailija" label="Kirjailija" onChange={(e) => setMuokkaaKirjailija(e.target.value)}></TextField>
+                        <TextField required id="outlined-kuntoluokka" label="Kuntoluokka" onChange={(e) => {setMuokkaaKuntoLuokka(e.target.value)}}></TextField>
+                        <TextField required id="outlined-hankintahinta" label="Hankintahinta" onChange={(e) => {setMuokkaaHankintaHinta(e.target.value)}}></TextField>
+                        <TextField required id="outlined-hankintaaika" label="Hankinta-aika" onChange={(e) => {setMuokkaaHankintaAika(e.target.value)}}></TextField>
+                        <TextField required id="outlined-esittelyteksti" label="Esittelyteksti" onChange={(e) => {setMuokkaaEsittelyTeksti(e.target.value)}}></TextField>
+                        <TextField required id="outlined-painovuosi" label="painovuosi" onChange={(e) => setMuokkaaPainoVuosi(e.target.value)}></TextField>
+                        <TextField required id="outlined-painos" label="Painos" onChange={(e) => setMuokkaaPainos(e.target.value)}></TextField>
+                        <Button variant="outlined" onClick={() => {toggleMuokkaus()}}>Peru muokkaus</Button>
+                        <Button variant="outlined" type="submit">Muokkaa</Button>
+                    </form>
+                </div>}
+
+                
                 
                 
 
@@ -147,8 +252,8 @@ const Omankokoelmankirjat = (props) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {kirjatTable.map((row) =>(
-                                <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': {border: 0}}}>
+                            {kirjatTable.map((row,index) =>(
+                                <TableRow key={index} sx={{ '&:last-child td, &:last-child th': {border: 0}}}>
                                     <TableCell component="th" scope="row"><NavLink to='/omakirja' onClick={() => {props.setIdOmaKirja(row.id)}} >{row.nimi}</NavLink></TableCell>
                                     <TableCell>{row.jarjestysnumero}</TableCell>
                                     <TableCell>{row.kirjailija}</TableCell>
@@ -158,6 +263,8 @@ const Omankokoelmankirjat = (props) => {
                                     <TableCell>{row.esittelyteksti}</TableCell>
                                     <TableCell>{row.painovuosi}</TableCell>
                                     <TableCell>{row.painos}</TableCell>
+                                    <TableCell><Button onClick={() => {toggleMuokkaus(row.id)}}>Muokkaa</Button></TableCell>
+                                    <TableCell><Button onClick={() => {setPoistaIidee(row.id) ; setPoistaLaskuri(poistaLaskuri + 1)}}>Poista</Button></TableCell>
                                 </TableRow>
 
                             ))}

@@ -525,6 +525,80 @@ app.put('/omatsarjat/:id', (req, res) => {
     })
 })
 
+app.put('/omatsarjat/:id', (req, res) => {
+    let kirjasarja = req.body.kirjasarja;
+    let kustantaja = req.body.kustantaja;
+    let kuvaus = req.body.kuvaus;
+    let luokittelu = req.body.luokittelu;
+    let id = req.params.id;
+    console.log("Päästiin servulle puttaamaan")
+
+    let query = "UPDATE omatsarjat SET kirjasarja = ?, kustantaja = ?, kuvaus = ?, luokittelu = ? WHERE idomatsarjat = ?"
+
+    connection.query(query,[kirjasarja,kustantaja,kuvaus, luokittelu, id], function(err, result) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(result);
+            console.log(kirjasarja,kustantaja,kuvaus,luokittelu,id);
+        }
+    })
+})
+
+app.put('/omakirja/:id', (req, res) => {
+
+    let nimi = req.body.nimi;
+    let jarjestysnumero = req.body.jarjestysnumero;
+    let kirjailija = req.body.kirjailija;
+    let kuntoluokka = req.body.kuntoluokka;
+    let hankintahinta = req.body.hankintahinta;
+    let hankintaaika = req.bodyhankintaaika;
+    let esittelyteksti = req.body.esittelyteksti;
+    let painovuosi = req.body.painovuosi;
+    let painos = req.body.painos;
+    let id = req.params.id;
+    let query = "UPDATE omakirja SET nimi = ?, jarjestysnumero = ?, kirjailija = ?, kuntoluokka = ?, hankintahinta = ?, hankintaaika = ?, esittelyteksti = ?, painovuosi = ?, painos = ? where id = ?"
+
+    connection.query(query,[nimi, jarjestysnumero, kirjailija, kuntoluokka, hankintahinta, hankintaaika, esittelyteksti, painovuosi, painos, id], function(error, result) {
+
+        if (error) {
+
+            console.log("VIRHE", error);
+            res.statusCode = 400;
+            res.json({tila : "Virhetila", viesti : "Virhe koodissa."});
+        }
+
+        else {
+
+            console.log("Tulos:" , result);
+            res.statusCode = 201;
+            res.json(result);
+        }
+    })
+})
+
+app.delete('/omakirja/:id', (req, res) => {
+
+    let id = req.params.id
+    let query = "DELETE FROM omakirja WHERE id = ?";
+    connection.query(query, id, (error, result) => {
+
+         if (error) {
+
+            console.log("VIRHE", error);
+            res.statusCode = 400;
+            res.json({tila : "Virhetila", viesti : "Virhe koodissa."});
+        }
+
+        else {
+
+            console.log("Tulos:" , result);
+            res.statusCode = 201;
+            res.json(result);
+        }
+    })
+})
+
 
 app.listen(portti, osoite, () => {
 

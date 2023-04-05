@@ -1,4 +1,4 @@
-import { Container, Typography } from "@mui/material";
+import { Button, Container, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
 const OmaKirja = (props) => {
@@ -72,7 +72,7 @@ const OmaKirja = (props) => {
                 <Typography variant="h6" align="center">Tässä on kirjan esittelyteksti: {esittelyTeksti}</Typography>
                 <Typography variant="h6" align="center">Tässä on kirjan painovuosi: {painovuosi}</Typography>
                 <Typography variant="h6" align="center">Tässä on kirjan painos: {painos}</Typography>
-
+        
                 <img src={takaKansi} height={200} width={200} />
                 <img src={etukansi} height={200} width={200} />
             </Container>

@@ -167,15 +167,15 @@ const OmaKokoelma =(props) => {
                 <Typography variant="h6" align="center">Tämä on oma kokoelma</Typography>
                 {!muokkaaKokoelmat ? 
 
-                    <form onSubmit={handleSubmit}>
+                    <div>
                         <Typography variant="h6" align="center">Muokkaus</Typography>
                         <TextField required id="outlined-kirjasarja" label="Kirjasarja"  defaultValue={muokkaaKirjaSarja} onChange={(e) => setMuokkaaKirjaSarja(e.target.value)} />
                             <TextField required id="outlined-kustantaja" label="Kustantaja" defaultValue={muokkaaKustantaja} onChange={(e) => setMuokkaaKustantaja(e.target.value)} />
                             <TextField required id="outlined-kuvaus" label="Kuvaus" defaultValue={muokkaaKuvaus} onChange={(e) => setMuokkaaKuvaus(e.target.value)} />
                             <TextField required id="outlined-luokittelu" label="Luokittelu" defaultValue={muokkaaLuokittelu} onChange={(e) => setMuokkaaLuokittelu(e.target.value)} />
-                            <Button variant="outlined" type="submit" >Muokkaa kokoelma</Button>
+                            <Button variant="outlined" onClick={() => {setLaskuri(laskuri + 1)}} >Muokkaa kokoelma</Button>
                             <Button variant="outlined" onClick={() => {peruMuokkaus()}}>Peru muokkaus</Button>
-                    </form>
+                    </div>
                     :
                     <div>
                         <div>
