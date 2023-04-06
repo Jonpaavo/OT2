@@ -41,7 +41,7 @@ const Kirjautuminen = (props) => {
                 console.log("Nyt kirjauduttiin!")
                 
 
-                setKirjauduElement("kirjauduttu");
+                setKirjauduElement("penis");
             }
 
             if (tarkistaAdmin == true) {
@@ -84,13 +84,13 @@ const Kirjautuminen = (props) => {
                 <Box component="form" sx={{}} noValidate autoComplete="off">
 
                     <div>
-                        <TextField data-testid="kirjaudu_input" required id="outlined-username" label="Käyttäjänimi" onChange={(e) => setInputNimi(e.target.value)} />
-                        <TextField data-testid="salasana_input" required id="outlined-password" label="Salasana" type="password" onChange={(e) => setInputSalasana(e.target.value)} />
+                        <TextField inputProps={{ "data-testid": "kirjaudu_input" }} required id="outlined-username" value={inputNimi} label="Käyttäjänimi" onChange={(e) => setInputNimi(e.target.value)} />
+                        <TextField inputProps={{ "data-testid": "salasana_input" }} required id="outlined-password" value={inputSalasana} label="Salasana" type="password" onChange={(e) => setInputSalasana(e.target.value)} />
                         <Button data-testid="kirjaudu_button" variant="outlined" onClick={() => {handleKirjautuminen()}}>Kirjaudu sisään</Button>
 
 
                         {/* Tämä on testiä varten, muutetaan/poistetaan ? */}
-                        <Typography>{kirjauduElement}</Typography>
+                        <Typography data-testid="kirjaudu_typo">{kirjauduElement}</Typography>
                     </div>
 
 

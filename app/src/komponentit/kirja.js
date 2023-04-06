@@ -1,5 +1,5 @@
-import { Container, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Container, Typography, Button, TextField } from "@mui/material";
+import { useEffect, useState, Link } from "react";
 
 const Kirja = (props) => {
 
@@ -13,13 +13,21 @@ const Kirja = (props) => {
     const [query,setQuery] = useState("?id=" + props.id);
     const [takaKansiKuva,setTakaKansiKuva] = useState({});
     const [etuKansiKuva,setEtuKansiKuva] = useState({});
-    const [muokkaa,setMuokkaa] = useState(false);
+    const [muokkaaKirja,setMuokkaaKirja] = useState(false);
     const [muokkaaIidee,setMuokkaaIidee] = useState(props.id);
     const [takaKannenSrc,setTakaKannenSrc] = useState("");
     const [etuKannenSrc,setEtuKannenSrc] = useState("");
     const takaKansi = window.location.origin + "/kuvat/" + takaKannenSrc;
     const etukansi = window.location.origin + "/kuvat/" + etuKannenSrc;
-
+    const [muokkaaKirjanNimi, setMuokkaaKirjanNimi] = useState("");
+    const [muokkaaKirjanJärjestysNro, setMuokkaaKirjanJärjestysNro] = useState("")
+    const [muokkaaKirjanKirjailija, setMuokkaaKirjanKirjailija] = useState("");
+    const [muokkaaKirjanPiirtäjä, setMuokkaaKirjanPiirtäjä] = useState("");
+    const [muokkaaKirjanPainoVuosi, setMuokkaaKirjanPainosVuosi] = useState("");
+    const [muokkaaKirjanKuvaus, setMuokkaaKirjanKuvaus] = useState("");
+    const [muokkaaKirjanPainos, setMuokkaaKirjanPainos] = useState("");
+    const [muokkaaLaskuri, setMuokkaaLaskuri] = useState(0);
+    const [poistaLaskuri, setPoistaLaskuri] = useState(0);
   
 
 
@@ -55,6 +63,44 @@ const Kirja = (props) => {
 
     },[props.id])
 
+    useEffect( () => {
+
+        const Muokkaa = async () => {
+            
+            console.log("Yritetään fetchaa muokkaus")
+            fetch("http://localhost:3004/kirja/"+props.id, {
+                
+                method : 'PUT',
+                headers : {
+                    'Content-Type' : 'application/json',
+                },
+                body : JSON.stringify({
+                    nimi : muokkaaKirjanNimi,
+                    jarjestysnumero : muokkaaKirjanJärjestysNro,
+                    kuvausteksti : muokkaaKirjanKuvaus,
+                    kirjailija : muokkaaKirjanKirjailija,
+                    piirtajat : muokkaaKirjanPiirtäjä,
+                    ensipainovuosi : muokkaaKirjanPainoVuosi,
+                    painokset : muokkaaKirjanPainos,
+                })
+            });
+            console.log("Muokkaa() sisällä")
+        }
+
+        if (muokkaaLaskuri > 0) {
+            console.log("muokkauslaskuri enemmän kuin 0")
+            Muokkaa();     
+        }
+
+        setMuokkaaKirjanNimi("")
+        setMuokkaaKirjanJärjestysNro("")
+        setMuokkaaKirjanKuvaus("")
+        setMuokkaaKirjanKirjailija("")
+        setMuokkaaKirjanPiirtäjä("")
+        setMuokkaaKirjanPainosVuosi("")
+        setMuokkaaKirjanPainos("")
+
+    },[muokkaaLaskuri])
 
     const fileOnChangeTakaKansi = (event) => {
         setTakaKansiKuva(event.target.files[0]);
@@ -89,14 +135,40 @@ const Kirja = (props) => {
     }
 
     
-
+    /*
     const handleMuokkaus = () => {
         setMuokkaa(true);
     }
-
+    */
     
+    const toggleMuokkaaKirja = () => {
+        setMuokkaaKirja(!muokkaaKirja)
 
+    }
 
+    const peruKirjaMuokkaus = () => {
+        setMuokkaaKirjanNimi("")
+        setMuokkaaKirjanKirjailija("")
+        setMuokkaaKirjanPiirtäjä("")
+        setMuokkaaKirjanPainosVuosi("")
+        setMuokkaaKirjanKuvaus("")
+        setMuokkaaKirjanPainos("")
+
+        toggleMuokkaaKirja()
+    }
+
+    const handleSubmit = () => {
+        setMuokkaaLaskuri(muokkaaLaskuri+1)
+        console.log(muokkaaLaskuri)
+    }
+
+    const poistaKirja = () => {
+        fetch("http://localhost:3004/kirja/"+props.id,{
+
+            method : 'DELETE'}).then((response)=> {
+                    console.log("Poistettiin id: ",props.id," - Response on: ",response);
+            })
+    }
     
 
     return (
@@ -104,20 +176,45 @@ const Kirja = (props) => {
         <>
             <Container sx={{bgcolor: "brown", height: "100vh"}}>
                 <Typography variant="h6" align="center">Tämä on yhden kirjan sivu</Typography>
-                <Typography variant="h6" align="center">Tämä on klikatun kirjan id: {props.id}</Typography>
-                <Typography variant="h6" align="center">Tässä on kirjan nimi: {kirjanNimi}</Typography>
-                <Typography variant="h6" align="center">Tässä on kirjan kirjailijat: {kirjailijat}</Typography>
-                <Typography variant="h6" align="center">Tässä on kirjan piirtäjät: {piirtajat}</Typography>
-                <Typography variant="h6" align="center">Tässä on kirjan ensipainovuosi: {ensipainovuosi}</Typography>
-                <Typography variant="h6" align="center">Tässä on kirjan kuvausteksti: {kuvausTeksti}</Typography>
-                <Typography variant="h6" align="center">Tässä on kirjan painokset: {painokset}</Typography>
+                {!muokkaaKirja ? 
+                <div>
+                    <Typography variant="h6" align="center">Tämä on klikatun kirjan id: {props.id}</Typography>
+                    <Typography variant="h6" align="center">Tässä on kirjan nimi: {kirjanNimi}</Typography>
+                    <Typography variant="h6" align="center">Tässä on kirjan kirjailijat: {kirjailijat}</Typography>
+                    <Typography variant="h6" align="center">Tässä on kirjan piirtäjät: {piirtajat}</Typography>
+                    <Typography variant="h6" align="center">Tässä on kirjan ensipainovuosi: {ensipainovuosi}</Typography>
+                    <Typography variant="h6" align="center">Tässä on kirjan kuvausteksti: {kuvausTeksti}</Typography>
+                    <Typography variant="h6" align="center">Tässä on kirjan painokset: {painokset}</Typography>
 
-                { props.admin &&
-                    <div><button onClick={() => handleMuokkaus()}>Muokkaa</button></div>
+                    { props.admin &&
+                        <div>
+                            <Button variant="contained" onClick={() => toggleMuokkaaKirja()}>Muokkaa</Button>
+                            <Button variant="contained" href="/kokoelma" onClick={() => poistaKirja()}>Poista</Button>
+                        </div>
 
-                }
+                    }
+
+                    <img src={takaKansi} height={200} width={200} />
+                    <img src={etukansi} height={200} width={200} />
+                </div>
+                : 
+                <form onSubmit={handleSubmit}> 
+                    <Typography variant="h6" align="center">Tämä on klikatun kirjan id: {props.id}</Typography>
+                    <TextField label="Kirjan nimi" onChange={(e) => setMuokkaaKirjanNimi(e.target.value)}></TextField>
+                    <TextField label="Kirjan järjestysnro" onChange={(e) => setMuokkaaKirjanJärjestysNro(e.target.value)}></TextField>
+                    <TextField label="Kirjan kuvausteksti" onChange={(e) => setMuokkaaKirjanKuvaus(e.target.value)}></TextField>
+                    <TextField label="Kirjan kirjailijat" onChange={(e) => setMuokkaaKirjanKirjailija(e.target.value)}></TextField>
+                    <TextField label="Kirjan piirtäjät" onChange={(e) => setMuokkaaKirjanPiirtäjä(e.target.value)}></TextField>
+                    <TextField label="Kirjan ensipainosvuosi" onChange={(e) => setMuokkaaKirjanPainosVuosi(e.target.value)}></TextField>
+                    <TextField label="Kirjan painokset" onChange={(e) => setMuokkaaKirjanPainos(e.target.value)}></TextField>
+
+                    <Button variant="contained" onClick={() => peruKirjaMuokkaus()}>Peru muokkaus</Button>
+                    <Button variant="contained" type="submit">Muokkaa</Button>
+                </form>}
+
                 
-
+                
+                {/*
                 {muokkaa == true &&
                     <div>
                         <input type="file" onChange={fileOnChangeTakaKansi}></input>
@@ -130,10 +227,10 @@ const Kirja = (props) => {
                     </div>
 
                 }
+                */}
                 
 
-                <img src={takaKansi} height={200} width={200} />
-                <img src={etukansi} height={200} width={200} />
+                
             </Container>
         
         

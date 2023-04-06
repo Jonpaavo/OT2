@@ -68,42 +68,6 @@ app.post('/kuva', upload.fields([{name: 'takakansi', maxCount : 1}, {name: 'etuk
     });
 });
 
-app.put('/kirja/:id',upload.single('takakansi'), (req,res) => {
-
-    console.log(req.body);
-    let takakansikuva = req.file.filename;
-    //let etukansikuva = req.files.filename;
-    let id = req.params.id;
-
-    let query = "UPDATE kirja SET takakansikuva=? WHERE id=?";
-
-    console.log("Muokkaa query:" + query);
-
-    connection.query(query, [takakansikuva, id], function(error, result) {
-
-        
-
-        if (error) {
-
-            console.log("VIRHE!", error);
-            res.statusCode = 400;
-            res.json({tila : "Virhetila", viesti : "Virhe koodissa."});
-    
-        }
-
-        else {
-
-            console.log("R:",result);
-            res.statusCode = 204;
-
-            res.json({id: result.insertid, takakansikuva : takakansikuva});
-            
-        }
-        
-    })
-});
-
-
 connection.connect((err)=>{
     if(err) {
         console.log("[Testosonnit] Yhteys vituillaan :(",err)
@@ -603,6 +567,57 @@ app.delete('/omakirja/:id', (req, res) => {
     })
 })
 
+app.put('/kirja/:id', (req, res) => {
+    let nimi = req.body.nimi;
+    let jarjestysnumero = req.body.jarjestysnumero;
+    let kuvausteksti = req.body.kuvausteksti;
+    let kirjalija = req.body.kirjailija;
+    let piirtajat = req.body.piirtajat;
+    let ensipainovuosi = req.body.ensipainovuosi;
+    let painokset = req.body.painokset;
+    let id = req.params.id
+
+    let query = "UPDATE kirja SET nimi = ?, jarjestysnumero = ?, kuvausteksti = ?, kirjailija = ?, piirtajat = ?, ensipainovuosi = ?, painokset = ? WHERE id = ?"
+    
+    connection.query(query, [nimi, jarjestysnumero, kuvausteksti, kirjalija, piirtajat, ensipainovuosi, painokset, id], function(error, result) {
+
+        if (error) {
+
+            console.log("VIRHE", error);
+            res.statusCode = 400;
+            res.json({tila: "Virhetila", viesti: "Virhe koodissa."});
+        }
+
+        else {
+
+            console.log("Tulos:" , result);
+            res.statusCode = 201;
+            res.json(result);
+        }
+    })
+})
+
+app.delete('/kirja/:id', (req, res) => {
+
+    let id = req.params.id
+    let query = "DELETE FROM kirja WHERE id = ?";
+    connection.query(query, id, (error, result) => {
+
+         if (error) {
+
+            console.log("VIRHE", error);
+            res.statusCode = 400;
+            res.json({tila : "Virhetila", viesti : "Virhe koodissa."});
+        }
+
+        else {
+
+            console.log("Tulos:" , result);
+            res.statusCode = 201;
+            res.json(result);
+        }
+    })
+})
 
 app.listen(portti, osoite, () => {
 
