@@ -3,7 +3,6 @@ import { Routes, Route } from 'react-router-dom';
 import { AppiBaari } from './komponentit/Appbar';
 import { Etusivu } from './komponentit/Etusivu';
 import { Kirja } from './komponentit/kirja';
-import { Kirjat } from './komponentit/Kirjat';
 import { Kirjautuminen } from './komponentit/Kirjautuminen';
 import { Kokoelma } from './komponentit/kokoelma';
 import { Kokoelmat } from './komponentit/Kokoelmat';
@@ -128,20 +127,16 @@ useEffect ( () => {
       <Valikko setLaskuri={setLaskuri} kirjautumisToken={kirjautumisToken} laskuri={laskuri} />
 
       <Routes>
-          
-          <Route path='/' element={<Etusivu />} />
-          <Route path='kirjat' element={<Kirjat />} />
-          <Route path='tietoa' element={<Tietoa laskuri={laskuri} />} />
-          <Route path='kokoelmat' element={<Kokoelmat  laskuri={laskuri} setId={setKirjaSarjaId} admin={admin} kirjaSarjaTable={kirjaSarjaTable} setKirjaSarjaTable={setKirjaSarjaTable} />} />
-          <Route path='kirjautuminen' element={<Kirjautuminen setKirjautumisToken={setKirjautumisToken} kirjautumisToken={kirjautumisToken} setKayttajaId={setKayttajaId} setAdmin={setAdmin} />} />
-          <Route path='rekisteroityminen' element={<Rekisteroityminen />} />
-          <Route path='kokoelma' element={<Kokoelma id={kirjaSarjaId} setKirjaId={setKirjaId} admin={admin} kirjatTable={kirjatTable} setKirjatTable={setKirjatTable}/>} />
-          <Route path='kirja' element={<Kirja  id={kirjaId} admin={admin}/>} />
-          <Route path='omakokoelma' element={<OmaKokoelma kayttajaId={kayttajaId} laskuri={laskuri} setId={setIdOmatSarjat} />} />
-          <Route path='omankokoelmankirjat' element={<Omankokoelmankirjat idOmatSarjat={idOmatSarjat} setIdOmatSarjat={setIdOmatSarjat} setIdOmaKirja={setIdOmaKirja}/>} />
-          <Route path='omakirja' element={<OmaKirja idOmaKirja={idOmaKirja} />} />
-
-          
+        <Route path='/' element={<Etusivu />} />
+        <Route path='tietoa' element={<Tietoa laskuri={laskuri} />} />
+        <Route path='kokoelmat' element={<Kokoelmat  laskuri={laskuri} setId={setKirjaSarjaId} admin={admin} kirjaSarjaTable={kirjaSarjaTable} setKirjaSarjaTable={setKirjaSarjaTable} />} />
+        <Route path='kirjautuminen' element={<Kirjautuminen setKirjautumisToken={setKirjautumisToken} kirjautumisToken={kirjautumisToken} setKayttajaId={setKayttajaId} setAdmin={setAdmin} />} />
+        <Route path='rekisteroityminen' element={<Rekisteroityminen />} />
+        <Route path='kokoelma' element={<Kokoelma id={kirjaSarjaId} setKirjaId={setKirjaId} admin={admin} kirjatTable={kirjatTable} setKirjatTable={setKirjatTable}/>} />
+        <Route path='kirja' element={<Kirja  id={kirjaId} admin={admin}/>} />
+        <Route path='omakokoelma' element={<OmaKokoelma kayttajaId={kayttajaId} laskuri={laskuri} setId={setIdOmatSarjat} />} />
+        <Route path='omankokoelmankirjat' element={<Omankokoelmankirjat idOmatSarjat={idOmatSarjat} setIdOmatSarjat={setIdOmatSarjat} setIdOmaKirja={setIdOmaKirja}/>} />
+        <Route path='omakirja' element={<OmaKirja idOmaKirja={idOmaKirja} />} />  
       </Routes>
     
     </>

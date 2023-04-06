@@ -1,4 +1,4 @@
-import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material"
+import { Button, Dialog, DialogActions, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material"
 import { Container } from "@mui/system"
 import { useEffect, useState } from "react"
 import { NavLink, Link } from "react-router-dom";
@@ -22,6 +22,9 @@ const OmaKokoelma =(props) => {
     const [kokoelmaId, setKokoelmaId] = useState("")
     const [laskuri, setLaskuri] = useState(0);
     const [lask, setLask] = useState(0);
+    const [poistaVarmistus,setPoistaVarmistus] = useState(false);
+    const [muokkaaVarmistus,setMuokkaaVarmistus] = useState(false);
+    const [poistettavaId,setPoistettavaId] = useState("");
    
 
     useEffect( () => {
@@ -142,7 +145,7 @@ const OmaKokoelma =(props) => {
     const toggleMuokkaaKokoelma = (id) => {
         setMuokkaaKokoelmat(!muokkaaKokoelmat);
         setKokoelmaId(id);
-        console.log(muokkaaKokoelmat)
+        
     }
 
     const peruMuokkaus = () => {
@@ -156,6 +159,18 @@ const OmaKokoelma =(props) => {
 
     const handleSubmit = () => {
         setLaskuri(laskuri+1)
+    }
+
+    const poistaDialog = () => {
+        setPoistaVarmistus(!poistaVarmistus);
+        
+        
+
+    }
+
+    const muokkaaDialog = () => {
+        setMuokkaaVarmistus(!muokkaaVarmistus);
+        
     }
 
     
@@ -173,7 +188,7 @@ const OmaKokoelma =(props) => {
                             <TextField required id="outlined-kustantaja" label="Kustantaja" defaultValue={muokkaaKustantaja} onChange={(e) => setMuokkaaKustantaja(e.target.value)} />
                             <TextField required id="outlined-kuvaus" label="Kuvaus" defaultValue={muokkaaKuvaus} onChange={(e) => setMuokkaaKuvaus(e.target.value)} />
                             <TextField required id="outlined-luokittelu" label="Luokittelu" defaultValue={muokkaaLuokittelu} onChange={(e) => setMuokkaaLuokittelu(e.target.value)} />
-                            <Button variant="outlined" onClick={() => {setLaskuri(laskuri + 1)}} >Muokkaa kokoelma</Button>
+                            <Button variant="outlined" onClick={() => {muokkaaDialog()}} >Muokkaa kokoelma</Button>
                             <Button variant="outlined" onClick={() => {peruMuokkaus()}}>Peru muokkaus</Button>
                     </div>
                     :
@@ -204,8 +219,8 @@ const OmaKokoelma =(props) => {
                                             </TableCell>
                                             <TableCell>{row.kuvaus}</TableCell>
                                                 <TableCell>
-                                                    <Button onClick={() => {toggleMuokkaaKokoelma(row.idomatsarjat)}}>Muokkaa</Button>
-                                                    <Button onClick={() => {poistaKokoelma(row.idomatsarjat)}}>Poista</Button>
+                                                    <Button onClick={() => {toggleMuokkaaKokoelma(row.idomatsarjat) ; setMuokkaaKirjaSarja(row.kirjasarja) ; setMuokkaaKustantaja(row.kustantaja) ; setMuokkaaKuvaus(row.kuvaus) ; setMuokkaaLuokittelu(row.luokittelu)}}>Muokkaa</Button>
+                                                    <Button onClick={() => {poistaDialog() ; setPoistettavaId(row.idomatsarjat)}}>Poista</Button>
                                                 </TableCell>
                                         </TableRow>
                                     ))}
@@ -213,7 +228,24 @@ const OmaKokoelma =(props) => {
                             </Table>
                         </TableContainer>
                     </div>
-                    }
+                }
+
+                <Dialog open={muokkaaVarmistus}>
+                    <DialogTitle>Muokkaa kokoelmaa</DialogTitle>
+                    <DialogActions>
+                        <Button onClick={() => {setLaskuri(laskuri+1) ; muokkaaDialog()}}>Muokkaa</Button>
+                        <Button onClick={() => {peruMuokkaus() ; muokkaaDialog() }}>Peru muokkaus</Button>
+                    </DialogActions>
+               </Dialog>
+
+               <Dialog open={poistaVarmistus}>
+                    <DialogTitle>Poista kokoelma</DialogTitle>
+                    <DialogActions>
+                        <Button onClick={() => {poistaKokoelma(poistettavaId) ; poistaDialog()}}>Poista kokoelma</Button>
+                        <Button onClick={() => {poistaDialog() ; setPoistettavaId("")}}>Peru poisto</Button>
+                    </DialogActions>
+               </Dialog>
+
             </Container>
         
         

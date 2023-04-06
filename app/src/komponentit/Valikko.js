@@ -41,13 +41,6 @@ const Valikko = (props) => {
                     <ListItem>
                         <ListItemButton>
                             <ListItemText>
-                                <Link to={'/kirjat'}>Kirjat</Link>
-                            </ListItemText>
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem>
-                        <ListItemButton>
-                            <ListItemText>
                                 <Link to ={'/kokoelmat'} onClick={() => props.setLaskuri(props.laskuri + 1 )}>Kokoelmat</Link>
                             </ListItemText>
                         </ListItemButton>

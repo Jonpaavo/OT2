@@ -27,20 +27,19 @@ const Kirjautuminen = (props) => {
 
             let c = await response.json();
 
-            console.log(tiedot);
-
-            
-            c.map((item,index) => {
+            c.map((item) => {
                 setId(item.id);
                 setTarkistaNimi(item.nimi);
                 setTarkistaSalasana(item.salasana);
                 setTarkistaAdmin(item.admin);
             });
 
-            if (inputNimi != "" && inputNimi === tarkistaNimi && inputSalasana !="" && inputSalasana === tarkistaSalasana) {
+            if (inputNimi === tarkistaNimi &&  inputSalasana === tarkistaSalasana) {
                 props.setKirjautumisToken(true);
                 props.setKayttajaId(id);
-                setTiedot("");
+                setQuery("");
+                console.log("Nyt kirjauduttiin!")
+                
 
                 setKirjauduElement("kirjauduttu");
             }
@@ -50,7 +49,7 @@ const Kirjautuminen = (props) => {
             }
         }
 
-        if (laskuri > 0 && query != "" ) {
+        if (query != "" ) {
             tarkistaKirjautuminen();
         }
          

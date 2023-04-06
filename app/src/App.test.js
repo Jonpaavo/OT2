@@ -7,10 +7,11 @@ import {
 import { act } from "react-dom/test-utils"
 import userEvent from '@testing-library/user-event'
 import { App } from './App';
+import { Kirjautuminen } from './komponentit/Kirjautuminen';
+import { AppiBaari } from './komponentit/Appbar';
 import { MemoryRouter as Router, BrowserRouter } from 'react-router-dom';
 import {createMemoryHistory} from 'history';
-import { Kirjautuminen } from './komponentit/Kirjautuminen';
-import { AppBar } from '@mui/material';
+
 
 let confirmSpy
 
@@ -46,9 +47,7 @@ test("2. Varmista että ollaan kirjautumis-välilehdellä", async () => {
   
   expect(kirjauduElement).toHaveTextContent("kirjauduttu")
 
-  render(<AppBar />)
-  const searchButton2 = screen.getByTestId("appbar_kirjaudu_ulos")
-  fireEvent.click(searchButton2)
+  
 })
 
 })
