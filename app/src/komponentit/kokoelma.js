@@ -172,12 +172,6 @@ const Kokoelma = (props) => {
                                         <TableCell>{row.piirtajat}</TableCell>
                                         <TableCell>{row.ensipainovuosi}</TableCell>
                                         <TableCell>{row.painokset}</TableCell>
-                                        { props.admin == true &&
-                                        <TableCell>
-                                            <Button>Muokkaa</Button>
-                                            <Button>Poista</Button>
-                                        </TableCell>
-                                        }
                                     </TableRow>
                                 ))}
                             </TableBody>

@@ -10,7 +10,7 @@ import { App } from './App';
 import { MemoryRouter as Router, BrowserRouter } from 'react-router-dom';
 import {createMemoryHistory} from 'history';
 import { Kirjautuminen } from './komponentit/Kirjautuminen';
-import { AppBar } from '@mui/material';
+import { AppiBaari } from './komponentit/Appbar';
 
 let confirmSpy
 
@@ -37,18 +37,30 @@ test("2. Varmista että ollaan kirjautumis-välilehdellä", async () => {
   const searchInput2 = screen.getByTestId("salasana_input")
   const searchButton1 = screen.getByTestId("kirjaudu_button")
 
-  const kirjauduElement = screen.getByText(/ei kirjauduttu/i)
+  const kirjauduElement = screen.getByTestId("kirjaudu_typo")
 
-  userEvent.type(searchInput1, "User")
-  userEvent.type(searchInput2, "user")
+  fireEvent.change(searchInput1, {target: {value: "User"},})
+  fireEvent.change(searchInput2, {target: {value: "user"},})
   fireEvent.click(searchButton1)
   fireEvent.click(searchButton1)
   
-  expect(kirjauduElement).toHaveTextContent("kirjauduttu")
+  screen.debug();
 
-  render(<AppBar />)
-  const searchButton2 = screen.getByTestId("appbar_kirjaudu_ulos")
-  fireEvent.click(searchButton2)
+  expect(kirjauduElement).toHaveTextContent("penis")
+
+  
+
+  //render(<AppBar />)
+  //const searchButton2 = screen.getByTestId("appbar_kirjaudu_ulos")
+  //fireEvent.click(searchButton2)
+})
+
+test("3. kirjaudu ulos", async () => {
+  render(
+    <AppiBaari />
+    )
+  const searchButton = screen.getByText(/Kirjaudu ulos/i)
+  fireEvent.click(searchButton)
 })
 
 })
