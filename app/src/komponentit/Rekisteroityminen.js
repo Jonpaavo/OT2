@@ -68,8 +68,8 @@ const Rekisteroityminen = () => {
                 <Box component="form" sx={{}} noValidate autoComplete="off">
 
                     <div>
-                        <TextField required id="outlined-username" label="Käyttäjänimi" onChange={(e) => setLisaaKayttajaNimi(e.target.value)} />
-                        <TextField required id="outlined-password" label="Salasana" type="password" onChange={(e) => setLisaaKayttajaSalasana(e.target.value)} />
+                        <TextField inputProps={{ "data-testid": "rekisteröidy_input" }} required id="outlined-username" label="Käyttäjänimi" onChange={(e) => setLisaaKayttajaNimi(e.target.value)} />
+                        <TextField inputProps={{ "data-testid": "rsalasana_input" }} required id="outlined-password" label="Salasana" type="password" onChange={(e) => setLisaaKayttajaSalasana(e.target.value)} />
                         <Button variant="outlined" onClick={() => {handlePost()}}>Rekisteröidy</Button>
 
                     </div>
