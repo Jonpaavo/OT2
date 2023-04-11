@@ -339,6 +339,8 @@ app.post('/omakirja',upload.fields([{name: 'takakansikuva', maxCount : 1}, {name
     let ensipainovuosi = req.body.ensipainovuosi;
     let painokset = req.body.ensipainovuosi;
     let idomatsarjat = req.body.idomatsarjat;
+    let takakansikuva = req.files.takakansikuva[0].filename || null;
+    let etukansikuva = req.files.etukansikuva[0].filename || null;
 
     let kirja = {
         "nimi" : req.body.nimi,
@@ -346,8 +348,8 @@ app.post('/omakirja',upload.fields([{name: 'takakansikuva', maxCount : 1}, {name
         "kirjailija" : req.body.kirjailija,
         "idomatsarjat" : req.body.idomatsarjat,
         "kuntoluokka" : req.body.kuntoluokka,
-        "takakansikuva" : req.files.takakansikuva[0].filename,
-        "etukansikuva" : req.files.etukansikuva[0].filename,
+        "takakansikuva" : takakansikuva,
+        "etukansikuva" : etukansikuva,
         "hankintahinta" : req.body.hankintahinta,
         "hankintaaika" : req.body.hankintaaika,
         "esittelyteksti" : req.body.esittelyteksti,
@@ -389,8 +391,10 @@ app.post('/kirja',upload.fields([{name: 'takakansikuva', maxCount : 1}, {name: '
     let ensipainovuosi = req.body.ensipainovuosi;
     let painokset = req.body.ensipainovuosi;
     let idKirjaSarja = req.body.idkirjasarja;
-    
+    let takakansikuva = req.files.takakansikuva[0].filename;
+    let etukansikuva = req.files.etukansikuva[0].filename;
 
+    
     let kirja = {
         "nimi" : req.body.nimi,
         "jarjestysnumero" : req.body.jarjestysnumero,
@@ -400,8 +404,8 @@ app.post('/kirja',upload.fields([{name: 'takakansikuva', maxCount : 1}, {name: '
         "ensipainovuosi" : req.body.ensipainovuosi,
         "painokset" : req.body.painokset,
         "idkirjasarja" : req.body.idkirjasarja,
-        "takakansikuva" : req.files.takakansikuva[0].filename,
-        "etukansikuva" : req.files.etukansikuva[0].filename
+        "takakansikuva" : takakansikuva,
+        "etukansikuva" : etukansikuva
     }
    
 

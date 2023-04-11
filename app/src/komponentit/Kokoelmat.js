@@ -1,4 +1,4 @@
-import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import { useEffect, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
@@ -6,8 +6,6 @@ import { NavLink, Link } from "react-router-dom";
 const Kokoelmat = (props) => {
 
     //Kirjasarjan hakujutut
-    
-
     const [kirjaSarja,setKirjaSarja] = useState("");
     const [kustantaja,setKustantaja] = useState("");
     const [kuvaus,setKuvaus] = useState("");
@@ -22,6 +20,9 @@ const Kokoelmat = (props) => {
     const [kokoelmaId, setKokoelmaId] = useState("")
     const [laskuri, setLaskuri] = useState(0);
     const [lask, setLask] = useState(0);
+    const [poistaVarmistus,setPoistaVarmistus] = useState(false);
+    const [muokkaaVarmistus,setMuokkaaVarmistus] = useState(false);
+    const [poistettavaId,setPoistettavaId] = useState("");
 
     useEffect( () => {
 
@@ -38,9 +39,9 @@ const Kokoelmat = (props) => {
 
         haeKirjaSarja();
         
-        console.log("ping")
+        
 
-    },[lask]);
+    },[]);
     
     useEffect( () => {
 
@@ -138,7 +139,7 @@ const Kokoelmat = (props) => {
     const toggleMuokkaaKokoelma = (id) => {
         setMuokkaaKokoelmat(!muokkaaKokoelmat);
         setKokoelmaId(id);
-        console.log(muokkaaKokoelmat)
+        
     }
 
     const peruMuokkaus = () => {
@@ -149,6 +150,19 @@ const Kokoelmat = (props) => {
         setMuokkaaLuokittelu("");
 
     }
+
+    const poistaDialog = () => {
+        setPoistaVarmistus(!poistaVarmistus);
+        
+        
+
+    }
+
+    const muokkaaDialog = () => {
+        setMuokkaaVarmistus(!muokkaaVarmistus);
+        
+    }
+
 
     return (
         
@@ -172,7 +186,7 @@ const Kokoelmat = (props) => {
                         <TextField required id="outlined-kustantaja" label="Kustantaja" defaultValue={muokkaaKustantaja} onChange={(e) => setMuokkaaKustantaja(e.target.value)} />
                         <TextField required id="outlined-kuvaus" label="Kuvaus" defaultValue={muokkaaKuvaus} onChange={(e) => setMuokkaaKuvaus(e.target.value)} />
                         <TextField required id="outlined-luokittelu" label="Luokittelu" defaultValue={muokkaaLuokittelu} onChange={(e) => setMuokkaaLuokittelu(e.target.value)} />
-                        <Button variant="outlined" onClick={() => {setLaskuri(laskuri+1)}}>Muokkaa kokoelma</Button>
+                        <Button variant="outlined" onClick={() => {muokkaaDialog()}}>Muokkaa kokoelma</Button>
                         <Button variant="outlined" onClick={() => {peruMuokkaus()}}>Peru muokkaus</Button>
                 </div>
                 :
@@ -198,16 +212,16 @@ const Kokoelmat = (props) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {kirjaSarjaTable.map && kirjaSarjaTable.map((row) => (
-                                    <TableRow key={row.idkirjasarja} sx={{ '&:last-child td, &:last-child th': {border: 0}}}>
+                                {kirjaSarjaTable.map((row,index) => (
+                                    <TableRow key={index} sx={{ '&:last-child td, &:last-child th': {border: 0}}}>
                                         <TableCell component="th" scope="row">
                                             <NavLink to ='/kokoelma' onClick={() => props.setId(row.idkirjasarja)}>{row.kirjasarja}</NavLink>
                                         </TableCell>
                                         <TableCell>{row.kuvaus}</TableCell>
                                         { props.admin == true &&
                                             <TableCell>
-                                                <Button onClick={() => {toggleMuokkaaKokoelma(row.idkirjasarja)}}>Muokkaa</Button>
-                                                <Button onClick={() => {poistaKokoelma(row.idkirjasarja)}}>Poista</Button>
+                                                <Button onClick={() => {toggleMuokkaaKokoelma(row.idkirjasarja) ; setMuokkaaKirjaSarja(row.kirjasarja) ; setMuokkaaKustantaja(row.kustantaja) ; setMuokkaaKuvaus(row.kuvaus) ; setMuokkaaLuokittelu(row.luokittelu)}}>Muokkaa</Button>
+                                                <Button onClick={() => {poistaDialog() ; setPoistettavaId(row.idkirjasarja)}}>Poista</Button>
                                             </TableCell>
                                         }
                                     </TableRow>
@@ -218,6 +232,22 @@ const Kokoelmat = (props) => {
                     </TableContainer>
                 </div>
                 }
+
+               <Dialog open={muokkaaVarmistus}>
+                    <DialogTitle>Muokkaa kokoelmaa</DialogTitle>
+                    <DialogActions>
+                        <Button onClick={() => {setLaskuri(laskuri+1) ; muokkaaDialog()}}>Muokkaa</Button>
+                        <Button onClick={() => {peruMuokkaus() ; muokkaaDialog() }}>Peru muokkaus</Button>
+                    </DialogActions>
+               </Dialog>
+
+               <Dialog open={poistaVarmistus}>
+                    <DialogTitle>Poista kokoelma</DialogTitle>
+                    <DialogActions>
+                        <Button onClick={() => {poistaKokoelma(poistettavaId) ; poistaDialog()}}>Poista kokoelma</Button>
+                        <Button onClick={() => {poistaDialog() ; setPoistettavaId("")}}>Peru poisto</Button>
+                    </DialogActions>
+               </Dialog>
                                 
 
                 
