@@ -163,7 +163,7 @@ const Kokoelma = (props) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {kirjatTable.map((row,index) =>(
+                                {kirjatTable.map && kirjatTable.map((row,index) =>(
                                     <TableRow key={index} sx={{ '&:last-child td, &:last-child th': {border: 0}}}>
                                         <TableCell component="th" scope="row"><NavLink to='/kirja' onClick={() => props.setKirjaId(row.id)}>{row.nimi}</NavLink></TableCell>
                                         <TableCell>{row.jarjestysnumero}</TableCell>

@@ -218,38 +218,53 @@ app.post('/kayttaja', (req,res) => {
 
 app.get('/kayttaja', function (req,res) {
 
-    let nimi = req.query.nimi;
+    let nimi = req.query.nimi || '';
 
-    let salasana = req.query.salasana;
+    let salasana = req.query.salasana || '';
+
+    let admin = req.query.admin || '';
 
     let id = req.query.id;
 
     let query = "SELECT * from kayttaja WHERE 1=1";
 
-    if (nimi != "") 
-        query=query + " AND nimi like '" + nimi + "'";
+    if (nimi != '') 
+        
+        query = query + " AND nimi= '" +  nimi + "'";
 
-    if (salasana != "")
-        query=query + " AND salasana like '" + salasana + "'";
+    if (salasana != '')
+
+        query=query + " AND salasana= '" + salasana + "'";
+
+    if (admin != '')
+
+        query=query + " AND admin= '" + admin + "'";
 
     console.log("GET QUERY:" + query);
     
 
     connection.query(query, function(error, result){
 
-        if ( error ) {
+        if ( error || result.length < 1  ) {
 
             res.statusCode = 400;
 
             res.json({ tila: "Virhetila", viesti : "Virhe koodissa."});
 
             console.log(query);
+            console.log(result)
 
         } else {
+
+
+            
 
             res.statusCode = 200;
 
             res.json(result);
+            console.log(result)
+
+            
             
         }
     });
@@ -339,8 +354,8 @@ app.post('/omakirja',upload.fields([{name: 'takakansikuva', maxCount : 1}, {name
     let ensipainovuosi = req.body.ensipainovuosi;
     let painokset = req.body.ensipainovuosi;
     let idomatsarjat = req.body.idomatsarjat;
-    let takakansikuva = req.files.takakansikuva[0].filename || null;
-    let etukansikuva = req.files.etukansikuva[0].filename || null;
+    let takakansikuva = req.files.takakansikuva ? req.files.takakansikuva[0].filename : '';
+    let etukansikuva = req.files.etukansikuva ? req.files.etukansikuva[0].filename : '';
 
     let kirja = {
         "nimi" : req.body.nimi,
@@ -383,16 +398,10 @@ app.post('/kirja',upload.fields([{name: 'takakansikuva', maxCount : 1}, {name: '
 
 
     console.log(req.files);
-    let nimi = req.body.nimi;
-    let jarjestysnumero = req.body.jarjestysnumero;
-    let kuvausTeksti = req.body.kuvausteksti;
-    let kirjailija = req.body.kirjailija;
-    let piirtajat = req.body.piirtajat;
-    let ensipainovuosi = req.body.ensipainovuosi;
-    let painokset = req.body.ensipainovuosi;
-    let idKirjaSarja = req.body.idkirjasarja;
-    let takakansikuva = req.files.takakansikuva[0].filename;
-    let etukansikuva = req.files.etukansikuva[0].filename;
+    let takakansikuva = req.files.takakansikuva ? req.files.takakansikuva[0].filename : '';
+    let etukansikuva = req.files.etukansikuva ? req.files.etukansikuva[0].filename : '';
+
+    
 
     
     let kirja = {
@@ -408,8 +417,6 @@ app.post('/kirja',upload.fields([{name: 'takakansikuva', maxCount : 1}, {name: '
         "etukansikuva" : etukansikuva
     }
    
-
-    let query = "INSERT INTO kirja (nimi, jarjestysnumero, kuvausteksti, kirjailija, piirtajat, ensipainovuosi, painokset, idkirjasarja,takakansikuva,etukansikuva) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     let query2 = "INSERT INTO kirja SET?"
 
     connection.query(query2, kirja, function(error,result) {
@@ -437,6 +444,7 @@ app.delete('/deleteKokoelma/:id', (req, res) => {
         if (err) {
             console.log(err);
         } else {
+            res.statusCode = 204;
             res.send(result);
         }
     })
@@ -456,6 +464,7 @@ app.put('/kirjasarja/:id', (req, res) => {
         if (err) {
             console.log(err);
         } else {
+            res.statusCode = 204;
             res.send(result);
             console.log(kirjasarja,kustantaja,kuvaus,luokittelu,id);
         }
@@ -468,6 +477,7 @@ app.delete('/deleteOmatKokoelma/:id', (req, res) => {
         if (err) {
             console.log(err);
         } else {
+            res.statusCode = 204;
             res.send(result);
         }
     })
@@ -487,6 +497,7 @@ app.put('/omatsarjat/:id', (req, res) => {
         if (err) {
             console.log(err);
         } else {
+            res.statusCode = 204;
             res.send(result);
             console.log(kirjasarja,kustantaja,kuvaus,luokittelu,id);
         }
@@ -507,6 +518,7 @@ app.put('/omatsarjat/:id', (req, res) => {
         if (err) {
             console.log(err);
         } else {
+            res.statusCode = 204;
             res.send(result);
             console.log(kirjasarja,kustantaja,kuvaus,luokittelu,id);
         }
@@ -539,7 +551,7 @@ app.put('/omakirja/:id', (req, res) => {
         else {
 
             console.log("Tulos:" , result);
-            res.statusCode = 201;
+            res.statusCode = 204;
             res.json(result);
         }
     })
@@ -561,7 +573,7 @@ app.delete('/omakirja/:id', (req, res) => {
         else {
 
             console.log("Tulos:" , result);
-            res.statusCode = 201;
+            res.statusCode = 204;
             res.json(result);
         }
     })
@@ -591,7 +603,7 @@ app.put('/kirja/:id', (req, res) => {
         else {
 
             console.log("Tulos:" , result);
-            res.statusCode = 201;
+            res.statusCode = 204;
             res.json(result);
         }
     })
@@ -613,10 +625,34 @@ app.delete('/kirja/:id', (req, res) => {
         else {
 
             console.log("Tulos:" , result);
-            res.statusCode = 201;
+            res.statusCode = 204;
             res.json(result);
         }
     })
+})
+
+app.delete('/kayttaja/:id', (req,res) => {
+
+    let id = req.params.id;
+    let query = "DELETE FROM kayttaja WHERE id= ?";
+
+    connection.query(query, id, (error, result) => {
+
+        if (error) {
+
+           console.log("VIRHE", error);
+           res.statusCode = 400;
+           res.json({tila : "Virhetila", viesti : "Virhe koodissa."});
+       }
+
+       else {
+
+           console.log("Tulos:" , result);
+           res.statusCode = 204;
+           res.json(result);
+       }
+   })
+
 })
 
 app.listen(portti, osoite, () => {
