@@ -181,15 +181,15 @@ const Kokoelmat = (props) => {
                 {!muokkaaKokoelmat ? 
 
                 <div sx={{bgcolor: "grey", height: "100vh"}}>
-                    
-                        <Typography variant="h6" align="center">Muokkaus</Typography>
-                        <TextField required id="outlined-kirjasarja" label="Kirjasarja"  defaultValue={muokkaaKirjaSarja} onChange={(e) => setMuokkaaKirjaSarja(e.target.value)} />
-                            <TextField required id="outlined-kustantaja" label="Kustantaja" defaultValue={muokkaaKustantaja} onChange={(e) => setMuokkaaKustantaja(e.target.value)} />
-                            <TextField required id="outlined-kuvaus" label="Kuvaus" defaultValue={muokkaaKuvaus} onChange={(e) => setMuokkaaKuvaus(e.target.value)} />
-                            <TextField required id="outlined-luokittelu" label="Luokittelu" defaultValue={muokkaaLuokittelu} onChange={(e) => setMuokkaaLuokittelu(e.target.value)} />
-                            <Button variant="outlined" onClick={() => {muokkaaDialog()}}>Muokkaa kokoelma</Button>
-                            <Button variant="outlined" onClick={() => {peruMuokkaus()}}>Peru muokkaus</Button>
-                    
+
+                    <Typography variant="h6" align="center">Muokkaus</Typography>
+                    <TextField required id="outlined-kirjasarja" label="Kirjasarja"  defaultValue={muokkaaKirjaSarja} onChange={(e) => setMuokkaaKirjaSarja(e.target.value)} />
+                        <TextField required id="outlined-kustantaja" label="Kustantaja" defaultValue={muokkaaKustantaja} onChange={(e) => setMuokkaaKustantaja(e.target.value)} />
+                        <TextField required id="outlined-kuvaus" label="Kuvaus" defaultValue={muokkaaKuvaus} onChange={(e) => setMuokkaaKuvaus(e.target.value)} />
+                        <TextField required id="outlined-luokittelu" label="Luokittelu" defaultValue={muokkaaLuokittelu} onChange={(e) => setMuokkaaLuokittelu(e.target.value)} />
+                        <Button variant="outlined" onClick={() => {muokkaaDialog()}}>Muokkaa kokoelma</Button>
+                        <Button variant="outlined" onClick={() => {peruMuokkaus()}}>Peru muokkaus</Button>
+                        
                 </div>
                 :
                 <div>
