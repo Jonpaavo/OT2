@@ -194,11 +194,13 @@ const OmaKokoelma =(props) => {
                     :
                     <div>
                         <div>
+                        <form onSubmit={handlePost}>
                             <TextField required id="outlined-kirjasarja" label="Kirjasarja" onChange={(e) => setKirjaSarja(e.target.value)} />
                             <TextField required id="outlined-kustantaja" label="Kustantaja" onChange={(e) => setKustantaja(e.target.value)} />
                             <TextField required id="outlined-kuvaus" label="Kuvaus" onChange={(e) => setKuvaus(e.target.value)} />
                             <TextField required id="outlined-luokittelu" label="Luokittelu" onChange={(e) => setLuokittelu(e.target.value)} />
-                            <Button variant="outlined" onClick={() => {handlePost()}}>Lisää kokoelma</Button>
+                            <Button variant="outlined" type="submit">Lisää kokoelma</Button>
+                        </form>
                         </div>
                         
 
@@ -233,7 +235,7 @@ const OmaKokoelma =(props) => {
                 <Dialog open={muokkaaVarmistus}>
                     <DialogTitle>Muokkaa kokoelmaa</DialogTitle>
                     <DialogActions>
-                        <Button onClick={() => {setLaskuri(laskuri+1) ; muokkaaDialog()}}>Muokkaa</Button>
+                        <Button onClick={() => {setLaskuri(laskuri+1) ; muokkaaDialog() ; window.location.reload()}}>Muokkaa</Button>
                         <Button onClick={() => {peruMuokkaus() ; muokkaaDialog() }}>Peru muokkaus</Button>
                     </DialogActions>
                </Dialog>
