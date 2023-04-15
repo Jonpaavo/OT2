@@ -181,25 +181,27 @@ const Kokoelmat = (props) => {
                 {!muokkaaKokoelmat ? 
 
                 <div sx={{bgcolor: "grey", height: "100vh"}}>
-                    <Typography variant="h6" align="center">Muokkaus</Typography>
-                    <TextField required id="outlined-kirjasarja" label="Kirjasarja"  defaultValue={muokkaaKirjaSarja} onChange={(e) => setMuokkaaKirjaSarja(e.target.value)} />
-                        <TextField required id="outlined-kustantaja" label="Kustantaja" defaultValue={muokkaaKustantaja} onChange={(e) => setMuokkaaKustantaja(e.target.value)} />
-                        <TextField required id="outlined-kuvaus" label="Kuvaus" defaultValue={muokkaaKuvaus} onChange={(e) => setMuokkaaKuvaus(e.target.value)} />
-                        <TextField required id="outlined-luokittelu" label="Luokittelu" defaultValue={muokkaaLuokittelu} onChange={(e) => setMuokkaaLuokittelu(e.target.value)} />
-                        <Button variant="outlined" onClick={() => {muokkaaDialog()}}>Muokkaa kokoelma</Button>
-                        <Button variant="outlined" onClick={() => {peruMuokkaus()}}>Peru muokkaus</Button>
+                    
+                        <Typography variant="h6" align="center">Muokkaus</Typography>
+                        <TextField required id="outlined-kirjasarja" label="Kirjasarja"  defaultValue={muokkaaKirjaSarja} onChange={(e) => setMuokkaaKirjaSarja(e.target.value)} />
+                            <TextField required id="outlined-kustantaja" label="Kustantaja" defaultValue={muokkaaKustantaja} onChange={(e) => setMuokkaaKustantaja(e.target.value)} />
+                            <TextField required id="outlined-kuvaus" label="Kuvaus" defaultValue={muokkaaKuvaus} onChange={(e) => setMuokkaaKuvaus(e.target.value)} />
+                            <TextField required id="outlined-luokittelu" label="Luokittelu" defaultValue={muokkaaLuokittelu} onChange={(e) => setMuokkaaLuokittelu(e.target.value)} />
+                            <Button variant="outlined" onClick={() => {muokkaaDialog()}}>Muokkaa kokoelma</Button>
+                            <Button variant="outlined" onClick={() => {peruMuokkaus()}}>Peru muokkaus</Button>
+                    
                 </div>
                 :
                 <div>
 
                     { props.admin == true &&
-                        <div>
+                        <form onSubmit={handlePost}>
                             <TextField required id="outlined-kirjasarja" label="Kirjasarja" onChange={(e) => setKirjaSarja(e.target.value)} />
                             <TextField required id="outlined-kustantaja" label="Kustantaja" onChange={(e) => setKustantaja(e.target.value)} />
                             <TextField required id="outlined-kuvaus" label="Kuvaus" onChange={(e) => setKuvaus(e.target.value)} />
                             <TextField required id="outlined-luokittelu" label="Luokittelu" onChange={(e) => setLuokittelu(e.target.value)} />
-                            <Button variant="outlined" onClick={() => {handlePost()}}>Lisää kokoelma</Button>
-                        </div>
+                            <Button variant="outlined" type="submit">Lisää kokoelma</Button>
+                        </form>
                     }
 
                     <TableContainer component={Paper} sx={{width: "100vh", height: "65vh", align: "center"}}>
@@ -236,7 +238,7 @@ const Kokoelmat = (props) => {
                <Dialog open={muokkaaVarmistus}>
                     <DialogTitle>Muokkaa kokoelmaa</DialogTitle>
                     <DialogActions>
-                        <Button onClick={() => {setLaskuri(laskuri+1) ; muokkaaDialog()}}>Muokkaa</Button>
+                        <Button onClick={() => {setLaskuri(laskuri+1) ; muokkaaDialog() ; window.location.reload()}}>Muokkaa</Button>
                         <Button onClick={() => {peruMuokkaus() ; muokkaaDialog() }}>Peru muokkaus</Button>
                     </DialogActions>
                </Dialog>
