@@ -357,7 +357,7 @@ describe("Testataan kokoelman poistamista", () => {
 })
 
 
-/*
+
 describe("Testataan kirjan lisäämistä", () => {
   test("Kirjan lisäys", async () => {
     
@@ -558,7 +558,7 @@ describe("Testataan kirjan poistamista", () => {
 
   })
 })
-*/
+
 
 
 describe("Oman kirjasarjan lisääminen", () => {

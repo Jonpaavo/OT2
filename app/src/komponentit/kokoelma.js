@@ -8,7 +8,7 @@ const Kokoelma = (props) => {
     const [query,setQuery] = useState("?idkirjasarja=" + props.id);
 
     const [kirjanNimi,setKirjanNimi] = useState("");
-    const [jarjestysnumero,setjarjestysnumero] = useState("");
+    const [jarjestysnumero,setJarjestysnumero] = useState("");
     const [kuvausTeksti,setKuvausTeksti] = useState("");
     const [kirjailija,setKirjailija] = useState("");
     const [piirtajat,setPiirtajat] = useState("");
@@ -67,7 +67,7 @@ const Kokoelma = (props) => {
         }
         
         setKirjanNimi("");
-        setjarjestysnumero("");
+        setJarjestysnumero("");
         setKuvausTeksti("");
         setKirjailija("");
         setPiirtajat("");
@@ -116,9 +116,27 @@ const Kokoelma = (props) => {
         console.log("EtukansiKuva: " + kirja.get("etukansikuva"));
 
         setLisaaQuery(kirja);
+    }
 
-        
+    const handleJarjestysnumero = (e) => {
+        const regex = /^[0-9\b]+$/;
+        if (e.target.value === "" || regex.test(e.target.value)) {
+            setJarjestysnumero(e.target.value);
+        }
+    }
 
+    const handlePainoVuosi = (e) => {
+        const regex = /^[0-9\b]+$/;
+        if (e.target.value === "" || regex.test(e.target.value)) {
+            setEnsipainovuosi(e.target.value);
+        }
+    }
+
+    const handlePainos = (e) => {
+        const regex = /^[0-9\b]+$/;
+        if (e.target.value === "" || regex.test(e.target.value)) {
+            setPainokset(e.target.value);
+        }
     }
 
     return (
@@ -130,12 +148,12 @@ const Kokoelma = (props) => {
                     <div> 
                         <form onSubmit={handlePost}>
                             <TextField required id="outlined-nimi" label="Nimi" onChange={(e) => setKirjanNimi(e.target.value)}></TextField>
-                            <TextField required id="outlined-jarjestysnumero" label="Järjestysnumero" onChange={(e) => setjarjestysnumero(e.target.value)}></TextField>
+                            <TextField required id="outlined-jarjestysnumero" label="Järjestysnumero" value={jarjestysnumero} onChange={(e) => handleJarjestysnumero(e)}></TextField>
                             <TextField required id="outlined-kuvausteksti" label="Kuvausteksti" onChange={(e) => setKuvausTeksti(e.target.value)}></TextField>
                             <TextField required id="outlined-kirjailija" label="Kirjailija" onChange={(e) => setKirjailija(e.target.value)}></TextField>
                             <TextField required id="outlined-piirtajat" label="Piirtäjät" onChange={(e) => setPiirtajat(e.target.value)}></TextField>
-                            <TextField required id="outlined-ensipainovuosi" label="Ensipainovuosi" onChange={(e) => setEnsipainovuosi(e.target.value)}></TextField>
-                            <TextField required id="outlined-painokset" label="Painokset" onChange={(e) => setPainokset(e.target.value)}></TextField>
+                            <TextField required id="outlined-ensipainovuosi" label="Ensipainovuosi" value={ensipainovuosi} onChange={(e) => handlePainoVuosi(e)}></TextField>
+                            <TextField required id="outlined-painokset" label="Painokset" value={painokset} onChange={(e) => handlePainos(e)}></TextField>
                             <input type="file" name="takakansikuva" onChange={(e) => {setTakaKansiKuva(e.target.files[0]) ; console.log(e.target.files[0])}}></input>
                             <input type="file" name="etukansikuva" onChange={(e) => setEtuKansiKuva(e.target.files[0])}></input>
                             <Button variant="outlined" type="submit">Lisää kirja</Button>
