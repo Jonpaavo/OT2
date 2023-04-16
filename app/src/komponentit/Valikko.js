@@ -1,10 +1,10 @@
-import { Box, Drawer, List, ListItem, ListItemButton, ListItemText } from "@mui/material";
+import { Box, Drawer, List, ListItem, ListItemButton, ListItemText, Typography } from "@mui/material";
 import { useState } from "react";
 import {Link} from 'react-router-dom'
 
 
 const Valikko = (props) => {
-
+// , background: ""
 
     
     
@@ -14,13 +14,13 @@ const Valikko = (props) => {
 
             
 
-            <Drawer variant="permanent">
+            <Drawer variant="permanent" sx={{bgcolor: "red"}} >
                 
-                <List sx={{ width: 150, background: ""}}>
+                <List sx={{ width: 150}}>
                     <ListItem>
                         <ListItemButton>
                             <ListItemText>
-                                
+
                             </ListItemText>
                         </ListItemButton>
                     </ListItem>

@@ -173,26 +173,35 @@ const OmaKokoelma =(props) => {
         
     }
 
-    
+    const handleMuokkaa = () => {
+        if (muokkaaKirjaSarja != "" && muokkaaKustantaja != "" && muokkaaKuvaus != "" && muokkaaLuokittelu != "") {
+            muokkaaDialog();
+        }
+    }
+
+    const refresh = async () => {
+        await window.location.reload()
+    }
 
     return (
       
         <>
-            <Container sx={{bgcolor: "lavender", height: "100vh"}}>
+            <Container maxWidth={false} sx={{bgcolor: "#D4EBEC", height: "100vh"}}>
                 <Typography variant="h6" align="center">Tämä on oma kokoelma</Typography>
                 {!muokkaaKokoelmat ? 
-
-                    <div>
+                    <Container>
+                    <form>
                         <Typography variant="h6" align="center">Muokkaus</Typography>
                         <TextField required id="outlined-kirjasarja" label="Kirjasarja"  defaultValue={muokkaaKirjaSarja} onChange={(e) => setMuokkaaKirjaSarja(e.target.value)} />
                             <TextField required id="outlined-kustantaja" label="Kustantaja" defaultValue={muokkaaKustantaja} onChange={(e) => setMuokkaaKustantaja(e.target.value)} />
                             <TextField required id="outlined-kuvaus" label="Kuvaus" defaultValue={muokkaaKuvaus} onChange={(e) => setMuokkaaKuvaus(e.target.value)} />
                             <TextField required id="outlined-luokittelu" label="Luokittelu" defaultValue={muokkaaLuokittelu} onChange={(e) => setMuokkaaLuokittelu(e.target.value)} />
-                            <Button variant="outlined" onClick={() => {muokkaaDialog()}} >Muokkaa kokoelma</Button>
+                            <Button variant="outlined" onClick={() => {handleMuokkaa()}} >Muokkaa kokoelma</Button>
                             <Button variant="outlined" onClick={() => {peruMuokkaus()}}>Peru muokkaus</Button>
-                    </div>
+                    </form>
+                    </Container>
                     :
-                    <div>
+                    <Container>
                         <div>
                         <form onSubmit={handlePost}>
                             <TextField required id="outlined-kirjasarja" label="Kirjasarja" onChange={(e) => setKirjaSarja(e.target.value)} />
@@ -229,13 +238,13 @@ const OmaKokoelma =(props) => {
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                    </div>
+                    </Container>
                 }
 
                 <Dialog open={muokkaaVarmistus}>
                     <DialogTitle>Muokkaa kokoelmaa</DialogTitle>
                     <DialogActions>
-                        <Button onClick={() => {setLaskuri(laskuri+1) ; muokkaaDialog() ; window.location.reload()}}>Muokkaa</Button>
+                        <Button onClick={() => {setLaskuri(laskuri+1) ; muokkaaDialog() ; refresh()}}>Muokkaa</Button>
                         <Button onClick={() => {peruMuokkaus() ; muokkaaDialog() }}>Peru muokkaus</Button>
                     </DialogActions>
                </Dialog>

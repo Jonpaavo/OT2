@@ -280,7 +280,7 @@ const Omankokoelmankirjat = (props) => {
     return (
 
         <>
-            <Container sx={{bgcolor: "green", height: "100vh"}}>
+            <Container  sx={{bgcolor: "lightsteelblue", height: "100vh"}}>
 
                 <Typography variant="h6" align="center">Tämä on oman kirjahyllyn kokoelman kirjat</Typography>
                 <Typography variant="h6" align="center">Valitun kirjasarjan id on: {props.idOmatSarjat}</Typography>

@@ -163,36 +163,39 @@ const Kokoelmat = (props) => {
         
     }
 
+    const handleMuokkaa = () => {
+        if (muokkaaKirjaSarja != "" && muokkaaKustantaja != "" && muokkaaKuvaus != "" && muokkaaLuokittelu != "") {
+            muokkaaDialog();
+        }
+    }
+
+    const refresh = async () => {
+        await window.location.reload()
+    }
+
 
     return (
         
 
         <>
 
-            <Container sx={{bgcolor: "beige", height: "100vh"}}>
-
-                <Typography variant="h6" align="center">Tämä on Kokoelmat</Typography>
-
-                <Typography variant="h6" align="center">Tämä on yhden kirjasarjan Kokoelma</Typography>
-                <Typography variant="h6" align="center">Valitun kirjasarjan id on: {props.id}</Typography>
-
-                
+            <Container maxWidth={false} sx={{bgcolor: "#D4EBEC", height: "100vh"}}>
 
                 {!muokkaaKokoelmat ? 
 
-                <div sx={{bgcolor: "grey", height: "100vh"}}>
+                <Container>
 
                     <Typography variant="h6" align="center">Muokkaus</Typography>
                     <TextField required id="outlined-kirjasarja" label="Kirjasarja"  defaultValue={muokkaaKirjaSarja} onChange={(e) => setMuokkaaKirjaSarja(e.target.value)} />
                         <TextField required id="outlined-kustantaja" label="Kustantaja" defaultValue={muokkaaKustantaja} onChange={(e) => setMuokkaaKustantaja(e.target.value)} />
                         <TextField required id="outlined-kuvaus" label="Kuvaus" defaultValue={muokkaaKuvaus} onChange={(e) => setMuokkaaKuvaus(e.target.value)} />
                         <TextField required id="outlined-luokittelu" label="Luokittelu" defaultValue={muokkaaLuokittelu} onChange={(e) => setMuokkaaLuokittelu(e.target.value)} />
-                        <Button variant="outlined" onClick={() => {muokkaaDialog()}}>Muokkaa kokoelma</Button>
+                        <Button variant="outlined" onClick={() => {handleMuokkaa()}}>Muokkaa kokoelma</Button>
                         <Button variant="outlined" onClick={() => {peruMuokkaus()}}>Peru muokkaus</Button>
-                        
-                </div>
+
+                </Container>
                 :
-                <div>
+                <Container>
 
                     { props.admin == true &&
                         <form onSubmit={handlePost}>
@@ -204,7 +207,7 @@ const Kokoelmat = (props) => {
                         </form>
                     }
 
-                    <TableContainer component={Paper} sx={{width: "100vh", height: "65vh", align: "center"}}>
+                    <TableContainer component={Paper} sx={{width: "100vh", height: "65vh", align: "right"}}>
                         <Table sx={{minWidth: 650}} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
@@ -232,13 +235,13 @@ const Kokoelmat = (props) => {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                </div>
+                </Container>
                 }
 
                <Dialog open={muokkaaVarmistus}>
                     <DialogTitle>Muokkaa kokoelmaa</DialogTitle>
                     <DialogActions>
-                        <Button onClick={() => {setLaskuri(laskuri+1) ; muokkaaDialog() ; window.location.reload()}}>Muokkaa</Button>
+                        <Button onClick={() => {setLaskuri(laskuri+1) ; muokkaaDialog() ; refresh()}}>Muokkaa</Button>
                         <Button onClick={() => {peruMuokkaus() ; muokkaaDialog() }}>Peru muokkaus</Button>
                     </DialogActions>
                </Dialog>

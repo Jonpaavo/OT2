@@ -25,7 +25,7 @@ const AppiBaari = (props) =>  {
     }
     return (
 
-        <AppBar position="relative" sx={{zIndex: (theme) => theme.zIndex.drawer + 1}}>
+        <AppBar position="relative" sx={{zIndex: (theme) => theme.zIndex.drawer + 1, bgcolor: "#00487C"}}>
             <Toolbar>
                 <Box display='flex' flexGrow={1}>
                     <Button variant="h6" href="/" >Kirja-arkisto</Button>
