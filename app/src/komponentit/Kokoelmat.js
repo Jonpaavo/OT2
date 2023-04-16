@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, fabClasses } from "@mui/material";
 import { Container } from "@mui/system";
 import { useEffect, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
@@ -192,7 +192,6 @@ const Kokoelmat = (props) => {
                         <TextField required id="outlined-luokittelu" label="Luokittelu" defaultValue={muokkaaLuokittelu} onChange={(e) => setMuokkaaLuokittelu(e.target.value)} />
                         <Button variant="outlined" onClick={() => {handleMuokkaa()}}>Muokkaa kokoelma</Button>
                         <Button variant="outlined" onClick={() => {peruMuokkaus()}}>Peru muokkaus</Button>
-
                 </Container>
                 :
                 <Container>
