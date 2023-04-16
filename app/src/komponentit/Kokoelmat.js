@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, fabClasses } from "@mui/material";
 import { Container } from "@mui/system";
 import { useEffect, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
@@ -169,18 +169,15 @@ const Kokoelmat = (props) => {
 
         <>
 
-            <Container sx={{bgcolor: "beige", height: "100vh"}}>
+            <Container maxWidth={false} sx={{bgcolor: "beige", height: "100vh"}}>
 
-                <Typography variant="h6" align="center">Tämä on Kokoelmat</Typography>
-
-                <Typography variant="h6" align="center">Tämä on yhden kirjasarjan Kokoelma</Typography>
-                <Typography variant="h6" align="center">Valitun kirjasarjan id on: {props.id}</Typography>
+                
 
                 
 
                 {!muokkaaKokoelmat ? 
 
-                <div sx={{bgcolor: "grey", height: "100vh"}}>
+                <Container>
 
                     <Typography variant="h6" align="center">Muokkaus</Typography>
                     <TextField required id="outlined-kirjasarja" label="Kirjasarja"  defaultValue={muokkaaKirjaSarja} onChange={(e) => setMuokkaaKirjaSarja(e.target.value)} />
@@ -190,9 +187,9 @@ const Kokoelmat = (props) => {
                         <Button variant="outlined" onClick={() => {muokkaaDialog()}}>Muokkaa kokoelma</Button>
                         <Button variant="outlined" onClick={() => {peruMuokkaus()}}>Peru muokkaus</Button>
                         
-                </div>
+                </Container>
                 :
-                <div>
+                <Container>
 
                     { props.admin == true &&
                         <form onSubmit={handlePost}>
@@ -232,7 +229,7 @@ const Kokoelmat = (props) => {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                </div>
+                </Container>
                 }
 
                <Dialog open={muokkaaVarmistus}>
