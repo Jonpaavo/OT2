@@ -78,24 +78,25 @@ const Kirjautuminen = (props) => {
     return(
 
         <>
-            <Container sx={{bgcolor: "tomato", height: "100vh"}}>
-                <Typography variant="h6" align="center">Tämä on Kirjautuminen</Typography>
+            <Container maxWidth={false} sx={{bgcolor: "#D4EBEC", height: "100vh"}}>
+                <Container>
+                    <Typography variant="h6" align="center">Tämä on Kirjautuminen</Typography>
 
-                <Box component="form" sx={{}} noValidate autoComplete="off">
+                    <Box component="form" sx={{}} noValidate autoComplete="off">
 
-                    <div>
-                        <TextField inputProps={{ "data-testid": "kirjaudu_input" }} required id="outlined-username" value={inputNimi} label="Käyttäjänimi" onChange={(e) => setInputNimi(e.target.value)} />
-                        <TextField inputProps={{ "data-testid": "salasana_input" }} required id="outlined-password" value={inputSalasana} label="Salasana" type="password" onChange={(e) => setInputSalasana(e.target.value)} />
-                        <Button data-testid="kirjaudu_button" variant="outlined" onClick={() => {handleKirjautuminen()}}>Kirjaudu sisään</Button>
-
-
-                        {/* Tämä on testiä varten, muutetaan/poistetaan ? */}
-                        <Typography data-testid="kirjaudu_typo">{kirjauduElement}</Typography>
-                    </div>
+                        <div>
+                            <TextField inputProps={{ "data-testid": "kirjaudu_input" }} required id="outlined-username" value={inputNimi} label="Käyttäjänimi" onChange={(e) => setInputNimi(e.target.value)} />
+                            <TextField inputProps={{ "data-testid": "salasana_input" }} required id="outlined-password" value={inputSalasana} label="Salasana" type="password" onChange={(e) => setInputSalasana(e.target.value)} />
+                            <Button data-testid="kirjaudu_button" variant="outlined" onClick={() => {handleKirjautuminen()}}>Kirjaudu sisään</Button>
 
 
-                </Box>
+                            {/* Tämä on testiä varten, muutetaan/poistetaan ? */}
+                            <Typography data-testid="kirjaudu_typo">{kirjauduElement}</Typography>
+                        </div>
 
+
+                    </Box>
+                </Container>
             </Container>
         
         
