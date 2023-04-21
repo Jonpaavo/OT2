@@ -62,20 +62,22 @@ const Rekisteroityminen = () => {
     return (
 
         <>
-            <Container sx={{bgcolor: "tomato", height: "100vh"}}>
-                <Typography variant="h6" align="center">Tämä on rekisteröityminen</Typography>
+            <Container maxWidth={false} sx={{bgcolor: "#D4EBEC", height: "100vh"}}>
+                <Container>
+                    <Typography variant="h6" align="center">Tämä on rekisteröityminen</Typography>
 
-                <Box component="form" sx={{}} noValidate autoComplete="off">
+                    <Box component="form" sx={{}} noValidate autoComplete="off">
 
-                    <div>
-                        <TextField inputProps={{ "data-testid": "rekisteröidy_input" }} required id="outlined-username" label="Käyttäjänimi" onChange={(e) => setLisaaKayttajaNimi(e.target.value)} />
-                        <TextField inputProps={{ "data-testid": "rsalasana_input" }} required id="outlined-password" label="Salasana" type="password" onChange={(e) => setLisaaKayttajaSalasana(e.target.value)} />
-                        <Button variant="outlined" onClick={() => {handlePost()}}>Rekisteröidy</Button>
+                        <div>
+                            <TextField inputProps={{ "data-testid": "rekisteröidy_input" }} required id="outlined-username" label="Käyttäjänimi" onChange={(e) => setLisaaKayttajaNimi(e.target.value)} />
+                            <TextField inputProps={{ "data-testid": "rsalasana_input" }} required id="outlined-password" label="Salasana" type="password" onChange={(e) => setLisaaKayttajaSalasana(e.target.value)} />
+                            <Button variant="outlined" onClick={() => {handlePost()}}>Rekisteröidy</Button>
 
-                    </div>
+                        </div>
 
 
-                </Box>
+                    </Box>
+                </Container>
             </Container>
         
         
