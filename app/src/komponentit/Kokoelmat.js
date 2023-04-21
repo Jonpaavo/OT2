@@ -1,4 +1,5 @@
 import { Button, Dialog, DialogActions, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, fabClasses } from "@mui/material";
+import { red } from "@mui/material/colors";
 import { Container } from "@mui/system";
 import { useEffect, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
@@ -184,29 +185,34 @@ const Kokoelmat = (props) => {
                 {!muokkaaKokoelmat ? 
 
                 <Container>
-
-                    <Typography variant="h6" align="center">Muokkaus</Typography>
-                    <TextField required id="outlined-kirjasarja" label="Kirjasarja"  defaultValue={muokkaaKirjaSarja} onChange={(e) => setMuokkaaKirjaSarja(e.target.value)} />
+                        <Typography variant="h6" align="center">Muokkaus</Typography>
+                        <TextField required id="outlined-kirjasarja" label="Kirjasarja"  defaultValue={muokkaaKirjaSarja} onChange={(e) => setMuokkaaKirjaSarja(e.target.value)} />
                         <TextField required id="outlined-kustantaja" label="Kustantaja" defaultValue={muokkaaKustantaja} onChange={(e) => setMuokkaaKustantaja(e.target.value)} />
                         <TextField required id="outlined-kuvaus" label="Kuvaus" defaultValue={muokkaaKuvaus} onChange={(e) => setMuokkaaKuvaus(e.target.value)} />
                         <TextField required id="outlined-luokittelu" label="Luokittelu" defaultValue={muokkaaLuokittelu} onChange={(e) => setMuokkaaLuokittelu(e.target.value)} />
+                   
                         <Button variant="outlined" onClick={() => {handleMuokkaa()}}>Muokkaa kokoelma</Button>
                         <Button variant="outlined" onClick={() => {peruMuokkaus()}}>Peru muokkaus</Button>
                 </Container>
                 :
                 <Container>
-
-                    { props.admin == true &&
-                        <form onSubmit={handlePost}>
-                            <TextField required id="outlined-kirjasarja" label="Kirjasarja" onChange={(e) => setKirjaSarja(e.target.value)} />
-                            <TextField required id="outlined-kustantaja" label="Kustantaja" onChange={(e) => setKustantaja(e.target.value)} />
-                            <TextField required id="outlined-kuvaus" label="Kuvaus" onChange={(e) => setKuvaus(e.target.value)} />
-                            <TextField required id="outlined-luokittelu" label="Luokittelu" onChange={(e) => setLuokittelu(e.target.value)} />
-                            <Button variant="outlined" type="submit">Lisää kokoelma</Button>
-                        </form>
-                    }
-
-                    <TableContainer component={Paper} sx={{width: "100vh", height: "65vh", align: "right"}}>
+                    <Container sx={{p: 3}}>
+                        { props.admin == true &&
+                            <form onSubmit={handlePost}>
+                                <Typography variant="h6" align="center">Hallinoijan kirjanlisäys-työkalu</Typography>
+                                <Container sx={{ml: 10}}>
+                                    <TextField sx={{m: 1}} required id="outlined-kirjasarja" label="Kirjasarja" onChange={(e) => setKirjaSarja(e.target.value)} />
+                                    <TextField sx={{m: 1}} required id="outlined-kustantaja" label="Kustantaja" onChange={(e) => setKustantaja(e.target.value)} />
+                                    <TextField sx={{m: 1}} required id="outlined-kuvaus" label="Kuvaus" onChange={(e) => setKuvaus(e.target.value)} />
+                                    <TextField sx={{m: 1}} required id="outlined-luokittelu" label="Luokittelu" onChange={(e) => setLuokittelu(e.target.value)} />
+                                </Container>
+                                <Button sx={{ml: 60}} variant="outlined" type="submit">Lisää kokoelma</Button>
+                            </form>
+                        }
+                    </Container>
+                    
+                    <Typography sx={{mb: 5}} variant="h6" align="center">Kokoelmat</Typography>
+                    <TableContainer component={Paper} sx={{width: "100vh", height: "65vh", ml: 13}}>
                         <Table sx={{minWidth: 650}} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
@@ -215,7 +221,7 @@ const Kokoelmat = (props) => {
                                     <TableCell>{/* Namiskukkelit */}</TableCell>
                                 </TableRow>
                             </TableHead>
-                            <TableBody>
+                            <TableBody sx={{"& tr:nth-of-type(2n+1)": {backgroundColor: "grey.100"}}}>
                                 {kirjaSarjaTable.map && kirjaSarjaTable.map((row,index) => (
                                     <TableRow key={index} sx={{ '&:last-child td, &:last-child th': {border: 0}}}>
                                         <TableCell component="th" scope="row">
