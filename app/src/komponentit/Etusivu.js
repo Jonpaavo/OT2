@@ -17,7 +17,7 @@ const Etusivu = () => {
                     </Box>
             </Box>
         </Container>
-);
+    );
 };
 
 export { Etusivu };
