@@ -58,29 +58,43 @@ const OmaKirja = (props) => {
     },[props.idOmaKirja])
 
     return (
-
         <>
-            <Container sx={{bgcolor: "brown", height: "100vh"}}>
-                <Typography variant="h6" align="center">Tämä on yhden kirjan sivu</Typography>
-                <Typography variant="h6" align="center">Tämä on klikatun kirjan id: {id}</Typography>
-                <Typography variant="h6" align="center">Tässä on kirjan nimi: {kirjanNimi}</Typography>
-                <Typography variant="h6" align="center">Tässä on kirjan järjestysnumero: {jarjestysnumero}</Typography>
-                <Typography variant="h6" align="center">Tässä on kirjan kirjailija: {kirjailija}</Typography>
-                <Typography variant="h6" align="center">Tässä on kirjan kuntoluokka: {kuntoluokka}</Typography>
-                <Typography variant="h6" align="center">Tässä on kirjan hankintahinta: {hankintaHinta}</Typography>
-                <Typography variant="h6" align="center">Tässä on kirjan hankinta-aika: {hankintaAika}</Typography>
-                <Typography variant="h6" align="center">Tässä on kirjan esittelyteksti: {esittelyTeksti}</Typography>
-                <Typography variant="h6" align="center">Tässä on kirjan painovuosi: {painovuosi}</Typography>
-                <Typography variant="h6" align="center">Tässä on kirjan painos: {painos}</Typography>
-        
-                <img src={takaKansi} height={200} width={200} />
-                <img src={etukansi} height={200} width={200} />
-            </Container>
-        
-        
+          <Container sx={{ bgcolor: "#D4EBEC", minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+            <Typography variant="h4" align="center" gutterBottom>
+              Tämä on yhden kirjan sivu
+            </Typography>
+            <img src={etukansi} height={200} width={200} alt="Etukansi" />
+            <Typography variant="h5" align="center" gutterBottom>
+              {kirjanNimi}
+            </Typography>
+            <Typography variant="subtitle1" align="center" gutterBottom>
+              Kirjailija: {kirjailija}
+            </Typography>
+            <Typography variant="subtitle1" align="center" gutterBottom>
+              Järjestysnumero: {jarjestysnumero}
+            </Typography>
+            <Typography variant="subtitle1" align="center" gutterBottom>
+              Kuntoluokka: {kuntoluokka}
+            </Typography>
+            <Typography variant="subtitle1" align="center" gutterBottom>
+              Hankintahinta: {hankintaHinta} €
+            </Typography>
+            <Typography variant="subtitle1" align="center" gutterBottom>
+              Painovuosi: {painovuosi}
+            </Typography>
+            <Typography variant="subtitle1" align="center" gutterBottom>
+              Painos: {painos}
+            </Typography>
+            <Typography variant="subtitle1" align="center" gutterBottom>
+              Hankinta-aika: {hankintaAika}
+            </Typography>
+            <Typography variant="subtitle1" align="center" gutterBottom>
+              Esittelyteksti: {esittelyTeksti}
+            </Typography>
+            <img src={takaKansi} height={200} width={200} alt="Takakansi" />
+          </Container>
         </>
-
-    )
+      );
 }
 
 export {OmaKirja}
