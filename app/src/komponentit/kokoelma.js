@@ -142,7 +142,7 @@ const Kokoelma = (props) => {
     return (
 
         <>
-            <Container sx={{bgcolor: "#D4EBEC", height: "100vh"}}>
+            <Container  maxWidth={false} sx={{bgcolor: "#D4EBEC", height: "100vh"}}>
                 <Container>
 
                 { props.admin == true &&
