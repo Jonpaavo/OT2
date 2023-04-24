@@ -14,7 +14,7 @@ const Etusivu = () => {
                 <Typography align="left" gutterBottom>Tervetuloa kirja-arkisto sovellukseen ja nauti lukemisesta!</Typography>
                 <Typography align="left" gutterBottom>Alla olevasta napista pääset selaamaan kirja-arkiston kokoelmaa.</Typography>
                     <Box sx={{ display: "flex", justifyContent: "center", mt: 5 }}>
-                        <Button variant="contained" color="primary" href="/kokoelma">Tutustu kokoelmaamme</Button>
+                        <Button variant="contained" color="primary" href="/kokoelmat">Tutustu kokoelmaamme</Button>
                     </Box>
             </Box>
         </Container>

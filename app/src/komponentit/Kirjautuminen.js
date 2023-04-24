@@ -80,6 +80,7 @@ const Kirjautuminen = (props) => {
         <>
             <Container maxWidth={false} sx={{bgcolor: "#D4EBEC", height: "100vh"}}>
                 <Container>
+                    <Container>
                     <Typography variant="h6" align="center">Tämä on Kirjautuminen</Typography>
 
                     <Box component="form" sx={{}} noValidate autoComplete="off">
@@ -96,6 +97,7 @@ const Kirjautuminen = (props) => {
 
 
                     </Box>
+                    </Container>
                 </Container>
             </Container>
         

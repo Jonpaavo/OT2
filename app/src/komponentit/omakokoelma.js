@@ -187,9 +187,12 @@ const OmaKokoelma =(props) => {
       
         <>
             <Container maxWidth={false} sx={{bgcolor: "#D4EBEC", height: "100vh"}}>
+                <Container>
+                
                 <Typography variant="h6" align="center">Tämä on oma kokoelma</Typography>
                 {!muokkaaKokoelmat ? 
-                    <Container>
+                    
+                        <Container>
                     <form>
                         <Typography variant="h6" align="center">Muokkaus</Typography>
                         <TextField required id="outlined-kirjasarja" label="Kirjasarja"  defaultValue={muokkaaKirjaSarja} onChange={(e) => setMuokkaaKirjaSarja(e.target.value)} />
@@ -256,6 +259,7 @@ const OmaKokoelma =(props) => {
                         <Button onClick={() => {poistaDialog() ; setPoistettavaId("")}}>Peru poisto</Button>
                     </DialogActions>
                </Dialog>
+               </Container>
 
             </Container>
         

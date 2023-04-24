@@ -143,6 +143,7 @@ const Kokoelma = (props) => {
 
         <>
             <Container sx={{bgcolor: "lightgoldenrodyellow", height: "100vh"}}>
+                <Container>
 
                 { props.admin == true &&
                     <div> 
@@ -195,6 +196,7 @@ const Kokoelma = (props) => {
                             </TableBody>
                         </Table>
                     </TableContainer>
+                    </Container>
             </Container>
         </>
     )

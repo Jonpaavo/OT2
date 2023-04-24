@@ -281,6 +281,7 @@ const Omankokoelmankirjat = (props) => {
 
         <>
             <Container  sx={{bgcolor: "lightsteelblue", height: "100vh"}}>
+                <Container>
 
                 <Typography variant="h6" align="center">Tämä on oman kirjahyllyn kokoelman kirjat</Typography>
                 <Typography variant="h6" align="center">Valitun kirjasarjan id on: {props.idOmatSarjat}</Typography>
@@ -380,6 +381,7 @@ const Omankokoelmankirjat = (props) => {
                         <Button onClick={() => {poistaDialog() ; setPoistaIidee("")}}>Peru poisto</Button>
                     </DialogActions>
                </Dialog>
+               </Container>
 
                 
             </Container>

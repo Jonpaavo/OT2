@@ -64,6 +64,7 @@ const Rekisteroityminen = () => {
         <>
             <Container maxWidth={false} sx={{bgcolor: "#D4EBEC", height: "100vh"}}>
                 <Container>
+                    <Container>
                     <Typography variant="h6" align="center">Tämä on rekisteröityminen</Typography>
 
                     <Box component="form" sx={{}} noValidate autoComplete="off">
@@ -77,6 +78,7 @@ const Rekisteroityminen = () => {
 
 
                     </Box>
+                </Container>
                 </Container>
             </Container>
         
