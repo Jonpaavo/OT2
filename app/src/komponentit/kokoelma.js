@@ -142,19 +142,19 @@ const Kokoelma = (props) => {
     return (
 
         <>
-            <Container sx={{bgcolor: "lightgoldenrodyellow", height: "100vh"}}>
+            <Container sx={{bgcolor: "#D4EBEC", height: "100vh"}}>
                 <Container>
 
                 { props.admin == true &&
                     <div> 
                         <form onSubmit={handlePost}>
-                            <TextField required id="outlined-nimi" label="Nimi" onChange={(e) => setKirjanNimi(e.target.value)}></TextField>
-                            <TextField required id="outlined-jarjestysnumero" label="Järjestysnumero" value={jarjestysnumero} onChange={(e) => handleJarjestysnumero(e)}></TextField>
-                            <TextField required id="outlined-kuvausteksti" label="Kuvausteksti" onChange={(e) => setKuvausTeksti(e.target.value)}></TextField>
-                            <TextField required id="outlined-kirjailija" label="Kirjailija" onChange={(e) => setKirjailija(e.target.value)}></TextField>
-                            <TextField required id="outlined-piirtajat" label="Piirtäjät" onChange={(e) => setPiirtajat(e.target.value)}></TextField>
-                            <TextField required id="outlined-ensipainovuosi" label="Ensipainovuosi" value={ensipainovuosi} onChange={(e) => handlePainoVuosi(e)}></TextField>
-                            <TextField required id="outlined-painokset" label="Painokset" value={painokset} onChange={(e) => handlePainos(e)}></TextField>
+                            <TextField sx={{m: 1}} required id="outlined-nimi" label="Nimi" onChange={(e) => setKirjanNimi(e.target.value)}></TextField>
+                            <TextField sx={{m: 1}} required id="outlined-jarjestysnumero" label="Järjestysnumero" value={jarjestysnumero} onChange={(e) => handleJarjestysnumero(e)}></TextField>
+                            <TextField sx={{m: 1}} required id="outlined-kuvausteksti" label="Kuvausteksti" onChange={(e) => setKuvausTeksti(e.target.value)}></TextField>
+                            <TextField sx={{m: 1}} required id="outlined-kirjailija" label="Kirjailija" onChange={(e) => setKirjailija(e.target.value)}></TextField>
+                            <TextField sx={{m: 1}} required id="outlined-piirtajat" label="Piirtäjät" onChange={(e) => setPiirtajat(e.target.value)}></TextField>
+                            <TextField sx={{m: 1}} required id="outlined-ensipainovuosi" label="Ensipainos" value={ensipainovuosi} onChange={(e) => handlePainoVuosi(e)}></TextField>
+                            <TextField sx={{m: 1}} required id="outlined-painokset" label="Painokset" value={painokset} onChange={(e) => handlePainos(e)}></TextField>
                             <input type="file" name="takakansikuva" onChange={(e) => {setTakaKansiKuva(e.target.files[0]) ; console.log(e.target.files[0])}}></input>
                             <input type="file" name="etukansikuva" onChange={(e) => setEtuKansiKuva(e.target.files[0])}></input>
                             <Button variant="outlined" type="submit">Lisää kirja</Button>
@@ -176,7 +176,7 @@ const Kokoelma = (props) => {
                                     <TableCell>Kuvausteksti</TableCell>
                                     <TableCell>Kirjailija</TableCell>
                                     <TableCell>Piirtäjä</TableCell>
-                                    <TableCell>Ensipainovuosi</TableCell>
+                                    <TableCell>Ensipainos</TableCell>
                                     <TableCell>Painokset</TableCell>
                                     <TableCell>{/* Namiskukkelit */}</TableCell>
                                 </TableRow>

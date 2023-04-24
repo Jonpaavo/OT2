@@ -174,22 +174,23 @@ const Kirja = (props) => {
     return (
 
         <>
-            <Container sx={{bgcolor: "brown", height: "100vh"}}>
+            <Container sx={{ bgcolor: "#D4EBEC", minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
                 <Typography variant="h6" align="center">Tämä on yhden kirjan sivu</Typography>
                 {!muokkaaKirja ? 
                 <div>
-                    <Typography variant="h6" align="center">Tämä on klikatun kirjan id: {props.id}</Typography>
-                    <Typography variant="h6" align="center">Tässä on kirjan nimi: {kirjanNimi}</Typography>
-                    <Typography variant="h6" align="center">Tässä on kirjan kirjailijat: {kirjailijat}</Typography>
-                    <Typography variant="h6" align="center">Tässä on kirjan piirtäjät: {piirtajat}</Typography>
-                    <Typography variant="h6" align="center">Tässä on kirjan ensipainovuosi: {ensipainovuosi}</Typography>
-                    <Typography variant="h6" align="center">Tässä on kirjan kuvausteksti: {kuvausTeksti}</Typography>
-                    <Typography variant="h6" align="center">Tässä on kirjan painokset: {painokset}</Typography>
+                    <Typography variant="subtitle1" align="center"> kirjan id: {props.id}</Typography>
+                    <Typography variant="subtitle1" align="center">kirjan nimi: {kirjanNimi}</Typography>
+                    <Typography variant="subtitle1" align="center">kirjailijat: {kirjailijat}</Typography>
+                    <Typography variant="subtitle1" align="center">piirtäjät: {piirtajat}</Typography>
+                    <Typography variant="subtitle1" align="center">ensipainos: {ensipainovuosi}</Typography>
+                    <Typography variant="subtitle1" align="center">kuvausteksti: {kuvausTeksti}</Typography>
+                    <Typography variant="subtitle1" align="center">painokset: {painokset}</Typography>
 
                     { props.admin &&
                         <div>
-                            <Button variant="contained" onClick={() => toggleMuokkaaKirja()}>Muokkaa</Button>
-                            <Button variant="contained" href="/kokoelma" onClick={() => poistaKirja()}>Poista</Button>
+                            
+                            <Button sx={{ml: 10}} variant="contained" onClick={() => toggleMuokkaaKirja()}>Muokkaa</Button>
+                            <Button sx={{ml: 4}} variant="contained" href="/kokoelma" onClick={() => poistaKirja()}>Poista</Button>
                         </div>
 
                     }

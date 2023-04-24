@@ -212,7 +212,7 @@ const Kokoelmat = (props) => {
                     </Container>
                     
                     <Typography sx={{mb: 5}} variant="h6" align="center">Kokoelmat</Typography>
-                    <TableContainer component={Paper} sx={{width: "100vh", height: "65vh", ml: 13}}>
+                    <TableContainer component={Paper} sx={{width: "100vh", height: "65vh", ml: 20}}>
                         <Table sx={{minWidth: 650}} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
