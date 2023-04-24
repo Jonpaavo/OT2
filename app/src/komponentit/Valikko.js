@@ -16,32 +16,24 @@ const Valikko = (props) => {
             </ListItemIcon>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton sx={{ borderRadius: '0 25px 25px 0' }}>
-              <Link to={'/tietoa'} style={{ textDecoration: 'none', color: 'inherit' }}>
-                <ListItemText primary="Tietoa" />
-              </Link>
+            <ListItemButton component={Link} to={'/tietoa'} sx={{ borderRadius: '0 25px 25px 0' }}>
+              <ListItemText primary="Tietoa" />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton sx={{ borderRadius: '0 25px 25px 0' }}>
-              <Link to={'/'} style={{ textDecoration: 'none', color: 'inherit' }}>
-                <ListItemText primary="Etusivu" />
-              </Link>
+            <ListItemButton component={Link} to={'/'} sx={{ borderRadius: '0 25px 25px 0' }}>
+              <ListItemText primary="Etusivu" />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton sx={{ borderRadius: '0 25px 25px 0' }} onClick={() => props.setLaskuri(props.laskuri + 1)}>
-              <Link to={'/kokoelmat'} style={{ textDecoration: 'none', color: 'inherit' }}>
-                <ListItemText primary="Kokoelmat" />
-              </Link>
+            <ListItemButton component={Link} to={'/kokoelmat'} sx={{ borderRadius: '0 25px 25px 0' }} onClick={() => props.setLaskuri(props.laskuri + 1)}>
+              <ListItemText primary="Kokoelmat" />
             </ListItemButton>
           </ListItem>
           {props.kirjautumisToken && (
             <ListItem disablePadding>
-              <ListItemButton sx={{ borderRadius: '0 25px 25px 0' }} onClick={() => props.setLaskuri(props.laskuri + 1)}>
-                <Link to={'/omakokoelma'} style={{ textDecoration: 'none', color: 'inherit' }}>
-                  <ListItemText primary="Oma kokoelma" />
-                </Link>
+              <ListItemButton component={Link} to={'/omakokoelma'} sx={{ borderRadius: '0 25px 25px 0' }} onClick={() => props.setLaskuri(props.laskuri + 1)}>
+                <ListItemText primary="Oma kokoelma" />
               </ListItemButton>
             </ListItem>
           )}
