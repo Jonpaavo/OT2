@@ -1,91 +1,58 @@
-import { Box, Button, Container, TextField, Typography } from "@mui/material"
-import { useEffect, useState } from "react"
+import { Box, Button, Container, Grid, TextField, Typography } from "@mui/material";
+import { useState } from "react";
 
 const Rekisteroityminen = () => {
+  const [lisaaKayttajaNimi, setLisaaKayttajaNimi] = useState("");
+  const [lisaaKayttajaSalasana, setLisaaKayttajaSalasana] = useState("");
+  const [rekisteroity, setRekisteroity] = useState(false);
 
-
-    const [lisaaKayttajaNimi,setLisaaKayttajaNimi] = useState("");
-    const [lisaaKayttajaSalasana,setLisaaKayttajaSalasana] = useState("");
-    const [lisaaQuery,setLisaaQuery] = useState("");
-
-
-    useEffect( () => {
-
-        const lisaaKayttaja = async () => {
-
-            fetch("http://localhost:3004/kayttaja/", {
-
-                method : 'POST',
-                headers : {
-                    'Content-Type' : 'application/json',
-                },
-                body : JSON.stringify({
-
-                    nimi : lisaaKayttajaNimi,
-                    salasana : lisaaKayttajaSalasana
-                    
-                })
-            });
-        }
-
-        console.log(lisaaQuery);
-
-        if (lisaaQuery != "") {
-
-            lisaaKayttaja();     
-            
-        }
-
-        setLisaaKayttajaNimi("");
-        setLisaaKayttajaSalasana("");
-        
-    },[lisaaQuery]);
-
-    const handlePost = () => {
-
-        let m  = [];
-
-        if (lisaaKayttajaNimi != "") 
-            m.push(lisaaKayttajaNimi);
-
-        if (lisaaKayttajaSalasana != "")
-            m.push(lisaaKayttajaSalasana);
-
-        setLisaaQuery(m);
-        
-
-        console.log("Handle post m listan tiedot:" + m);
-
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    // Lähetä POST-pyyntö API:lle
+    const response = await fetch("http://localhost:3004/kayttaja/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        nimi: lisaaKayttajaNimi,
+        salasana: lisaaKayttajaSalasana,
+      }),
+    });
+    if (response.ok) {
+      setRekisteroity(true);
     }
+  };
 
+  return (
+    <Box sx={{ bgcolor: "#D4EBEC", height: "100vh", display: "flex", alignItems: "center" }}>
+      <Container maxWidth="sm" sx={{bgcolor: "white", p: 4, borderRadius: 2, boxShadow: 3}}>
+          <Typography variant="h4" align="center" gutterBottom>
+            Rekisteröidy
+          </Typography>
+          <Box component="form" onSubmit={handleSubmit}>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField required fullWidth inputProps={{ "data-testid": "rekisteröidy_input" }} id="outlined-username" label="Käyttäjänimi" variant="outlined" value={lisaaKayttajaNimi} onChange={(e) => setLisaaKayttajaNimi(e.target.value)}/>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField required fullWidth inputProps={{ "data-testid": "rsalasana_input" }} id="outlined-password" label="Salasana" type="password" variant="outlined" value={lisaaKayttajaSalasana} onChange={(e) => setLisaaKayttajaSalasana(e.target.value)}/>
+              </Grid>
+              <Grid item xs={12}>
+                <Button fullWidth variant="contained" type="submit" sx={{ bgcolor: "primary", color: "#fff", "&:hover": { bgcolor: "#006E8A" } }}>
+                  Rekisteröidy
+                </Button>
+              </Grid>
+            </Grid>
+          </Box>
+          {rekisteroity && (
+            <Typography variant="body1" align="center" sx={{ mt: 2 }}>
+              Rekisteröityminen onnistui!
+            </Typography>
+          )}
+      </Container>
+    </Box>
+  );
+};
 
-    return (
-
-        <>
-            <Container maxWidth={false} sx={{bgcolor: "#D4EBEC", height: "100vh"}}>
-                <Container>
-                    <Container>
-                    <Typography variant="h6" align="center">Tämä on rekisteröityminen</Typography>
-
-                    <Box component="form" sx={{}} noValidate autoComplete="off">
-
-                        <div>
-                            <TextField inputProps={{ "data-testid": "rekisteröidy_input" }} required id="outlined-username" label="Käyttäjänimi" onChange={(e) => setLisaaKayttajaNimi(e.target.value)} />
-                            <TextField inputProps={{ "data-testid": "rsalasana_input" }} required id="outlined-password" label="Salasana" type="password" onChange={(e) => setLisaaKayttajaSalasana(e.target.value)} />
-                            <Button variant="outlined" onClick={() => {handlePost()}}>Rekisteröidy</Button>
-
-                        </div>
-
-
-                    </Box>
-                </Container>
-                </Container>
-            </Container>
-        
-        
-        </>
-
-    )
-}
-
-export {Rekisteroityminen}
+export { Rekisteroityminen };
