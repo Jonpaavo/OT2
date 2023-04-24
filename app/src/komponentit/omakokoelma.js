@@ -187,15 +187,18 @@ const OmaKokoelma =(props) => {
       
         <>
             <Container maxWidth={false} sx={{bgcolor: "#D4EBEC", height: "100vh"}}>
+                <Container>
+                
                 <Typography variant="h6" align="center">Tämä on oma kokoelma</Typography>
                 {!muokkaaKokoelmat ? 
-                    <Container>
+                    
+                        <Container>
                     <form>
                         <Typography variant="h6" align="center">Muokkaus</Typography>
                         <TextField required id="outlined-kirjasarja" label="Kirjasarja"  defaultValue={muokkaaKirjaSarja} onChange={(e) => setMuokkaaKirjaSarja(e.target.value)} />
-                            <TextField required id="outlined-kustantaja" label="Kustantaja" defaultValue={muokkaaKustantaja} onChange={(e) => setMuokkaaKustantaja(e.target.value)} />
-                            <TextField required id="outlined-kuvaus" label="Kuvaus" defaultValue={muokkaaKuvaus} onChange={(e) => setMuokkaaKuvaus(e.target.value)} />
-                            <TextField required id="outlined-luokittelu" label="Luokittelu" defaultValue={muokkaaLuokittelu} onChange={(e) => setMuokkaaLuokittelu(e.target.value)} />
+                        <TextField  required id="outlined-kustantaja" label="Kustantaja" defaultValue={muokkaaKustantaja} onChange={(e) => setMuokkaaKustantaja(e.target.value)} />
+                        <TextField  required id="outlined-kuvaus" label="Kuvaus" defaultValue={muokkaaKuvaus} onChange={(e) => setMuokkaaKuvaus(e.target.value)} />
+                        <TextField  required id="outlined-luokittelu" label="Luokittelu" defaultValue={muokkaaLuokittelu} onChange={(e) => setMuokkaaLuokittelu(e.target.value)} />
                             <Button variant="outlined" onClick={() => {handleMuokkaa()}} >Muokkaa kokoelma</Button>
                             <Button variant="outlined" onClick={() => {peruMuokkaus()}}>Peru muokkaus</Button>
                     </form>
@@ -204,16 +207,16 @@ const OmaKokoelma =(props) => {
                     <Container>
                         <div>
                         <form onSubmit={handlePost}>
-                            <TextField required id="outlined-kirjasarja" label="Kirjasarja" onChange={(e) => setKirjaSarja(e.target.value)} />
-                            <TextField required id="outlined-kustantaja" label="Kustantaja" onChange={(e) => setKustantaja(e.target.value)} />
-                            <TextField required id="outlined-kuvaus" label="Kuvaus" onChange={(e) => setKuvaus(e.target.value)} />
-                            <TextField required id="outlined-luokittelu" label="Luokittelu" onChange={(e) => setLuokittelu(e.target.value)} />
-                            <Button variant="outlined" type="submit">Lisää kokoelma</Button>
+                        <TextField sx={{m: 1}} required id="outlined-kirjasarja" label="Kirjasarja" onChange={(e) => setKirjaSarja(e.target.value)} />
+                        <TextField sx={{m: 1}} required id="outlined-kustantaja" label="Kustantaja" onChange={(e) => setKustantaja(e.target.value)} />
+                        <TextField sx={{m: 1}} required id="outlined-kuvaus" label="Kuvaus" onChange={(e) => setKuvaus(e.target.value)} />
+                        <TextField sx={{m: 1}} required id="outlined-luokittelu" label="Luokittelu" onChange={(e) => setLuokittelu(e.target.value)} />
+                        <Button sx={{ml: 55, mb: 1}} variant="outlined" type="submit">Lisää kokoelma</Button>
                         </form>
                         </div>
                         
 
-                        <TableContainer component={Paper} sx={{width: "100vh", height: "65vh", align: "center"}}>
+                        <TableContainer component={Paper} sx={{width: "100vh", height: "65vh", ml: 13}}>
                             <Table sx={{minWidth: 650}} aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
@@ -256,6 +259,7 @@ const OmaKokoelma =(props) => {
                         <Button onClick={() => {poistaDialog() ; setPoistettavaId("")}}>Peru poisto</Button>
                     </DialogActions>
                </Dialog>
+               </Container>
 
             </Container>
         

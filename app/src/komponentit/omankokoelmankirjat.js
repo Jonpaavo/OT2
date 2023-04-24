@@ -280,7 +280,8 @@ const Omankokoelmankirjat = (props) => {
     return (
 
         <>
-            <Container  sx={{bgcolor: "lightsteelblue", height: "100vh"}}>
+            <Container maxWidth={false}  sx={{bgcolor: "#D4EBEC", height: "100vh"}}>
+                <Container>
 
                 <Typography variant="h6" align="center">Tämä on oman kirjahyllyn kokoelman kirjat</Typography>
                 <Typography variant="h6" align="center">Valitun kirjasarjan id on: {props.idOmatSarjat}</Typography>
@@ -289,10 +290,10 @@ const Omankokoelmankirjat = (props) => {
                 { !muokkaaKirja ? <div>
 
                     <form onSubmit={handlePost}>
-                        <TextField required id="outlined-nimi" label="Nimi" onChange={(e) => {setKirjanNimi(e.target.value)}}></TextField>
-                        <TextField required id="outlined-jarjestysnumero" label="Järjestysnumero" value={jarjestysnumero} onChange={(e) => {handleJarjestysnumero(e)}}></TextField>
-                        <TextField required id="outlined-kirjailija" label="Kirjailija" onChange={(e) => setKirjailija(e.target.value)}></TextField>
-                        <TextField helperText="Kuntoluokka" select defaultValue="0" required id="outlined-kuntoluokka" label="Kuntoluokka" onChange={(e) => {setKuntoluokka(e.target.value)}}>
+                        <TextField sx={{m: 1}} required id="outlined-nimi" label="Nimi" onChange={(e) => {setKirjanNimi(e.target.value)}}></TextField>
+                        <TextField sx={{m: 1}} required id="outlined-jarjestysnumero" label="Järjestysnumero" value={jarjestysnumero} onChange={(e) => {handleJarjestysnumero(e)}}></TextField>
+                        <TextField sx={{m: 1}} required id="outlined-kirjailija" label="Kirjailija" onChange={(e) => setKirjailija(e.target.value)}></TextField>
+                        <TextField sx={{m: 1}} helperText="Kuntoluokka" select defaultValue="0" required id="outlined-kuntoluokka" label="Kuntoluokka" onChange={(e) => {setKuntoluokka(e.target.value)}}>
                             {kuntoLuokat.map((option) => (
                                 <MenuItem key={option.value} value={option.value}>
                                     {option.label}
@@ -302,12 +303,12 @@ const Omankokoelmankirjat = (props) => {
                         </TextField>
                         <input type="file" name="takakansikuva" onChange={(e) => setTakaKansiKuva(e.target.files[0])}></input>
                         <input type="file" name="etukansikuva" onChange={(e) => setEtuKansiKuva(e.target.files[0])}></input>
-                        <TextField required id="outlined-hankintahinta" label="Hankintahinta" value={hankintaHinta} onChange={(e) => { handleHankintaHinta(e)}}></TextField>
-                        <TextField required id="outlined-hankintaaika" label="Hankinta-aika" onChange={(e) => {setHankintaAika(e.target.value)}}></TextField>
-                        <TextField required id="outlined-esittelyteksti" label="Esittelyteksti" onChange={(e) => {setEsittelyTeksti(e.target.value)}}></TextField>
-                        <TextField required id="outlined-painovuosi" label="painovuosi" value={painovuosi} onChange={(e) => handlePainoVuosi(e)}></TextField>
-                        <TextField required id="outlined-painos" label="Painos" value={painos} onChange={(e) => handlePainos(e)}></TextField>
-                        <Button variant="outlined" type="submit">Lisää kirja</Button>
+                        <TextField sx={{m: 1}} required id="outlined-hankintahinta" label="Hankintahinta" value={hankintaHinta} onChange={(e) => { handleHankintaHinta(e)}}></TextField>
+                        <TextField sx={{m: 1}} required id="outlined-hankintaaika" label="Hankinta-aika" onChange={(e) => {setHankintaAika(e.target.value)}}></TextField>
+                        <TextField sx={{m: 1}} required id="outlined-esittelyteksti" label="Esittelyteksti" onChange={(e) => {setEsittelyTeksti(e.target.value)}}></TextField>
+                        <TextField sx={{m: 1}} required id="outlined-painovuosi" label="Painovuosi" value={painovuosi} onChange={(e) => handlePainoVuosi(e)}></TextField>
+                        <TextField sx={{m: 1}} required id="outlined-painos" label="Painos" value={painos} onChange={(e) => handlePainos(e)}></TextField>
+                        <Button sx={{mt: 2}} variant="outlined" type="submit">Lisää kirja</Button>
                     </form>
 
 
@@ -322,7 +323,7 @@ const Omankokoelmankirjat = (props) => {
                         <TextField required id="outlined-hankintahinta" label="Hankintahinta" onChange={(e) => {setMuokkaaHankintaHinta(e.target.value)}} defaultValue={muokkaaHankintaHinta}></TextField>
                         <TextField required id="outlined-hankintaaika" label="Hankinta-aika" onChange={(e) => {setMuokkaaHankintaAika(e.target.value)}} defaultValue={muokkaaHankintaAika}></TextField>
                         <TextField required id="outlined-esittelyteksti" label="Esittelyteksti" onChange={(e) => {setMuokkaaEsittelyTeksti(e.target.value)}} defaultValue={muokkaaEsittelyTeksti}></TextField>
-                        <TextField required id="outlined-painovuosi" label="painovuosi" onChange={(e) => setMuokkaaPainoVuosi(e.target.value)} defaultValue={muokkaaPainoVuosi}></TextField>
+                        <TextField required id="outlined-painovuosi" label="Painovuosi" onChange={(e) => setMuokkaaPainoVuosi(e.target.value)} defaultValue={muokkaaPainoVuosi}></TextField>
                         <TextField required id="outlined-painos" label="Painos" onChange={(e) => setMuokkaaPainos(e.target.value)} defaultValue={muokkaaPainos}></TextField>
                         <Button variant="outlined" onClick={() => {toggleMuokkaus()}}>Peru muokkaus</Button>
                         <Button variant="outlined" onClick={() => {muokkaaDialog()}}>Muokkaa</Button>
@@ -380,6 +381,7 @@ const Omankokoelmankirjat = (props) => {
                         <Button onClick={() => {poistaDialog() ; setPoistaIidee("")}}>Peru poisto</Button>
                     </DialogActions>
                </Dialog>
+               </Container>
 
                 
             </Container>
