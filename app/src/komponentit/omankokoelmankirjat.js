@@ -1,4 +1,4 @@
-import { Button,Dialog,DialogActions,DialogTitle,MenuItem,Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Button,Dialog,DialogActions,DialogTitle,MenuItem,Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography, Paper } from "@mui/material";
 import { Container } from "@mui/system";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
@@ -316,22 +316,26 @@ const Omankokoelmankirjat = (props) => {
                 
                 <div>
                     
-                        <TextField required id="outlined-nimi" label="Nimi" onChange={(e) => {setMuokkaaNimi(e.target.value)}} defaultValue={muokkaaNimi}></TextField>
-                        <TextField required id="outlined-jarjestysnumero" label="Järjestysnumero" onChange={(e) => setMuokkaaJarjestysNumero(e.target.value)} defaultValue={muokkaaJarjestysNumero}></TextField>
-                        <TextField required id="outlined-kirjailija" label="Kirjailija" onChange={(e) => setMuokkaaKirjailija(e.target.value)} defaultValue={muokkaaKirjailija}></TextField>
-                        <TextField required id="outlined-kuntoluokka" label="Kuntoluokka" onChange={(e) => {setMuokkaaKuntoLuokka(e.target.value)}} defaultValue={muokkaaKuntoLuokka}></TextField>
-                        <TextField required id="outlined-hankintahinta" label="Hankintahinta" onChange={(e) => {setMuokkaaHankintaHinta(e.target.value)}} defaultValue={muokkaaHankintaHinta}></TextField>
-                        <TextField required id="outlined-hankintaaika" label="Hankinta-aika" onChange={(e) => {setMuokkaaHankintaAika(e.target.value)}} defaultValue={muokkaaHankintaAika}></TextField>
-                        <TextField required id="outlined-esittelyteksti" label="Esittelyteksti" onChange={(e) => {setMuokkaaEsittelyTeksti(e.target.value)}} defaultValue={muokkaaEsittelyTeksti}></TextField>
-                        <TextField required id="outlined-painovuosi" label="Painovuosi" onChange={(e) => setMuokkaaPainoVuosi(e.target.value)} defaultValue={muokkaaPainoVuosi}></TextField>
-                        <TextField required id="outlined-painos" label="Painos" onChange={(e) => setMuokkaaPainos(e.target.value)} defaultValue={muokkaaPainos}></TextField>
-                        <Button variant="outlined" onClick={() => {toggleMuokkaus()}}>Peru muokkaus</Button>
-                        <Button variant="outlined" onClick={() => {muokkaaDialog()}}>Muokkaa</Button>
+                        <TextField sx={{m: 1}} required id="outlined-nimi" label="Nimi" onChange={(e) => {setMuokkaaNimi(e.target.value)}} defaultValue={muokkaaNimi}></TextField>
+                        <TextField sx={{m: 1}} required id="outlined-jarjestysnumero" label="Järjestysnumero" onChange={(e) => setMuokkaaJarjestysNumero(e.target.value)} defaultValue={muokkaaJarjestysNumero}></TextField>
+                        <TextField sx={{m: 1}} required id="outlined-kirjailija" label="Kirjailija" onChange={(e) => setMuokkaaKirjailija(e.target.value)} defaultValue={muokkaaKirjailija}></TextField>
+                        <TextField sx={{m: 1}} required id="outlined-kuntoluokka" label="Kuntoluokka" onChange={(e) => {setMuokkaaKuntoLuokka(e.target.value)}} defaultValue={muokkaaKuntoLuokka}></TextField>
+                        <TextField sx={{m: 1}} required id="outlined-hankintahinta" label="Hankintahinta" onChange={(e) => {setMuokkaaHankintaHinta(e.target.value)}} defaultValue={muokkaaHankintaHinta}></TextField>
+                        <TextField sx={{m: 1}} required id="outlined-hankintaaika" label="Hankinta-aika" onChange={(e) => {setMuokkaaHankintaAika(e.target.value)}} defaultValue={muokkaaHankintaAika}></TextField>
+                        <TextField sx={{m: 1}} required id="outlined-esittelyteksti" label="Esittelyteksti" onChange={(e) => {setMuokkaaEsittelyTeksti(e.target.value)}} defaultValue={muokkaaEsittelyTeksti}></TextField>
+                        <TextField sx={{m: 1}} required id="outlined-painovuosi" label="Painovuosi" onChange={(e) => setMuokkaaPainoVuosi(e.target.value)} defaultValue={muokkaaPainoVuosi}></TextField>
+                        <TextField sx={{m: 1}} required id="outlined-painos" label="Painos" onChange={(e) => setMuokkaaPainos(e.target.value)} defaultValue={muokkaaPainos}></TextField>
+                        <div>
+                        <Button sx={{ml: 1, mb: 1}} variant="outlined" onClick={() => {muokkaaDialog()}}>Muokkaa</Button>
+                        </div>
+                        <div>
+                        <Button sx={{ml: 1}} variant="outlined" onClick={() => {toggleMuokkaus()}}>Peru muokkaus</Button>
+                        </div>
                     
                 </div>}
 
                 <TableContainer>
-                    <Table sx={{minWidth: 650}} aria-label="simple table">
+                    <Table sx={{minWidth: 650, ml: 1}} component={Paper} aria-label="simple table">
                         <TableHead>
                             <TableRow>
                                 <TableCell>Nimi</TableCell>
