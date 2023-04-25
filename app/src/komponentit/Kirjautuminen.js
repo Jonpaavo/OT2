@@ -1,8 +1,10 @@
 import { Box, Button, Container, TextField, Typography } from "@mui/material"
 import { useState } from "react"
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 
 const Kirjautuminen = (props) => {
+
 
   const [inputNimi,setInputNimi] = useState("");
   const [inputSalasana,setInputSalasana] = useState("");
@@ -10,7 +12,8 @@ const Kirjautuminen = (props) => {
   const [tarkistaSalasana,setTarkistaSalasana] = useState("");
   const [tarkistaAdmin,setTarkistaAdmin] = useState("");
   const [id,setId] = useState("");
-  const [kirjauduElement, setKirjauduElement] = useState("ei kirjauduttu");
+  const [kirjauduElement, setKirjauduElement] = useState("");
+  const navigoi = useNavigate();
 
   const handleKirjautuminen = async () => {
 
@@ -27,7 +30,8 @@ const Kirjautuminen = (props) => {
         props.setAdmin(true);
       }
 
-      setKirjauduElement("Kirjauduttu sisään!");
+      
+      navigoi("/");
     } else {
       setKirjauduElement("Väärä käyttäjänimi tai salasana.");
     }

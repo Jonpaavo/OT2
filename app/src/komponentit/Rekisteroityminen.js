@@ -1,10 +1,12 @@
 import { Box, Button, Container, Grid, TextField, Typography } from "@mui/material";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Rekisteroityminen = () => {
   const [lisaaKayttajaNimi, setLisaaKayttajaNimi] = useState("");
   const [lisaaKayttajaSalasana, setLisaaKayttajaSalasana] = useState("");
   const [rekisteroity, setRekisteroity] = useState(false);
+  const navigoi = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -21,6 +23,7 @@ const Rekisteroityminen = () => {
     });
     if (response.ok) {
       setRekisteroity(true);
+      navigoi("/kirjautuminen");
     }
   };
 

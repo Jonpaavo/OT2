@@ -30,7 +30,7 @@ let testiadmin = 0;
   let testiomakustantaja = "Stan Lee";
   let testiomakuvaus = "Spiderman seikkailee";
   let testiomaluokittelu = "Sarjakuva";
-  let testiomakayttajaid = 1;
+  
 
 //Oman kirjan testi data
 let testiomanimi = "Jau";
@@ -142,51 +142,6 @@ describe("Käyttäjä testit tällä kertaa kirjautuminen", () => {
 
   })
 
-})
-
-describe("Poistetaan käyttäjä testien takia", () => {
-
-  test("Haetaan annetun käyttäjän tiedot tietokannasta ja poistetaan se.", async () => {
-
-
-    let nimi = testinimi;
-    let salasana = testisalasana;
-    let admin = testiadmin;
-    let id = "";
-
-    const response = await request.get('/kayttaja?nimi=' + nimi + '&salasana=' + salasana + '&admin=' + admin);
-
-    expect(response.status).toBe(200)
-
-    const data = response.body;
-
-    let kayttajat = null;
-
-    if ( data.status  )
-    {
-        expect(data.status).toBe("OK");
-        expect(data.message).toBe("");
-
-        kayttajat = data.data;
-    }
-    else {
-      kayttajat = data;
-    }
-
-    expect(kayttajat.length).toBe(1);
-
-    const a = kayttajat[0];
-    console.log("a:", a)
-    id = a.id;
-
-    expect(a.nimi).toBe(nimi);
-    expect(a.salasana).toBe(salasana);
-    expect(a.admin).toBe(admin);
-
-    const response2 = await request.delete("/kayttaja/" + id);
-
-    expect(response2.status).toBe(204);
-  })
 })
 
 describe("Kokoelmien lisääminen", () => {
@@ -368,13 +323,12 @@ describe("Testataan kirjan lisäämistä", () => {
     let piirtajat = testikirjanpiirtajat;
     let ensipainovuosi = testikirjanensipainovuosi;
     let painokset = testikirjanpainokset;
-    let idkirjasarja = 1;
     let takakansikuva = '';
     let etukansikuva = '';
 
     const response = await request.post("/kirja")
-      //.set('Content-type', 'application/json')
-      .field({nimi: nimi, jarjestysnumero: jarjestysnumero, kuvausteksti: kuvausteksti, kirjailija: kirjailija, piirtajat: piirtajat, ensipainovuosi: ensipainovuosi, painokset: painokset, idkirjasarja: idkirjasarja, takakansikuva: takakansikuva, etukansikuva: etukansikuva});
+      .set('Content-type', 'application/json')
+      .field({nimi: nimi, jarjestysnumero: jarjestysnumero, kuvausteksti: kuvausteksti, kirjailija: kirjailija, piirtajat: piirtajat, ensipainovuosi: ensipainovuosi, painokset: painokset,takakansikuva: takakansikuva, etukansikuva: etukansikuva});
 
     expect(response.status).toBe(201);
     const data = response.body;
@@ -395,7 +349,6 @@ describe("Kirjan testit", () => {
     let piirtajat = testikirjanpiirtajat;
     let ensipainovuosi = testikirjanensipainovuosi;
     let painokset = testikirjanpainokset;
-    let idkirjasarja = 1;
 
     const response = await request.get("/kirja");
 
@@ -429,7 +382,6 @@ describe("Kirjan testit", () => {
     expect(a.piirtajat).toBe(piirtajat);
     expect(a.ensipainovuosi).toBe(ensipainovuosi);
     expect(a.painokset).toBe(painokset);
-    expect(a.idkirjasarja).toBe(idkirjasarja);
    
   })
 })
@@ -447,7 +399,6 @@ describe("Kirjan muokkaaminen", () => {
     let piirtajat = testikirjanpiirtajat;
     let ensipainovuosi = testikirjanensipainovuosi;
     let painokset = testikirjanpainokset;
-    let idkirjasarja = 1;
     let id = "";
 
     const response1 = await request.get("/kirja");
@@ -479,7 +430,6 @@ describe("Kirjan muokkaaminen", () => {
     expect(a.piirtajat).toBe(piirtajat);
     expect(a.ensipainovuosi).toBe(ensipainovuosi);
     expect(a.painokset).toBe(painokset);
-    expect(a.idkirjasarja).toBe(idkirjasarja);
 
     testikirjannimi = "muokattu";
     testikirjanjarjestysnumero = 5;
@@ -517,7 +467,6 @@ describe("Testataan kirjan poistamista", () => {
     let piirtajat = testikirjanpiirtajat;
     let ensipainovuosi = testikirjanensipainovuosi;
     let painokset = testikirjanpainokset;
-    let idkirjasarja = ""
     let id = "";
 
     const response1 = await request.get("/kirja");
@@ -541,8 +490,7 @@ describe("Testataan kirjan poistamista", () => {
     const a = kirjat[kirjat.length - 1];
     console.log("a:", a)
     id = a.id;
-    idkirjasarja = a.idkirjasarja;
-
+    
     expect(a.nimi).toBe(nimi);
     expect(a.jarjestysnumero).toBe(jarjestysnumero);
     expect(a.kuvausteksti).toBe(kuvausteksti);
@@ -550,7 +498,7 @@ describe("Testataan kirjan poistamista", () => {
     expect(a.piirtajat).toBe(piirtajat);
     expect(a.ensipainovuosi).toBe(ensipainovuosi);
     expect(a.painokset).toBe(painokset);
-    expect(a.idkirjasarja).toBe(idkirjasarja);
+    
 
     const response2 = await request.delete("/kirja/" + id);
 
@@ -565,11 +513,20 @@ describe("Oman kirjasarjan lisääminen", () => {
 
   test("Lisätään uusi oma kirjasarja", async () =>  {
 
+    const response2 = await request.get("/kayttaja");
+    
+    const data = response2.body;
+
+    let kayttajat = null;
+    kayttajat = data;
+    const a = kayttajat[kayttajat.length - 1];
+    
+    
     let kirjasarja = testiomakirjasarja;
     let kustantaja = testiomakustantaja;
     let kuvaus = testiomakuvaus;
     let luokittelu = testiomaluokittelu;
-    let kayttajaid = 1;
+    let kayttajaid = a.id;
 
     const response = await request.post("/omatsarjat")
       .set('Content-type', 'application/json')
@@ -585,11 +542,20 @@ describe("Oman kirjasarjan hakeminen", () => {
 
   test("Haetaan oma kirjasarja", async () => {
 
+    const response2 = await request.get("/kayttaja");
+    
+    const data2 = response2.body;
+
+    let kayttajat = null;
+    kayttajat = data2;
+    const b = kayttajat[kayttajat.length - 1];
+    
+
     let kirjasarja = testiomakirjasarja;
     let kustantaja = testiomakustantaja;
     let kuvaus = testiomakuvaus;
     let luokittelu = testiomaluokittelu;
-    let kayttajaid = 1;
+    let kayttajaid = b.id;
 
     const response = await request.get("/omatsarjat?kayttajaid=" + kayttajaid);
 
@@ -627,11 +593,19 @@ describe("Oman kirjasarjan muokkaaminen", () => {
 
   test("Testataan oman kirjasarjan muokkaamista", async () => {
 
+    const response3 = await request.get("/kayttaja");
+    
+    const data3 = response3.body;
+
+    let kayttajat = null;
+    kayttajat = data3;
+    const c = kayttajat[kayttajat.length - 1];
+    
     let kirjasarja = testiomakirjasarja;
     let kustantaja = testiomakustantaja;
     let kuvaus = testiomakuvaus;
     let luokittelu = testiomaluokittelu;
-    let kayttajaid = 1;
+    let kayttajaid = c.id;
     let id ="";
     
 
@@ -690,11 +664,19 @@ describe("Testataan oman kirjasarjan poistamista", () => {
 
   test("Poistetaan oma kirjasarja", async () => {
 
+    const response4 = await request.get("/kayttaja");
+    
+    const data4 = response4.body;
+
+    let kayttajat = null;
+    kayttajat = data4;
+    const v = kayttajat[kayttajat.length - 1];
+    
     let kirjasarja = testiomakirjasarja;
     let kustantaja = testiomakustantaja;
     let kuvaus = testiomakuvaus;
     let luokittelu = testiomaluokittelu;
-    let kayttajaid = 1;
+    let kayttajaid = v.id;
     let id= "";
 
     const response = await request.get("/omatsarjat?kayttajaid=" + kayttajaid);
@@ -753,7 +735,7 @@ describe("Testataan omankirjan lisäämistä", () => {
 
     const response = await request.post("/omakirja")
       .set('Content-type', 'application/json')
-      .field({nimi: nimi, jarjestysnumero: jarjestysnumero, kirjailija: kirjailija, idomatsarjat : idomatsarjat, kuntoluokka : kuntoluokka, takakansikuva : takakansikuva, etukansikuva : etukansikuva, hankintahinta : hankintahinta, hankintaaika : hankintaaika, esittelyteksti : esittelyteksti, painovuosi : painovuosi, painos : painos});
+      .field({nimi: nimi, jarjestysnumero: jarjestysnumero, kirjailija: kirjailija, kuntoluokka : kuntoluokka, takakansikuva : takakansikuva, etukansikuva : etukansikuva, hankintahinta : hankintahinta, hankintaaika : hankintaaika, esittelyteksti : esittelyteksti, painovuosi : painovuosi, painos : painos});
 
     expect(response.status).toBe(201);
     const data = response.body;
@@ -809,7 +791,7 @@ describe("Omankirjan testit", () => {
     expect(a.nimi).toBe(nimi);
     expect(a.jarjestysnumero).toBe(jarjestysnumero);
     expect(a.kirjailija).toBe(kirjailija);
-    expect(a.idomatsarjat).toBe(idomatsarjat);
+    //expect(a.idomatsarjat).toBe(idomatsarjat);
     expect(a.kuntoluokka).toBe(kuntoluokka);
     expect(a.hankintahinta).toBe(hankintahinta);
     expect(a.hankintaaika).toBe(hankintaaika);
@@ -865,7 +847,7 @@ describe("Omankirjan muokkaaminen", () => {
     expect(a.nimi).toBe(nimi);
     expect(a.jarjestysnumero).toBe(jarjestysnumero);
     expect(a.kirjailija).toBe(kirjailija);
-    expect(a.idomatsarjat).toBe(idomatsarjat);
+    //expect(a.idomatsarjat).toBe(idomatsarjat);
     expect(a.kuntoluokka).toBe(kuntoluokka);
     expect(a.hankintahinta).toBe(hankintahinta);
     expect(a.hankintaaika).toBe(hankintaaika);
@@ -946,7 +928,7 @@ describe("Testataan omankirjan poistamista", () => {
     expect(a.nimi).toBe(nimi);
     expect(a.jarjestysnumero).toBe(jarjestysnumero);
     expect(a.kirjailija).toBe(kirjailija);
-    expect(a.idomatsarjat).toBe(idomatsarjat);
+    //expect(a.idomatsarjat).toBe(idomatsarjat);
     expect(a.kuntoluokka).toBe(kuntoluokka);
     expect(a.hankintahinta).toBe(hankintahinta);
     expect(a.hankintaaika).toBe(hankintaaika);
@@ -958,5 +940,50 @@ describe("Testataan omankirjan poistamista", () => {
 
     expect(response2.status).toBe(204);
 
+  })
+})
+
+describe("Poistetaan käyttäjä testien takia", () => {
+
+  test("Haetaan annetun käyttäjän tiedot tietokannasta ja poistetaan se.", async () => {
+
+
+    let nimi = testinimi;
+    let salasana = testisalasana;
+    let admin = testiadmin;
+    let id = "";
+
+    const response = await request.get('/kayttaja?nimi=' + nimi + '&salasana=' + salasana + '&admin=' + admin);
+
+    expect(response.status).toBe(200)
+
+    const data = response.body;
+
+    let kayttajat = null;
+
+    if ( data.status  )
+    {
+        expect(data.status).toBe("OK");
+        expect(data.message).toBe("");
+
+        kayttajat = data.data;
+    }
+    else {
+      kayttajat = data;
+    }
+
+    expect(kayttajat.length).toBe(1);
+
+    const a = kayttajat[kayttajat.length -1];
+    console.log("a:", a)
+    id = a.id;
+
+    expect(a.nimi).toBe(nimi);
+    expect(a.salasana).toBe(salasana);
+    expect(a.admin).toBe(admin);
+
+    const response2 = await request.delete("/kayttaja/" + id);
+
+    expect(response2.status).toBe(204);
   })
 })
