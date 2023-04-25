@@ -207,11 +207,13 @@ const OmaKokoelma =(props) => {
                     <Container>
                         <div>
                         <form onSubmit={handlePost}>
-                        <TextField sx={{m: 1}} required id="outlined-kirjasarja" label="Kirjasarja" onChange={(e) => setKirjaSarja(e.target.value)} />
-                        <TextField sx={{m: 1}} required id="outlined-kustantaja" label="Kustantaja" onChange={(e) => setKustantaja(e.target.value)} />
-                        <TextField sx={{m: 1}} required id="outlined-kuvaus" label="Kuvaus" onChange={(e) => setKuvaus(e.target.value)} />
-                        <TextField sx={{m: 1}} required id="outlined-luokittelu" label="Luokittelu" onChange={(e) => setLuokittelu(e.target.value)} />
-                        <Button sx={{ml: 55, mb: 1}} variant="outlined" type="submit">Lisää kokoelma</Button>
+                            <Container sx={{ml: 10}}>
+                                <TextField sx={{m: 1}} required id="outlined-kirjasarja" label="Kirjasarja" onChange={(e) => setKirjaSarja(e.target.value)} />
+                                <TextField sx={{m: 1}} required id="outlined-kustantaja" label="Kustantaja" onChange={(e) => setKustantaja(e.target.value)} />
+                                <TextField sx={{m: 1}} required id="outlined-kuvaus" label="Kuvaus" onChange={(e) => setKuvaus(e.target.value)} />
+                                <TextField sx={{m: 1}} required id="outlined-luokittelu" label="Luokittelu" onChange={(e) => setLuokittelu(e.target.value)} />
+                            </Container>
+                            <Button sx={{ml: 55, mb: 1}} variant="outlined" type="submit">Lisää kokoelma</Button>
                         </form>
                         </div>
                         
@@ -225,7 +227,7 @@ const OmaKokoelma =(props) => {
                                         <TableCell>{/* Namiskukkelit */}</TableCell>
                                     </TableRow>
                                 </TableHead>
-                                <TableBody>
+                                <TableBody sx={{"& tr:nth-of-type(2n+1)": {backgroundColor: "grey.100"}}}>
                                     {kirjaSarjaTable.map && kirjaSarjaTable.map((row,index) => (
                                         <TableRow key={index} sx={{ '&:last-child td, &:last-child th': {border: 0}}}>
                                             <TableCell component="th" scope="row">
