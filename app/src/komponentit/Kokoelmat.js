@@ -78,7 +78,6 @@ const Kokoelmat = (props) => {
     useEffect( () => {
 
         const Muokkaa = async () => {
-            console.log("Saatu id on: ",kokoelmaId);
 
             fetch("http://localhost:3004/kirjasarja/"+kokoelmaId, {
 
@@ -121,7 +120,6 @@ const Kokoelmat = (props) => {
             m.push(luokittelu);
 
             setLisaaQuery(m); // työntää tiedot databaseen vain jos kaikki kentät ei tyhjiä
-            console.log("Kokoelman lisäämisen tiedot: " + m);
         }
     }
 
@@ -129,9 +127,6 @@ const Kokoelmat = (props) => {
         fetch("http://localhost:3004/deleteKokoelma/"+id,{
 
             method : 'DELETE'}).then((response)=> {
-                    //setKirjaSarjaTable(kirjaSarjaTable.filter((arvo) => {return arvo.id != id}))
-                    window.location.reload()
-                    console.log("Poistettiin id: ",id," - Response on: ",response);
             })
     }
 
@@ -170,10 +165,15 @@ const Kokoelmat = (props) => {
         }
     }
 
-    const refresh = async () => {
-        await window.location.reload()
+    const muokkaaDialogForm = () => {
+        setLaskuri(laskuri+1)
+        muokkaaDialog()
     }
 
+    const poistaDialogForm = () => {
+        poistaKokoelma(poistettavaId)
+        poistaDialog()
+    }
 
     return (
         
@@ -217,11 +217,11 @@ const Kokoelmat = (props) => {
                             <TableHead>
                                 <TableRow>
                                     <TableCell>Nimi</TableCell>
-                                    <TableCell>Kuvaus {/* Oli julkaisuvuosi? Vaihdettiin olemaan kuvaus */ }</TableCell>
+                                    <TableCell>Kuvaus</TableCell>
                                     <TableCell>{/* Namiskukkelit */}</TableCell>
                                 </TableRow>
                             </TableHead>
-                            <TableBody sx={{"& tr:nth-of-type(2n+1)": {backgroundColor: "grey.100"}}}>
+                            <TableBody>
                                 {kirjaSarjaTable.map && kirjaSarjaTable.map((row,index) => (
                                     <TableRow key={index} sx={{ '&:last-child td, &:last-child th': {border: 0}}}>
                                         <TableCell component="th" scope="row">
@@ -246,16 +246,20 @@ const Kokoelmat = (props) => {
                <Dialog open={muokkaaVarmistus}>
                     <DialogTitle>Muokkaa kokoelmaa</DialogTitle>
                     <DialogActions>
-                        <Button onClick={() => {setLaskuri(laskuri+1) ; muokkaaDialog() ; refresh()}}>Muokkaa</Button>
-                        <Button onClick={() => {peruMuokkaus() ; muokkaaDialog() }}>Peru muokkaus</Button>
+                        <form onSubmit={muokkaaDialogForm}>
+                            <Button type="submit">Muokkaa</Button>
+                            <Button onClick={() => {peruMuokkaus() ; muokkaaDialog() }}>Peru muokkaus</Button>
+                        </form>
                     </DialogActions>
                </Dialog>
 
                <Dialog open={poistaVarmistus}>
                     <DialogTitle>Poista kokoelma</DialogTitle>
                     <DialogActions>
-                        <Button onClick={() => {poistaKokoelma(poistettavaId) ; poistaDialog()}}>Poista kokoelma</Button>
-                        <Button onClick={() => {poistaDialog() ; setPoistettavaId("")}}>Peru poisto</Button>
+                        <form onSubmit={poistaDialogForm}>
+                            <Button type="submit">Poista kokoelma</Button>
+                            <Button onClick={() => {poistaDialog() ; setPoistettavaId("")}}>Peru poisto</Button>
+                        </form>
                     </DialogActions>
                </Dialog>
                                 

@@ -17,8 +17,6 @@ const Kirjautuminen = (props) => {
 
   const handleKirjautuminen = async () => {
 
-    console.log("TARKISTA KIRJAUTUMINEN");
-
     let response = await fetch(`http://localhost:3004/kayttaja?nimi=${inputNimi}&salasana=${inputSalasana}`);
     let kayttaja = await response.json();
 

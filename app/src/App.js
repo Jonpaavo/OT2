@@ -72,13 +72,6 @@ const [kirjatTable,setKirjatTable] = useState(() => {
   return initialValue || "";
 });
 
-const [muokkausKohde,setMuokkausKohde] = useState(() => {
-  const saved = sessionStorage.getItem("muokkauskohde");
-  const initialValue = JSON.parse(saved);
-  return initialValue || "";
-});
-
-
   useEffect( () => {
     window.sessionStorage.setItem("kirjaSarjaId", JSON.stringify(kirjaSarjaId));
   },[kirjaSarjaId])
@@ -114,10 +107,6 @@ const [muokkausKohde,setMuokkausKohde] = useState(() => {
 useEffect ( () => {
   window.sessionStorage.setItem('kirja', JSON.stringify(kirjatTable));
 },[kirjatTable])
-
-useEffect ( () => {
-  window.sessionStorage.setItem('muokkauskohde', JSON.stringify(muokkausKohde));
-},[muokkausKohde])
 
   return (
 

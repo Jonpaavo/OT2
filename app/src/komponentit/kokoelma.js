@@ -30,14 +30,10 @@ const Kokoelma = (props) => {
             let c = await response.json();
 
             setKirjatTable(c);
-
-            console.log(props.id);
         }
 
         haeKirjat();
-
     },[])
-
     
     useEffect( () => {
 
@@ -112,9 +108,6 @@ const Kokoelma = (props) => {
         
         kirja.append("etukansikuva",etuKansiKuva)
 
-        console.log("Takakansikuva: " + kirja.get("takakansikuva"));
-        console.log("EtukansiKuva: " + kirja.get("etukansikuva"));
-
         setLisaaQuery(kirja);
     }
 
@@ -155,7 +148,7 @@ const Kokoelma = (props) => {
                             <TextField sx={{m: 1}} required id="outlined-piirtajat" label="Piirtäjät" onChange={(e) => setPiirtajat(e.target.value)}></TextField>
                             <TextField sx={{m: 1}} required id="outlined-ensipainovuosi" label="Ensipainos" value={ensipainovuosi} onChange={(e) => handlePainoVuosi(e)}></TextField>
                             <TextField sx={{m: 1}} required id="outlined-painokset" label="Painokset" value={painokset} onChange={(e) => handlePainos(e)}></TextField>
-                            <input type="file" name="takakansikuva" onChange={(e) => {setTakaKansiKuva(e.target.files[0]) ; console.log(e.target.files[0])}}></input>
+                            <input type="file" name="takakansikuva" onChange={(e) => {setTakaKansiKuva(e.target.files[0])}}></input>
                             <input type="file" name="etukansikuva" onChange={(e) => setEtuKansiKuva(e.target.files[0])}></input>
                             <Button variant="outlined" type="submit">Lisää kirja</Button>
                         </form>               

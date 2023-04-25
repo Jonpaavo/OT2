@@ -25,6 +25,7 @@ const OmaKokoelma =(props) => {
     const [poistaVarmistus,setPoistaVarmistus] = useState(false);
     const [muokkaaVarmistus,setMuokkaaVarmistus] = useState(false);
     const [poistettavaId,setPoistettavaId] = useState("");
+    const [naytaKentat, setNaytaKentat] = useState(false);
    
 
     useEffect( () => {
@@ -64,7 +65,6 @@ const OmaKokoelma =(props) => {
     useEffect( () => {
 
         const Muokkaa = async () => {
-            console.log("Saatu id on: ",kokoelmaId);
 
             fetch("http://localhost:3004/omatsarjat/"+kokoelmaId, {
 
@@ -108,7 +108,6 @@ const OmaKokoelma =(props) => {
             m.push(luokittelu);
 
             setLisaaQuery(m); // työntää tiedot databaseen vain jos kaikki kentät ei tyhjiä
-            console.log("Kokoelman lisäämisen tiedot: " + m);
         }
     }
 
@@ -131,13 +130,7 @@ const OmaKokoelma =(props) => {
     },[])
 
     const poistaKokoelma = (id) => {
-        fetch("http://localhost:3004/deleteOmatKokoelma/"+id,{
-
-            method : 'DELETE'}).then((response)=> {
-                    //setKirjaSarjaTable(kirjaSarjaTable.filter((arvo) => {return arvo.id != id}))
-                    window.location.reload()
-                    console.log("Poistettiin id: ",id," - Response on: ",response);
-            })
+        fetch("http://localhost:3004/deleteOmatKokoelma/"+id,{method : 'DELETE'})
     }
 
 
@@ -179,8 +172,14 @@ const OmaKokoelma =(props) => {
         }
     }
 
-    const refresh = async () => {
-        await window.location.reload()
+    const muokkaaDialogForm = () => {
+        setLaskuri(laskuri+1)
+        muokkaaDialog()
+    }
+
+    const poistaDialogForm = () => {
+        poistaKokoelma(poistettavaId)
+        poistaDialog()
     }
 
     return (
@@ -190,6 +189,7 @@ const OmaKokoelma =(props) => {
                 <Container>
                 
                 <Typography variant="h6" align="center">Tämä on oma kokoelma</Typography>
+                
                 {!muokkaaKokoelmat ? 
                     
                         <Container>
@@ -212,11 +212,10 @@ const OmaKokoelma =(props) => {
                                 <TextField sx={{m: 1}} required id="outlined-kustantaja" label="Kustantaja" onChange={(e) => setKustantaja(e.target.value)} />
                                 <TextField sx={{m: 1}} required id="outlined-kuvaus" label="Kuvaus" onChange={(e) => setKuvaus(e.target.value)} />
                                 <TextField sx={{m: 1}} required id="outlined-luokittelu" label="Luokittelu" onChange={(e) => setLuokittelu(e.target.value)} />
+                                <Button sx={{ml: 55, mb: 1}} variant="outlined" type="submit">Lisää kokoelma</Button>
                             </Container>
-                            <Button sx={{ml: 55, mb: 1}} variant="outlined" type="submit">Lisää kokoelma</Button>
                         </form>
                         </div>
-                        
 
                         <TableContainer component={Paper} sx={{width: "100vh", height: "65vh", ml: 13}}>
                             <Table sx={{minWidth: 650}} aria-label="simple table">
@@ -249,16 +248,21 @@ const OmaKokoelma =(props) => {
                 <Dialog open={muokkaaVarmistus}>
                     <DialogTitle>Muokkaa kokoelmaa</DialogTitle>
                     <DialogActions>
-                        <Button onClick={() => {setLaskuri(laskuri+1) ; muokkaaDialog() ; refresh()}}>Muokkaa</Button>
-                        <Button onClick={() => {peruMuokkaus() ; muokkaaDialog() }}>Peru muokkaus</Button>
+                        <form onSubmit={muokkaaDialogForm}>
+                            <Button type="submit">Muokkaa</Button>
+                            <Button onClick={() => {peruMuokkaus() ; muokkaaDialog() }}>Peru muokkaus</Button>
+                        </form>
+                        
                     </DialogActions>
                </Dialog>
 
                <Dialog open={poistaVarmistus}>
                     <DialogTitle>Poista kokoelma</DialogTitle>
                     <DialogActions>
-                        <Button onClick={() => {poistaKokoelma(poistettavaId) ; poistaDialog()}}>Poista kokoelma</Button>
-                        <Button onClick={() => {poistaDialog() ; setPoistettavaId("")}}>Peru poisto</Button>
+                        <form onSubmit={poistaDialogForm}>
+                            <Button type="submit">Poista kokoelma</Button>
+                            <Button onClick={() => {poistaDialog() ; setPoistettavaId("")}}>Peru poisto</Button>
+                        </form>
                     </DialogActions>
                </Dialog>
                </Container>

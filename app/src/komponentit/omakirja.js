@@ -59,7 +59,7 @@ const OmaKirja = (props) => {
 
     return (
         <>
-          <Container sx={{ bgcolor: "#D4EBEC", minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+          <Container maxWidth={false} sx={{ bgcolor: "#D4EBEC", minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
             <Typography variant="h4" align="center" gutterBottom>
               Tämä on yhden kirjan sivu
             </Typography>

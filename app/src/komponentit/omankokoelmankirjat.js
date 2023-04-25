@@ -83,9 +83,6 @@ const Omankokoelmankirjat = (props) => {
             let c = await response.json();
 
             setKirjatTable(c);
-
-            console.log(props.idOmatSarjat);
-
         }
 
         haeKirjat();
@@ -210,13 +207,6 @@ const Omankokoelmankirjat = (props) => {
             m.push(kirjailija)
 
         setLisaaQuery(m);
-
-        console.log("Terve")
-    }
-
-    const handleMuokkaus = () => {
-        muokkaaDialog()
-        
     }
 
     const toggleMuokkaus = (id) => {
@@ -276,6 +266,17 @@ const Omankokoelmankirjat = (props) => {
         }
     }
 
+    const muokkaaDialogForm = () => {
+        setMuokkaaLaskuri(muokkaaLaskuri+1)
+        muokkaaDialog()
+        toggleMuokkaus(kirjaId) 
+    }
+
+    const poistaDialogForm = () => {
+        poistaKirja()
+        poistaDialog()
+    }
+
 
     return (
 
@@ -319,7 +320,14 @@ const Omankokoelmankirjat = (props) => {
                         <TextField sx={{m: 1}} required id="outlined-nimi" label="Nimi" onChange={(e) => {setMuokkaaNimi(e.target.value)}} defaultValue={muokkaaNimi}></TextField>
                         <TextField sx={{m: 1}} required id="outlined-jarjestysnumero" label="Järjestysnumero" onChange={(e) => setMuokkaaJarjestysNumero(e.target.value)} defaultValue={muokkaaJarjestysNumero}></TextField>
                         <TextField sx={{m: 1}} required id="outlined-kirjailija" label="Kirjailija" onChange={(e) => setMuokkaaKirjailija(e.target.value)} defaultValue={muokkaaKirjailija}></TextField>
-                        <TextField sx={{m: 1}} required id="outlined-kuntoluokka" label="Kuntoluokka" onChange={(e) => {setMuokkaaKuntoLuokka(e.target.value)}} defaultValue={muokkaaKuntoLuokka}></TextField>
+                        <TextField sx={{m: 1}} helperText="Kuntoluokka" select defaultValue="0" required id="outlined-kuntoluokka" label="Kuntoluokka" onChange={(e) => {setMuokkaaKuntoLuokka(e.target.value)}}>
+                            {kuntoLuokat.map((option) => (
+                                <MenuItem key={option.value} value={option.value}>
+                                    {option.label}
+                                </MenuItem>
+
+                            ))}
+                        </TextField>
                         <TextField sx={{m: 1}} required id="outlined-hankintahinta" label="Hankintahinta" onChange={(e) => {setMuokkaaHankintaHinta(e.target.value)}} defaultValue={muokkaaHankintaHinta}></TextField>
                         <TextField sx={{m: 1}} required id="outlined-hankintaaika" label="Hankinta-aika" onChange={(e) => {setMuokkaaHankintaAika(e.target.value)}} defaultValue={muokkaaHankintaAika}></TextField>
                         <TextField sx={{m: 1}} required id="outlined-esittelyteksti" label="Esittelyteksti" onChange={(e) => {setMuokkaaEsittelyTeksti(e.target.value)}} defaultValue={muokkaaEsittelyTeksti}></TextField>
@@ -373,16 +381,20 @@ const Omankokoelmankirjat = (props) => {
                 <Dialog open={muokkaaVarmistus}>
                     <DialogTitle>Muokkaa kirjaa</DialogTitle>
                     <DialogActions>
-                        <Button onClick={() => {setMuokkaaLaskuri(muokkaaLaskuri+1) ; muokkaaDialog() ; toggleMuokkaus()}}>Muokkaa</Button>
-                        <Button onClick={() => {peruMuokkaus() ; muokkaaDialog() ; toggleMuokkaus() }}>Peru muokkaus</Button>
+                        <form onSubmit={muokkaaDialogForm}>
+                            <Button type="submit">Muokkaa</Button>
+                            <Button onClick={() => {peruMuokkaus() ; muokkaaDialog() ; toggleMuokkaus() }}>Peru muokkaus</Button>
+                        </form>
                     </DialogActions>
                </Dialog>
 
                <Dialog open={poistaVarmistus}>
                     <DialogTitle>Poista kirja</DialogTitle>
                     <DialogActions>
-                        <Button onClick={() => {poistaKirja() ; poistaDialog()}}>Poista kirja</Button>
-                        <Button onClick={() => {poistaDialog() ; setPoistaIidee("")}}>Peru poisto</Button>
+                        <form onSubmit={poistaDialogForm}>
+                            <Button type="submit">Poista kirja</Button>
+                            <Button onClick={() => {poistaDialog() ; setPoistaIidee("")}}>Peru poisto</Button>
+                        </form>
                     </DialogActions>
                </Dialog>
                </Container>
