@@ -64,7 +64,7 @@ const OmaKirja = (props) => {
             Tämä on yhden kirjan sivu
           </Typography>
           <img src={etukansi} height={200} width={200} alt="Etukansi" />
-          <Typography  variant="h5" align="center" gutterBottom>
+          <Typography sx={{ mr: 12, bgcolor: 'rgba(64,224,208, 0.5)', p: 2, borderRadius: 4, variant: 'subtitle1', align: 'center', fontWeight: 'bold' }}gutterBottom>
             {kirjanNimi}
           </Typography>
           <Typography  sx={{bgcolor: 'rgba(64,224,208, 0.5)'}} p={2} borderRadius={4} variant="subtitle1" align="center" gutterBottom>
