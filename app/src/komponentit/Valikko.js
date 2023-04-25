@@ -7,7 +7,7 @@ const Valikko = (props) => {
     <>
       <Drawer variant="permanent" sx={{ bgcolor: "#D4EBEC" }}>
         <Box sx={{ p: 2 }}>
-          <Typography variant="h6">Valikko</Typography>
+          
         </Box>
         <List sx={{ width: 200, fontSize: 18 }}>
           <ListItem>
