@@ -1,4 +1,4 @@
-import { Container, Typography, Button, TextField } from "@mui/material";
+import { Container, Typography, Button, TextField, Box } from "@mui/material";
 import { useEffect, useState, Link } from "react";
 
 const Kirja = (props) => {
@@ -175,7 +175,7 @@ const Kirja = (props) => {
 
         <>
             <Container maxWidth={false} sx={{ bgcolor: "#D4EBEC", minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-                <Typography variant="h6" align="center">Tämä on yhden kirjan sivu</Typography>
+                <Typography sx={{mb: 5}} variant="h6" align="center">Tämä on yhden kirjan sivu</Typography>
                 {!muokkaaKirja ? 
                 <div>
                     <Typography variant="subtitle1" align="center"> kirjan id: {props.id}</Typography>
@@ -189,8 +189,8 @@ const Kirja = (props) => {
                     { props.admin &&
                         <div>
                             
-                            <Button sx={{ml: 10}} variant="contained" onClick={() => toggleMuokkaaKirja()}>Muokkaa</Button>
-                            <Button sx={{ml: 4}} variant="contained" href="/kokoelma" onClick={() => poistaKirja()}>Poista</Button>
+                            <Button sx={{ml: 15}} variant="contained" onClick={() => toggleMuokkaaKirja()}>Muokkaa</Button>
+                            <Button sx={{ml: 0}} variant="contained" href="/kokoelma" onClick={() => poistaKirja()}>Poista</Button>
                         </div>
 
                     }
@@ -199,20 +199,50 @@ const Kirja = (props) => {
                     <img src={etukansi} height={200} width={200} />
                 </div>
                 : 
+                
                 <form onSubmit={handleSubmit}> 
-                    <Typography variant="h6" align="center">Tämä on klikatun kirjan id: {props.id}</Typography>
-                    <TextField label="Kirjan nimi" onChange={(e) => setMuokkaaKirjanNimi(e.target.value)}></TextField>
-                    <TextField label="Kirjan järjestysnro" onChange={(e) => setMuokkaaKirjanJärjestysNro(e.target.value)}></TextField>
-                    <TextField label="Kirjan kuvausteksti" onChange={(e) => setMuokkaaKirjanKuvaus(e.target.value)}></TextField>
-                    <TextField label="Kirjan kirjailijat" onChange={(e) => setMuokkaaKirjanKirjailija(e.target.value)}></TextField>
-                    <TextField label="Kirjan piirtäjät" onChange={(e) => setMuokkaaKirjanPiirtäjä(e.target.value)}></TextField>
-                    <TextField label="Kirjan ensipainosvuosi" onChange={(e) => setMuokkaaKirjanPainosVuosi(e.target.value)}></TextField>
-                    <TextField label="Kirjan painokset" onChange={(e) => setMuokkaaKirjanPainos(e.target.value)}></TextField>
+                <div>
+                    <Typography sx={{mb: 5}} variant="h6" align="center">Tämä on klikatun kirjan id: {props.id}</Typography>
+                </div>
 
-                    <Button variant="contained" onClick={() => peruKirjaMuokkaus()}>Peru muokkaus</Button>
-                    <Button variant="contained" type="submit">Muokkaa</Button>
+                <div>
+                    <TextField sx={{ml: 1}} label="Kirjan nimi" onChange={(e) => setMuokkaaKirjanNimi(e.target.value)}></TextField>
+                </div>
+
+                <div>
+                    <TextField sx={{ml: 1}} label="Kirjan järjestysnro" onChange={(e) => setMuokkaaKirjanJärjestysNro(e.target.value)}></TextField>
+                </div>
+
+                <div>
+                    <TextField sx={{ml: 1}} label="Kirjan kuvausteksti" onChange={(e) => setMuokkaaKirjanKuvaus(e.target.value)}></TextField>
+                </div>
+
+                <div>
+                    <TextField sx={{ml: 1}} label="Kirjan kirjailijat" onChange={(e) => setMuokkaaKirjanKirjailija(e.target.value)}></TextField>
+                </div>
+
+                <div>
+                    <TextField sx={{ml: 1}} label="Kirjan piirtäjät" onChange={(e) => setMuokkaaKirjanPiirtäjä(e.target.value)}></TextField>
+                </div>
+
+                <div>
+                    <TextField sx={{ml: 1}} label="Kirjan ensipainosvuosi" onChange={(e) => setMuokkaaKirjanPainosVuosi(e.target.value)}></TextField>
+                </div>
+
+                <div>
+                    <TextField sx={{ml: 1}} label="Kirjan painokset" onChange={(e) => setMuokkaaKirjanPainos(e.target.value)}></TextField>
+                </div>
+
+                        <div>
+                        <Button sx={{ml: 1}} variant="contained" type="submit">Muokkaa</Button>    
+                        </div>
+                        <div>   
+                        <Button sx={{ml: 1}} variant="contained" onClick={() => peruKirjaMuokkaus()}>Peru muokkaus</Button>
+                        </div> 
+                
                 </form>}
-
+                
+                
                 
                 
                 {/*
