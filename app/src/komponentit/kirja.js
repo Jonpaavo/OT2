@@ -206,7 +206,7 @@ const Kirja = (props) => {
                     { props.admin &&
                         <div>
                             
-                            <Button sx={{ml: 15}} variant="contained" onClick={() => toggleMuokkaaKirja()}>Muokkaa</Button>
+                            <Button sx={{ml: 15}} variant="contained" onClick={() => {toggleMuokkaaKirja() ; setMuokkaaKirjanNimi(kirjanNimi) ; setMuokkaaKirjanJärjestysNro(jarjestysnumero) ; setMuokkaaKirjanKirjailija(kirjailijat) ; setMuokkaaKirjanPiirtäjä(piirtajat) ; setMuokkaaKirjanPainosVuosi(ensipainovuosi) ; setMuokkaaKirjanKuvaus(kuvausTeksti) ;setMuokkaaKirjanPainos(painokset)}}>Muokkaa</Button>
                             <Button sx={{ml: 0}} variant="contained" onClick={() => poistaDialog()}>Poista</Button>
                         </div>
 
