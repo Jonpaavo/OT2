@@ -3,9 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import {App} from './App';
 import {BrowserRouter} from 'react-router-dom'
-import {Kokeilu} from './Main'
 import reportWebVitals from './reportWebVitals';
-import {Kirjautuminen} from './komponentit/Kirjautuminen';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
