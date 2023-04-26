@@ -230,6 +230,7 @@ const Kokoelmat = (props) => {
                                         <TableCell>{row.kuvaus}</TableCell>
                                         { props.admin == true &&
                                             <TableCell>
+                                                
                                                 <Button onClick={() => {toggleMuokkaaKokoelma(row.idkirjasarja) ; setMuokkaaKirjaSarja(row.kirjasarja) ; setMuokkaaKustantaja(row.kustantaja) ; setMuokkaaKuvaus(row.kuvaus) ; setMuokkaaLuokittelu(row.luokittelu)}}>Muokkaa</Button>
                                                 <Button onClick={() => {poistaDialog() ; setPoistettavaId(row.idkirjasarja)}}>Poista</Button>
                                             </TableCell>
