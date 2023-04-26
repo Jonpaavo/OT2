@@ -60,38 +60,39 @@ const OmaKirja = (props) => {
     return (
       <>
         <Container sx={{ bgcolor: "#D4EBEC", minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-          <Typography variant="h4" align="center" gutterBottom>
-            Tämä on yhden kirjan sivu
-          </Typography>
-          <img src={etukansi} height={200} width={200} alt="Etukansi" />
-          <Typography sx={{ mr: 12, bgcolor: 'rgba(64,224,208, 0.5)', p: 2, borderRadius: 4, variant: 'subtitle1', align: 'center', fontWeight: 'bold' }}gutterBottom>
+          
+          <Typography sx={{p: 2, variant: 'subtitle1', align: 'center', fontWeight: 'bold' }}gutterBottom>
             {kirjanNimi}
           </Typography>
-          <Typography  sx={{bgcolor: 'rgba(64,224,208, 0.5)'}} p={2} borderRadius={4} variant="subtitle1" align="center" gutterBottom>
+          <Typography align="center" gutterBottom>
             Kirjailija: {kirjailija}
           </Typography>
-          <Typography sx={{mr: 4, bgcolor: 'rgba(64,224,208, 0.5)'}} p={2} borderRadius={4} variant="subtitle1" align="center" gutterBottom>
+          <Typography align="center" gutterBottom>
             Järjestysnumero: {jarjestysnumero}
           </Typography>
-          <Typography sx={{mr: 8, bgcolor: 'rgba(64,224,208, 0.5)'}} p={2} borderRadius={4} variant="subtitle1" align="center" gutterBottom>
+          <Typography align="center" gutterBottom>
             Kuntoluokka: {kuntoluokka}
           </Typography>
-          <Typography sx={{mr: 4, bgcolor: 'rgba(64,224,208, 0.5)'}} p={2} borderRadius={4} variant="subtitle1" align="center" gutterBottom>
+          <Typography align="center" gutterBottom>
             Hankintahinta: {hankintaHinta} €
           </Typography>
-          <Typography sx={{mr: 6, bgcolor: 'rgba(64,224,208, 0.5)'}} p={2} borderRadius={4} variant="subtitle1" align="center" gutterBottom>
+          <Typography align="center" gutterBottom>
             Painovuosi: {painovuosi}
           </Typography>
-          <Typography sx={{mr: 13, bgcolor: 'rgba(64,224,208, 0.5)'}} opacity={1} p={2} borderRadius={4} variant="subtitle1" align="center" gutterBottom>
+          <Typography align="center" gutterBottom>
             Painos: {painos}
           </Typography>
-          <Typography sx={{ml: 2.5, bgcolor: 'rgba(64,224,208, 0.5)'}} p={2} borderRadius={4} variant="subtitle1" align="center" gutterBottom>
+          <Typography align="center" gutterBottom>
             Hankinta-aika: {hankintaAika}
           </Typography>
-          <Typography sx={{mr: 4, bgcolor: 'rgba(64,224,208, 0.5)'}} p={2} borderRadius={4} variant="subtitle1" align="center" gutterBottom>
+          <Typography align="center" gutterBottom>
             Esittelyteksti: {esittelyTeksti}
           </Typography>
-          <img src={takaKansi} height={200} width={200} alt="Takakansi" />
+          <Container sx={{ml: 45}}>
+            <img src={etukansi} height={200} width={200} alt="Etukansi" />
+            <img src={takaKansi} height={200} width={200} alt="Takakansi" />
+          </Container>
+          
         </Container>
       </>
     );

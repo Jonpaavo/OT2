@@ -1,4 +1,4 @@
-import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Button, Table, TableBody, TableCell, TableContainer, Paper, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 import { useEffect, useState } from "react";
 import { Form, NavLink } from "react-router-dom";
@@ -160,7 +160,7 @@ const Kokoelma = (props) => {
                 }
                 
                     
-                        <TableContainer>
+                        <TableContainer component={Paper} sx={{height: "65vh"}}>
                         <Table sx={{minWidth: 650}} aria-label="simple table">
                             <TableHead>
                                 <TableRow>

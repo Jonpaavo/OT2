@@ -195,7 +195,7 @@ const Kirja = (props) => {
             <Container maxWidth={false} sx={{ bgcolor: "#D4EBEC", minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
                 {!muokkaaKirja ? 
                 <div>
-                    <Typography variant="subtitle1" align="center">kirjan nimi: {kirjanNimi}</Typography>
+                    <Typography variant="subtitle1" align="center" sx={{fontWeight: "bold"}}>{kirjanNimi}</Typography>
                     <Typography variant="subtitle1" align="center">järjestysnumero: {jarjestysnumero}</Typography>
                     <Typography variant="subtitle1" align="center">kirjailijat: {kirjailijat}</Typography>
                     <Typography variant="subtitle1" align="center">piirtäjät: {piirtajat}</Typography>

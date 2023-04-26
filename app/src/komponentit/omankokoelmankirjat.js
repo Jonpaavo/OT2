@@ -283,11 +283,6 @@ const Omankokoelmankirjat = (props) => {
         <>
             <Container maxWidth={false}  sx={{bgcolor: "#D4EBEC", height: "100vh"}}>
                 <Container>
-
-                <Typography variant="h6" align="center">Tämä on oman kirjahyllyn kokoelman kirjat</Typography>
-                <Typography variant="h6" align="center">Valitun kirjasarjan id on: {props.idOmatSarjat}</Typography>
-
-
                 { !muokkaaKirja ? <div>
 
                     <form onSubmit={handlePost}>
@@ -350,10 +345,7 @@ const Omankokoelmankirjat = (props) => {
                                 <TableCell>Järjestysnumero</TableCell>
                                 <TableCell>Kirjailija</TableCell>
                                 <TableCell>Kuntoluokka</TableCell>
-                                <TableCell>Hankintahinta</TableCell>
                                 <TableCell>Hankinta-aika</TableCell>
-                                <TableCell>Esittelyteksti</TableCell>
-                                <TableCell>Painovuosi</TableCell>
                                 <TableCell>Painos</TableCell>
                             </TableRow>
                         </TableHead>
@@ -364,10 +356,7 @@ const Omankokoelmankirjat = (props) => {
                                     <TableCell>{row.jarjestysnumero}</TableCell>
                                     <TableCell>{row.kirjailija}</TableCell>
                                     <TableCell>{row.kuntoluokka}</TableCell>
-                                    <TableCell>{row.hankintahinta}</TableCell>
                                     <TableCell>{row.hankintaaika}</TableCell>
-                                    <TableCell>{row.esittelyteksti}</TableCell>
-                                    <TableCell>{row.painovuosi}</TableCell>
                                     <TableCell>{row.painos}</TableCell>
                                     <TableCell><Button onClick={() => {toggleMuokkaus(row.id) ; setMuokkaaNimi(row.nimi) ; setMuokkaaJarjestysNumero(row.jarjestysnumero) ; setMuokkaaKirjailija(row.kirjailija) ; setMuokkaaKuntoLuokka(row.kuntoluokka) ; setMuokkaaHankintaHinta(row.hankintahinta) ; setMuokkaaHankintaAika(row.hankintaaika) ; setMuokkaaEsittelyTeksti(row.esittelyteksti) ; setMuokkaaPainoVuosi(row.painovuosi) ; setMuokkaaPainos(row.painos)}}>Muokkaa</Button></TableCell>
                                     <TableCell><Button onClick={() => {setPoistaIidee(row.id) ; poistaDialog()}}>Poista</Button></TableCell>
